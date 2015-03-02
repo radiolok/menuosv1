@@ -40,8 +40,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	BUTTONDOWNSLOT = 4,
 	BUTTONENTERSLOT = 2	
  }
- 
- uint8_t HwSlotsCount();  
+ /**
+ *  \brief Return number of buttons
+ *  
+ *  \return Return_Description
+ *  
+ *  \details Details
+ */
+ uint8_t HwButtonsCount();  
  
  /**
  *  \brief Configure buttons port

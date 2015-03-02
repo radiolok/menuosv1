@@ -13,34 +13,24 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef BUTTONS_H_
 #define BUTTONS_H_
 
-#define BSLOTS 6 //buttons slot number
-
-//output registers definition:
-#define BUTTONSPIN PING 
-#define BUTTONSPORT PORTG
-#define BUTTONSDDR DDRG
-#define BUTTONSMASK 0x1F //buttons mask on port
-#define BUTTONSLOTRETURN 0 //back button pin position
-#define BUTTONSLOTLEFT 1 //left button pin position
-#define BUTTONSLOTRIGHT 4 //right buttn pin position
-#define BUTTONSLOTUP  2//up button pin position
-#define BUTTONSLOTDOWN 3 //down buttn pin position
-#define BUTTONSLOTENTER 4
-#define BUTTONRETURN (1<<BUTTONSLOTRETURN)
-#define BUTTONLEFT (1<<BUTTONSLOTLEFT)
-#define BUTTONRIGHT (1<<BUTTONSLOTRIGHT)
-#define BUTTONUP (1<<BUTTONSLOTUP)
-#define BUTTONDOWN (1<<BUTTONSLOTDOWN)
-#define BUTTONENTER (1<<BUTTONSLOTENTER)
-#define NULL 0
-#include <avr/interrupt.h>
 #include <inttypes.h>
 
+#include <hardware.h>
 
-void ButtonSetup(void);
-void BSlotClear(void);
-void BSlot(void (*_f)());
-void BSlot(uint8_t _slot, void (*_f)());
-void ButtonSearch(void);
+class buttons{
+private:
+	
+	void (*buttslot[BSLOTS])();//buttns slot
+	uint8_t buttonoldstate;
+	
+public:
+	void Setup(void);
+	void ClearAll(void);
+	void AddSlot(void (*_f)());
+	void AddSlot(uint8_t _slot, void (*_f)());
+	void Search(void);
+	
+};
 
+extern buttons Buttons;
 #endif /* BUTTONS_H_ */
