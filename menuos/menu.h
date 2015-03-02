@@ -14,10 +14,48 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define MENU_H_
 
 //#define MENUITEMSONPAGE 6 //not sypported yet
-#include "taskmanager.h"
+#include "MTask.h"
 #include "buttons.h"   
 #include "definitions.h"
 #include "config.h"	
+
+struct filedata{
+	uint8_t type;
+	uint8_t parent;
+	char name[20];
+	uint8_t mode1;
+	uint8_t mode2;
+};
+
+class MMenu{
+	private:
+	
+	//current menulevel position
+	uint8_t level;
+	
+	//current cursor position
+	uint8_t cursor;
+	
+	//Breadcrumbs:
+	//byte 0 - 
+	//byte 1 - 
+	//byte 2 - 
+	uint8_t brCrumbs[MAXDEPTH+1][3];
+	
+	//file info structure
+	filedata file;
+	
+	uint8_t Positions[4]={0};//позиции строк. X,Y начальные, X,Y текущие
+		
+	public:
+		Menu();
+		
+		~Menu();
+
+};
+
+extern MMenu Menu;
+
 
 void MenuSetup(void);
 void CursorSet(void);

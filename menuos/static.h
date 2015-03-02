@@ -14,6 +14,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define STATIC_H_
 
 #include "definitions.h"
+
 #include <avr/pgmspace.h>
 
  static uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =

@@ -19,6 +19,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  
  #define RLN_ELECTRO_2012_SE
  
+ #define BUTTONSDDR DDRG
+ #define BUTTONSPORT PORTG
+ #define BUTTONSPIN PING
+ #define BUTTONSMASK 0x1F
+ #define BSLOTS 6
+ 
  /**Button mask*/
  enum{
 	BUTTONRETURN = 0x01,
@@ -33,12 +39,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   *  NOTICE: RIGHT and ENTER hase the same slot by default! MenuOS do not use ENTER button!
   */
  enum{
-	BUTTONRETURNSLOT = 0,
-	BUTTONLEFTSLOT = 1,
-	BUTTONRIGHTSLOT = 2,
-	BUTTONSUPSLOT = 3,
-	BUTTONDOWNSLOT = 4,
-	BUTTONENTERSLOT = 2	
+	BUTTONSLOTRETURN = 0,
+	BUTTONSLOTLEFT = 1,
+	BUTTONSLOTRIGHT = 2,
+	BUTTONSSLOTUP = 3,
+	BUTTONSLOTDOWN = 4,
+	BUTTONSLOTENTER = 2	
  }
  /**
  *  \brief Return number of buttons
@@ -70,6 +76,10 @@ uint8_t HwButtonsSetup(uint8_t mode);
  */
 uint8_t HwButtonsState(uint8_t mode); 
  
+ 
+uint8_t HwDispSetup(uint8_t mode);
+
+
  
  #endif
  

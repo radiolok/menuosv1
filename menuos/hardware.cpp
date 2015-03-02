@@ -15,14 +15,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
  
  
- static const uint8_t BSLOTS = 5; //buttons quantity
- 
-//output registers definition:
-static const uint8_t BUTTONSPIN = PING ;
-static const uint8_t BUTTONSPORT = PORTG;
-static const uint8_t BUTTONSDDR = DDRG;
-static const uint8_t BUTTONSMASK = 0x1F; 
- 
+  
  uint8_t HwButtonsCount(void){
 	return BSLOTS;
  }

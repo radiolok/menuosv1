@@ -11,8 +11,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "menu.h"
 #include "static.h"    //файл определений
-#include "motionview.h"
-#include "drive.h"
 
 uint8_t brCrumbs[MAXDEPTH+1][3]={0};//массив хлебных крошек. двухмерный 1 байт - номер программы, второй - положение курсора
 uint8_t level=0;//номер текущего уровня
@@ -22,7 +20,7 @@ uint8_t Positions[4]={0};//позиции строк. X,Y начальные, X,Y текущие
 char FileName[18];
 
 //считывает данные ткущей папки
-void MenuSetup(){
+void Menu.Setup(){
 	BSlot(BUTTONSLOTLEFT,MenuButtonLeft);//листать  влево
 	BSlot(BUTTONSLOTRIGHT,MenuButtonRight);//листать  влево
 	BSlot(BUTTONSLOTUP,MenuButtonUp);//листать  влево

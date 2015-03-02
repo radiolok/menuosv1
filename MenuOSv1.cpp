@@ -18,42 +18,33 @@ extern "C" void __cxa_pure_virtual() { while (1); }
 #include <inttypes.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
-//#include <math.h>
-#include "taskmanager.h"//подключаем библиотеку диспетчера задач
+
+#include "taskmanager.h"//TManager Setup
+#include "buttons.h"//buttons Setup
 //#include "filters.h"//подключаем библиотеку фильтров
 #include "drive.h"
   #include "glcd/glcd.h"
   #include "glcd/glcd_Buildinfo.h"
   #include "glcd/glcd_Config.h"
   #include "glcd/fonts/SystemFont5x7.h"
-#include "buttons.h"
 #include "menu.h"
-//uint8_t _Label=0;
-/*
-Используемые слоты менеджера:
-0 -ButtonSearch - обработчик кнопок
-1 -
-2 -AppSaved - системная программа вывода информации
-3 -ApplicationStop - системная программа выхода в меню
-4 -DriveIntencivity - программа задатчика интенсивности. Работает на управление скоростью привода.
-5 - MotionWork - обработчик логики фотоаппарата
-6 -
-7 -
-*/
+
+//Define sustem classes
+MTask Task;
+buttons Buttons;
+MMenu Menu;
+
 
 int main(void)
 {
-	TManager.TSetup();//настройка таймера
-	ButtonSetup();//настраиваем кнопки, очищаем слоты кнопок, запускаем периодический опрос. 0 программный слот таймера
-	GLCD.Init();
-	MenuSetup();
-	MenuStartUp();
-	//MotionViewSetup();
-	DriveSetup();
-	TManager.TStart();//запуск диспетчера
-	sei();//разрешение работы прерываний.
+	sei();
+	Buttons.Setup();
+	Menu.Setup();
+	Task.Start();//never turn back
+	
    while(1)
     {
+		
         //TODO:: Please write your application code 
     }
 }
