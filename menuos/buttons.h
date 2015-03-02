@@ -23,12 +23,36 @@ private:
 	void (*buttslot[BSLOTS])();//buttns slot
 	uint8_t buttonoldstate;
 	
+	uint32_t lastupdatetime;
+	
+	uint32_t updatetime;
+	
 public:
-	void Setup(void);
+	/**
+	 *  \brief Setup buttons
+	 *  
+	 *  \param [in] period Buttons Update period in ms
+	 *  \return none
+	 *  
+	 *  \details Details
+	 */
+	void Setup(uint32_t period);
+	
 	void ClearAll(void);
+	
+	/**
+	 *  \brief Add function to whole buttons control
+	 *  
+	 *  \param [in] _f function pointer
+	 *  \return none
+	 *  
+	 *  \details Details
+	 */
 	void AddSlot(void (*_f)());
+	
 	void AddSlot(uint8_t _slot, void (*_f)());
-	void Search(void);
+	
+	void Search(uint32_t time);
 	
 };
 
