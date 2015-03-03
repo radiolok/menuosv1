@@ -83,6 +83,16 @@ void HwStop(void);
 void Add(uint8_t slot, void (*_f)(), uint32_t periodic);
 
 /**
+ *  \brief Release active slot
+ *  
+ *  \param [in] slot slot to release
+ *  \return none
+ *  
+ *  \details Details
+ */
+void Release(uint8_t slot);
+
+/**
  *  \brief Periodic function
  *  
  *  \return none
@@ -100,14 +110,13 @@ void Search();
  */
 uint32_t Millis();
 
+
+uint8_t ActiveApp;
+
 private:
 
 	MAppStruct App[PSLOTS];
 	
-	//do not remember for what it is
-	uint8_t Forse;
-	uint8_t WorkType;
-
 	uint32_t timemillis;
 };
 

@@ -14,6 +14,7 @@
 
 MTask::MTask()
 {
+	ActiveApp = 0;
 	TCCR5A |= (1<<WGM50);//PWM 8-bit with 0xFF on TOP
 	TCCR5B |= (1<<WGM52);
 	TCNT5 = TIMETICK;//1мс

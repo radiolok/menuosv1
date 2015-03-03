@@ -13,19 +13,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef MENU_H_
 #define MENU_H_
 
-//#define MENUITEMSONPAGE 6 //not sypported yet
+#include "menudef.h"
+#include "buttons.h"
 #include "MTask.h"
-#include "buttons.h"   
-#include "definitions.h"
 #include "config.h"	
 
-struct filedata{
-	uint8_t type;
-	uint8_t parent;
-	char name[20];
-	uint8_t mode1;
-	uint8_t mode2;
-};
 
 class MMenu{
 	private:
@@ -36,43 +28,116 @@ class MMenu{
 	//current cursor position
 	uint8_t cursor;
 	
-	//Breadcrumbs:
-	//byte 0 - 
-	//byte 1 - 
-	//byte 2 - 
+	enum{
+		CRUMBPARENT,
+		CRUMBPAGE,
+		CRUMBCURSOR
+	}
 	uint8_t brCrumbs[MAXDEPTH+1][3];
 	
-	//file info structure
+	//current file info structure
 	filedata file;
 	
-	uint8_t Positions[4]={0};//позиции строк. X,Y начальные, X,Y текущие
-		
+	//buttons logic
+	void ButtonUp(void);
+	
+	void ButtonDown(void);
+	
+	void ButtonLeft(void);
+	
+	void ButtonRight(void);
+	
+	
+	//show cureent folder
+	void ShowFolder(void);
+	
+	//Start application
+	void AppStart(void);
+	
+			
 	public:
 		Menu();
 		
 		~Menu();
+		
+		/**
+		 *  \brief Setup all internal menu logic
+		 *   
+		 *  \return 0
+		 *  
+		 *  \details 
+		 */
+		uint8_t Setup(void);
+		
+		/**
+		 *  \brief Configure all buttons to menu logic
+		 *  
+		 *  \return 0
+		 *  
+		 *  \details Details
+		 */
+		uint8_t SetButtons(void);
+		
+		/**
+		 *  \brief Brief
+		 *  
+		 *  \param [in] button - pressed button
+		 *  \return Return_Description
+		 *  
+		 *  \details Details
+		 */
+		uint8_t ButtonsLogic(uint8_t button);
+				
+		/**
+		 *  \brief Return to parent folder
+		 *  
+		 *  \return 0
+		 *  
+		 *  \details Cursor n main folder stay on last position
+		 *  if we already in root folder, cursor become to zero
+		 */
+		void Return(void);
+		
+		/**
+		 *  \brief Go to child file
+		 *  
+		 *  \param [in] filenumb child file number
+		 *  \return 0
+		 *  
+		 *  \details Details
+		 */
+		void Enter(uint8_t filenumb);
+		
+		
+		/**
+		 *  \brief Execute selected file
+		 *  
+		 *  \return none
+		 *  
+		 *  \details Details
+		 */
+		void Action(void);
 
 };
 
 extern MMenu Menu;
 
+/**
+ *  \brief Buttons function toggle for Menu Buttons
+ *  
+ *  \return void
+ *  
+ *  \details called every time, if button is pressed
+ */
+void MenuButtonsHandler(void);
 
-void MenuSetup(void);
-void CursorSet(void);
-void PageList(void);
-void MenuButtonUp(void);
-void MenuButtonDown(void);
-void MenuButtonLeft(void);
-void MenuButtonRight(void);
-void MenuButtonEnter(void);
-void MenuButtonReturn(void);
-void FileReturn(void);
-void DispFile(uint8_t str, uint8_t _fnumber, char _buff[LCDCOL-5]);
-void FileGet(uint8_t FileNumb);
-void ApplicationStop(void);
-void ApplicationStart(uint8_t AppNumber);
-void AppSaved(void);
-void MenuHeader(void);
-void MenuStartUp(void);
+/**
+ *  \brief Task function handlaer for automaticaly returning to menu
+ *  
+ *  \return none
+ *  
+ *  \details Details
+ */
+void MenuAppStop(void);
 
 #endif /* MENU_H_ */

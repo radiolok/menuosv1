@@ -9,16 +9,19 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
-/***
- *  This file define any links to hardware API or drivers.
- *  This file is used for RLN electro buttons and text LCD definition 
- *  
- */
- #ifndef HARDWARE_H_
- #define HARDWARE_H_
- 
+
+#ifndef HW_DEF_H_
+#define HW_DEF_H_
+
+#include <avr/io.h>
+#include <inttypes.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+
+
  #define RLN_ELECTRO_2012_SE
- 
+
+//buttons are connected to this MCU port
  #define BUTTONSDDR DDRG
  #define BUTTONSPORT PORTG
  #define BUTTONSPIN PING
@@ -46,40 +49,51 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	BUTTONSLOTDOWN = 4,
 	BUTTONSLOTENTER = 2	
  }
- /**
- *  \brief Return number of buttons
- *  
- *  \return Return_Description
- *  
- *  \details Details
- */
- uint8_t HwButtonsCount();  
- 
- /**
- *  \brief Configure buttons port
- *  
- *  \param [in] mode not used
- *  \return buttons mask
- *  
- *  \details Details
- */
-uint8_t HwButtonsSetup(uint8_t mode);
+  
+	//configured LCD type
+	#define TLCD 
+	//#define GLCD 
 
 
-/**
- *  \brief Return pressed buttons mask
- *  
- *  \param [in] mode not used
- *  \return current buttons mask
- *  
- *  \details Details
- */
-uint8_t HwButtonsState(uint8_t mode); 
+
+#define DISPSTRNUMB 4//display strings number.
+#define DISPSTRLENGTH 20 //stirng length
  
- 
-uint8_t HwDispSetup(uint8_t mode);
+#define FILENUMB 47 //files number
+#define FILEREW  4//bytes for the file
+#define MAXDEPTH 4//max menu depth
+
+#if defined(TLCD)
+	#define LCDROW 8//display rows
+	#define LCDCOL 20//display cumns
+#endif
+
+#if defined(GLCD)
+	#include "glcd/glcd.h"
+	#include "glcd/glcd_Buildinfo.h"
+	#include "glcd/glcd_Config.h"
+	#include "glcd/fonts/SystemFont5x7.h"
+	
+	#define LCDWIDTH 128
+	
+	#define LCDHEIGTH 64
+
+	#define XINDENT 6
+	#define YINDENT 10
+	
+	#define MENUFONT SystemFont5x7
+	#define MENUFONTWEIGHT 6
+	#define MENUFOTNHIGHT 8
+#endif
+
+//used MTask slots
+#define MENUSLOT 0
 
 
- 
- #endif
- 
+#define abs(x) ((x)>0?(x):-(x))
+#define lowByte(w) ((uint8_t) ((w) & 0xff))
+#define highByte(w) ((uint8_t) ((w) >> 8))
+
+#define PROGVERSIONTEXT ("v1.00") //current program version string
+
+#endif /* HW_DEF_H_ */
