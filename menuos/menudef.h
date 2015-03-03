@@ -23,6 +23,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define T_SCONF          6 //Select Config
 #define T_DCONF          7 //Dynamic Config
 
+#define BRCRUMBSLENGTH 3
+
 
 /**
  *  Main Filedata structure
@@ -34,6 +36,12 @@ struct filedata{
 	uint8_t mode1;
 	uint8_t mode2;
 	char name[20];
+};
+
+struct configdata{
+	int16_t value;
+	int16_t min;
+	int16_t max;
 };
 
 #endif

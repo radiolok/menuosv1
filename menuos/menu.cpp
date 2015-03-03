@@ -179,7 +179,8 @@ void Menu::ShowFolder(){
 			for (uint8_t i = 0; i < maxcursor; i++){
 				ftype = HwGetFileType(fstart + i);
 				if (T_CONF == ftype){
-					ConfigShow(brCrumbs[level][CRUMBCURSOR], ftsrart+i);
+					uint8_t length = Config.GetString(fstart + i, fname, 0);
+					HwDispPutString(brCrumbs[level][CRUMBSURCOR], 0, fname, length);
 				}
 				else{//show usual string
 					HwFileGetName(fstart + i, fname);

@@ -17,7 +17,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <inttypes.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
-
+#include <avr/eeprom.h>
 
  #define RLN_ELECTRO_2012_SE
 
@@ -57,10 +57,20 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 
 #define DISPSTRNUMB 4//display strings number.
+
+
 #define DISPSTRLENGTH 20 //stirng length
  
 #define FILENUMB 47 //files number
 #define FILEREW  4//bytes for the file
+
+enum{
+	FILETYPE,
+	FILEPARENT,
+	FILEMODE1,
+	FILEMODE2
+}
+
 #define MAXDEPTH 4//max menu depth
 
 #if defined(TLCD)
@@ -89,10 +99,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 //used MTask slots
 #define MENUSLOT 0
 
+#define CONFARRAYWIDTH 3
 
-#define abs(x) ((x)>0?(x):-(x))
-#define lowByte(w) ((uint8_t) ((w) & 0xff))
-#define highByte(w) ((uint8_t) ((w) >> 8))
+enum {
+	CONFVALUE,
+	CONFMIN,
+	CONFMAX	
+}
+//define store memory space
+#define CONFMAXADDRESS 4096
 
 #define PROGVERSIONTEXT ("v1.00") //current program version string
 
