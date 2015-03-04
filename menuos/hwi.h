@@ -24,7 +24,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  #include "menudef.h"
 
  //file structure file
- #include "static.h"
+ #include "hwfile.h"
   
 /*===================================================================
 					BUTTONS HW ROUTINE ACCESS
@@ -148,81 +148,5 @@ uint8_t HwDispGetStringsLength(void);
 void HwDispClearScreen(void);
 
 
-/*===================================================================
-					FILE STRUCTURE ACCESS
-===================================================================*/
-
-/**
- *  \brief Return file info
- *  
- *  \param [in] filenumber number of selected file
- *  \param [in] file filedata structure
- *  \return 0
- *  
- *  \details Details
- */
-uint8_t HwFileGetInfo(uint8_t filenumber, filedata* file);
-
-/**
- *  \brief Return file info
- *  
- *  \param [in] filenumber number of selected file
- *  \param [in] file byte position to read
- *  \return 0
- *  
- *  \details Details
- */
-uint8_t HwFileGetInfo(uint8_t filenumber, uint8_t pos);
-
-/**
- *  \brief Read file name from memory
- *  
- *  \param [in] filenumb file number id
- *  \param [in] name char array
- *  \return 0
- *  
- *  \details Details
- */
-uint8_t HwFileGetName(uint8_t filenumb, char* name);
-
-/**
- *  \brief Get file type
- *  
- *  \param [in] filenumb file number id
- *  \return file type
- *  
- *  \details Details
- */
-uint8_t HwFileGetType(uint8_t filenumb);
-
-
-/*===================================================================
-					CONFIG STRUCTURE ACCESS
-===================================================================*/
-
-/**
- *  \brief Read config data from structure and memory
- *  
- *  \param [in] configid config number
- *  \param [in] config config strtucture
- *  \param [in] shift dynamic config shift
- *  \return 0 if success, 1 in any error
- *  
- *  \details Details
- */
-uint8_t HwConfigGetData(uint8_t configid, configdata* config, uint16_t shift);
-
-/**
- *  \brief Store config value in memory
- *  
- *  \param [in] configid config number
- *  \param [in] config config structure
- *  \param [in] shift dynamic config shift
- *  \return 0 if success, 1 in any error
- *  
- *  \details Details
- */
-uint8_t HwConfigSetData(uint8_t configid, configdata* config, uint16_t shift);
- 
  #endif //HWI_H_
  

@@ -14,6 +14,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "menudef.h"
 
+MConfig::MConfig(){
+	
+}
+
+MConfig::~MConfig(){
+	
+}
+
 void ConfigButtonsHandler(uint8_t button){
 	Config.ButtonsLogic(button);
 }

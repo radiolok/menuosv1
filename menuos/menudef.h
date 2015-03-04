@@ -42,7 +42,6 @@ enum{
 	BRCRMODE2 = 3	
 	};
 
-
 /**
  *  Main Filedata structure
  *  
@@ -60,5 +59,6 @@ struct configdata{
 	int16_t min;
 	int16_t max;
 };
+
 
 #endif

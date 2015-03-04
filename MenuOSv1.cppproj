@@ -82,49 +82,53 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGccCpp>
-  <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
-  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
-  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
-  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
-  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
-  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
-  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
-  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-  <avrgcc.compiler.symbols.DefSymbols>
-    <ListValues>
-      <Value>DEBUG</Value>
-    </ListValues>
-  </avrgcc.compiler.symbols.DefSymbols>
-  <avrgcc.compiler.directories.IncludePaths>
-    <ListValues>
-      <Value>..</Value>
-      <Value>../menuos</Value>
-    </ListValues>
-  </avrgcc.compiler.directories.IncludePaths>
-  <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
-  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
-  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
-  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
-  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
-  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
-  <avrgcccpp.compiler.symbols.DefSymbols>
-    <ListValues>
-      <Value>DEBUG</Value>
-    </ListValues>
-  </avrgcccpp.compiler.symbols.DefSymbols>
-  <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
-  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
-  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
-  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
-  <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
-  <avrgcccpp.linker.libraries.Libraries>
-    <ListValues>
-      <Value>libm</Value>
-    </ListValues>
-  </avrgcccpp.linker.libraries.Libraries>
-  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
-</AvrGccCpp>
+        <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>DEBUG</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>..</Value>
+            <Value>../menuos</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.compiler.miscellaneous.OtherFlags />
+        <avrgcc.compiler.miscellaneous.Verbose>True</avrgcc.compiler.miscellaneous.Verbose>
+        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcccpp.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>DEBUG</Value>
+          </ListValues>
+        </avrgcccpp.compiler.symbols.DefSymbols>
+        <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
+        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+        <avrgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11</avrgcccpp.compiler.miscellaneous.OtherFlags>
+        <avrgcccpp.compiler.miscellaneous.Verbose>True</avrgcccpp.compiler.miscellaneous.Verbose>
+        <avrgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.Libraries>
+        <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+      </AvrGccCpp>
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
@@ -135,6 +139,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="menuos\buttons.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hwfile.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="menuos\util\Print.cpp">
@@ -161,144 +168,6 @@
     <Compile Include="menuos\filters.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="menuos\glcd\bitmaps\arrows.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\bitmaps\info.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\bitmaps\speed.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\bitmaps\undo.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108-192x64_Panel.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_133_Frolov.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_Arduino.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_Mega.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_Panel.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_RLN_Electro.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_Sanguino.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\ks0108_Teensy.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\Modagm1264f_Manual_Config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\Modmt12232d_Manual_Config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\config\Modvk5121_Manual_Config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\device\hd44102_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\device\ks0108_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\device\ks0713_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\device\mt12232d_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\device\sed1520_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\device\xxx_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\allFonts.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\Arial14.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\Arial_bold_14.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\Corsiva_12.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\fixednums15x31.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\fixednums7x15.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\fixednums8x16.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\SystemFont5x7.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\fonts\Verdana_digits_24.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\glcd.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\glcd.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\glcd_Buildinfo.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\glcd_Config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\glcd_Device.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\gText.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\arduino_io.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\avrio.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\delay.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\glcd_Deprecated.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\glcd_Device.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\glcd_errno.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\glcd_io.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="menuos\glcd\include\gText.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <None Include="menuos\glcd\include\pins_arduino.c">
-      <SubType>compile</SubType>
-    </None>
-    <Compile Include="menuos\glcd\include\pins_arduino.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="menuos\hwdef.h">
       <SubType>compile</SubType>
     </Compile>
@@ -323,115 +192,13 @@
     <Compile Include="menuos\MTask.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="menuos\static.h">
+    <Compile Include="menuos\hwfile.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="menuos\" />
-    <Folder Include="menuos\glcd\" />
-    <Folder Include="menuos\glcd\bitmaps\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\data\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\source\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\source\" />
-    <Folder Include="menuos\glcd\bitmaps\utils\Java\" />
-    <Folder Include="menuos\glcd\config\" />
-    <Folder Include="menuos\glcd\device\" />
-    <Folder Include="menuos\glcd\fonts\" />
-    <Folder Include="menuos\glcd\include\" />
     <Folder Include="menuos\util\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="menuos\glcd\bitmaps\utils\data\ArduinoIcon.bmp">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\data\qr-code.gif">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\glcdMakeBitmap.exe">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\args.txt">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\core.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\glcdMakeBitmap.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\gluegen-rt-natives-windows-i586.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\gluegen-rt.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\jogl-all-natives-windows-i586.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\lib\jogl-all.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\source\glcdMakeBitmap.java">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows32\source\glcdMakeBitmap.pde">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\glcdMakeBitmap.bat">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\args.txt">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\core.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\glcdMakeBitmap.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\gluegen-rt-natives-windows-amd64.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\gluegen-rt.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\jogl-all-natives-windows-amd64.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\lib\jogl-all.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\source\glcdMakeBitmap.java">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\application.windows64\source\glcdMakeBitmap.pde">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\glcdMakeBitmap\glcdMakeBitmap.pde">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\Java\glcdMakeBitmap.jar">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\bitmaps\utils\Java\glcdMakeBitmap.java">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\Buildinfo.txt">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\License.txt">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\glcd\readme.txt">
-      <SubType>compile</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

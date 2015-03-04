@@ -25,7 +25,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 		BUTTONSDDR&=~BUTTONSMASK;//input
 		BUTTONSPORT=BUTTONSMASK;//setup buttons port pull-up
 	#else
-		error("undefined board");
+		#error "undefined board"
 	#endif
 	return BUTTONSMASK;
  }
@@ -138,60 +138,6 @@ uint8_t HwDispGetStringsLength(void){
 	return DISPSTRLENGTH;
 }
 
-/*===================================================================
-					FILE STRUCTURE ACCESS
-===================================================================*/
-
-
-uint8_t HwFileGetInfo(uint8_t filenumb, filedata *file){
-	
-	file->type = pgm_read_byte(&fileStruct[filenumb * FILEREW]);
-	file->parent = pgm_read_byte(&fileStruct[filenumb * FILEREW + 1]);
-	file->mode1 = pgm_read_byte(&fileStruct[filenumb * FILEREW + 2]);
-	file->mode2 = pgm_read_byte(&fileStruct[filenumb * FILEREW + 3]);
-	strlcpy_P(file->name, (char*)pgm_read_word(&(fileNames[filenumb])), DISPSTRLENGTH);	
-	
-	return 0;
-}
-uint8_t HwFileGetInfo(uint8_t filenumb, uint8_t pos){
-	return pgm_read_byte(&fileStruct[filenumb * FILEREW + pos]);
-}
-
-uint8_t HwFileGetName(uint8_t filenumb, char* name){
-	strlcpy_P(name, (char*)pgm_read_word(&(fileNames[filenumb])), DISPSTRLENGTH);	
-	
-	return 0;
-}
-
-uint8_t HwFileGetType(uint8_t filenumb){
-	return pgm_read_byte(&fileStruct[filenumb * FILEREW]);
-}
-
-/*===================================================================
-					CONFIG STRUCTURE ACCESS
-===================================================================*/
-
-uint8_t HwConfigGetData(uint8_t configid, configdata* config, uint16_t shift){
-	uint16_t address = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFVALUE]) + shift*2;
-	if (CONFMAXADDRESS < address){
-		return 1;//address error
-	}
-	config->value = eeprom_read_word ((uint16_t *)address);
-	config->value = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMIN]);
-	config->value = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMAX]);
-	
-	return 0;
-}
-
-uint8_t HwConfigSetData(uint8_t configid, configdata* config, uint16_t shift){
-	//set address
-	uint16_t address = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFVALUE]) + shift*2;
-	if (CONFMAXADDRESS < address){
-		return 1;//address error!
-	}
-	eeprom_write_word ((uint16_t *) address, config->value);
-	return 0;
-}
 
 
 
