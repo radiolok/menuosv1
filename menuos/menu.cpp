@@ -11,14 +11,28 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "menu.h"
 
+#include "config.h"
+
+MConfig Config;
+
 //we can't easily add class function to button slot
 void MenuButtonsHandler(uint8_t button){
 	Menu.ButtonsLogic(button);
 }
 
+MMenu::MMenu(){
+	
+	
+}
+
+MMenu::~MMenu(){
+	
+	
+}
+
 
 //Configure system
-uint8_t Menu::Setup(){
+uint8_t MMenu::Setup(){
 	//Prepare display with text LCD
 	HwDispSetup();
 	
@@ -26,17 +40,17 @@ uint8_t Menu::Setup(){
 	
 	//Return to root folder
 	Return();
+	return 0;
 }
 //устанавливает курсор в необходимую позицию.
 
-uint8_t Menu::ButtonsLogic(uint8_t button){
+uint8_t MMenu::ButtonsLogic(uint8_t button){
 	switch (button){
 		case BUTTONLEFT:
 			ButtonLeft();
 		break;
 		case BUTTONRIGHT:
-		case BUTTONENTER:
-			ButonRight();
+			ButtonRight();
 		break;
 		case BUTTONRETURN:
 			Return();
@@ -55,42 +69,42 @@ uint8_t Menu::ButtonsLogic(uint8_t button){
 	return 0;
 }
 
-uint8_t Menu::SetButtons(void){
+uint8_t MMenu::SetButtons(void){
 	//Get all buttons
-	Buttons.AddSlot(MenuButtonsHandler);
-	
+	Buttons.Add(MenuButtonsHandler);
+	return 0;
 }
 
 //Смена указателя вверх
-void Menu::ButtonUp(){
+void MMenu::ButtonUp(){
 	if (cursor > 0){
 		cursor--;
 	}
     else{
 		cursor = file.mode2;//go to first file in folder
 	}
-	brCrumbs[level][CRUMBPAGE] = cursor / DISPSTRNUMB;
-	brCrumbs[level][CRUMBCURSOR] = cursor % DISPSTRNUMB;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = cursor / DISPSTRNUMB;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = cursor % DISPSTRNUMB;
 	ShowFolder();
 }
 
-void Menu::ButtonDown(){
+void MMenu::ButtonDown(){
 	if (cursor < file.mode2){
 		cursor++;
 	}
     else{
 		cursor = 0;//go to first file in folder
 	}
-	brCrumbs[level][CRUMBPAGE] = cursor / DISPSTRNUMB;
-	brCrumbs[level][CRUMBCURSOR] = cursor % DISPSTRNUMB;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = cursor / DISPSTRNUMB;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = cursor % DISPSTRNUMB;
 	ShowFolder();
 }
 
-void Menu::ButtonLeft(){
+void MMenu::ButtonLeft(){
 	//n/a
 }
 
-void Menu::ButtonRight(){
+void MMenu::ButtonRight(){
 	//define type of current folder
 	uint8_t newfilenum = 0;
 	switch (file.type){
@@ -112,39 +126,39 @@ void Menu::ButtonRight(){
 }
 
 
-void Menu::Return(){
+void MMenu::Return(){
 	SetButtons();
 	HwDispClearScreen();
-	brCrumbs[level][CRUMBPARENT] = 0;
-	brCrumbs[level][CRUMBPAGE] = 0;
-	brCrumbs[level][CRUMBCURSOR] = 0;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPARENT] = 0;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = 0;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = 0;
 	if (level > 0){ 
 		level--;
 	}
-	filenumb=brCrumbs[level][CRUMBPARENT];//go to parent file
-	cursor = brCrumbs[level][CRUMBPAGE] * DISPSTRNUMB + brCrumbs[level][CRUMBCURSOR];
-	HwFileGetInfo(filenumb, file);
+	uint8_t filenumb=brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPARENT];//go to parent file
+	cursor = brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * DISPSTRNUMB + brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR];
+	HwFileGetInfo(filenumb, &file);
 	ShowFolder();	
 }
 
-void Menu::Enter(uint8_t filenumb){
+void MMenu::Enter(uint8_t filenumb){
 	if (MAXDEPTH < level){
 		return; //do nothing
 	}
 	//go to next level:
 	level++;
-	brCrumbs[level][CRUMBPARENT] = filenumb;//save our positions
-	brCrumbs[level][CRUMBPAGE] = 0;
-	brCrumbs[level][CRUMBCURSOR] = 0;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPARENT] = filenumb;//save our positions
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = 0;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = 0;
 
 	//Get new file data:
-	HwFileGetInfo(filenumb, file);
+	HwFileGetInfo(filenumb, &file);
 	
 	//Do file action
 	Action();
 }
 
-void Menu::Action(void){
+void MMenu::Action(void){
 	switch (file.type){
 		case T_FOLDER:
 		case T_DFOLDER:
@@ -155,7 +169,7 @@ void Menu::Action(void){
 			AppStart();
 		break;
 		case T_CONF:
-			ConfigSetup(file, brCrumbs[level - 1][CRUMBCURSOR]);
+			Config.Setup(level, brCrumbs);
 		break;
 		default://Unsupported
 			Return();
@@ -164,69 +178,67 @@ void Menu::Action(void){
 }
 
 //show current folder
-void Menu::ShowFolder(){
+void MMenu::ShowFolder(){
 	
 	
 	//select folder type:
-	uint8_t maxcursor = file.mode2 - brCrumbs[level][CRUMBPAGE] * HwGetSringsNumb();
-	//TODO: do not forget to rewrite
-	uint8_t fname[HwGetSringsLength()] = "\0";
+	uint8_t maxcursor = file.mode2 - brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * HwDispGetStringsNumb();
+	char fname[DISPSTRLENGTH] = "\0";
 	uint8_t ftype = 0;
+	uint8_t fstart = 0;
 	switch(file.type){
 		case T_FOLDER:
 			//first file index to output
-			fstart=file.mode1 + brCrumbs[level][CRUMBPAGE] * HwGetSringsNumb());
+			fstart = file.mode1 + brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * HwDispGetStringsNumb();
 			for (uint8_t i = 0; i < maxcursor; i++){
-				ftype = HwGetFileType(fstart + i);
+				ftype = HwFileGetType(fstart + i);
 				if (T_CONF == ftype){
-					uint8_t length = Config.GetString(fstart + i, fname, 0);
-					HwDispPutString(brCrumbs[level][CRUMBSURCOR], 0, fname, length);
+					Config.GetString(fstart + i, fname, 0);
+					HwDispPutString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR], 0, fname, HwDispGetStringsLength());
 				}
 				else{//show usual string
 					HwFileGetName(fstart + i, fname);
-					HwDispPutString(brCrumbs[level][CRUMBSURCOR], 0, fname, HwGetSringsLength());
+					HwDispPutString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR], 0, fname, HwDispGetStringsLength());
 				}
 			}
  		break;
 		case T_DFOLDER:
 			//read share name
-			HwGetFileName(file.mode1, fname);
-			uint8_t buff[20] = "\0";
+			HwFileGetName(file.mode1, fname);
+			char buff[20] = "\0";
 			for (uint8_t i = 0; i < maxcursor; i++){
 				//give filename look like: item0, item 1, item 2,  etc
 				sprintf(buff, "%s %d", fname, cursor);
-				HwDispPutString(i, 0, fname, HwGetSringsLength());
+				HwDispPutString(i, 0, fname, HwDispGetStringsLength());
 			}
 		break;	
 	}
 	//Crear another strings
-	for (uint8_t i = maxcursor; i < HwGetSringsNumb(); i++){
-		HwDispClearString(i, 0, HwGetSringsLength());
+	for (uint8_t i = maxcursor; i < HwDispGetStringsNumb(); i++){
+		HwDispClearString(i, 0, HwDispGetStringsLength());
 	}
 	//Select current cursor position:
-	HwDispSelectString(brCrumb[level][CRUMBCURSOR]);
+	HwDispSelectString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR]);
 }
 
 
-void Menu::AppStart(void){
+void MMenu::AppStart(void){
 	if (file.mode2 != BACKGROUND){
 		Task.Add(1, MenuAppStop, 10);//100 ms update
 		Task.ActiveApp = 1;//app should release AtiveApp to zero itself
 	}
 	switch (file.mode1){//AppNumber
 		case 1:
-			VersionInfo();
-			Task.ActiveApp = 0;
 		break;
 		default:
-		
+			Task.ActiveApp = 0;		
 		break;
 	}
 }
 
 //non-class C Task function
 void MenuAppStop(void){
-	if (!TManager.ActiveApp)
+	if (!Task.ActiveApp)
 	{
 		Task.Release(MENUSLOT);//disable current handle
 		Menu.Return();//return to menu

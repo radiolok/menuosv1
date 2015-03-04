@@ -10,7 +10,7 @@
 #ifndef info_H
 #define info_H
 
-static uint8_t info[] PROGMEM = {
+static const uint8_t info[] PROGMEM = {
   15, // width
   9, // height
 

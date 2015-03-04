@@ -87,6 +87,7 @@ uint32_t MTask::Millis(){
 }
 
 void MTask::Search(){
+	timemillis++;
 	for (uint8_t slot = 0; slot < PSLOTS; slot++)
 	{//count times
 		if (App[slot].ptr != 0){//If App is defined
@@ -100,7 +101,6 @@ void MTask::Search(){
 
 ISR(TIMER5_OVF_vect) {
 	TCNT5 = TIMETICK;//update tick
-	timemillis++;
 	Task.Search();
  }  
 

@@ -13,11 +13,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef STATIC_H_
 #define STATIC_H_
 
-#include "definitions.h"
+#include "hwdef.h"
+#include "menudef.h"
 
-#include <avr/pgmspace.h>
-
- static uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
+ static const uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
 {
 T_FOLDER,1,2,0, //0  папка, корень
 T_APP,0,1,0,//1   основная программа
@@ -52,7 +51,7 @@ T_CONF,10,0,0,//29  задержка готовности
 T_CONF,11,0,0,//30  контроль заряда
 T_CONF,12,0,0,//31  время заряда
 T_CONF,13,0,0,//32  макс частота вращения
-T_CONF,14,0,0,0,//33  макс ускорение
+T_CONF,14,0,0,//33  макс ускорение
 T_CONF,15,0,0,//34  число имп.датчика
 T_SFOLDER,36,1,0,//35  вращение
 T_SCONF,0,0,0,//36  правое 35 конфиг
@@ -67,57 +66,57 @@ T_SCONF,0,4,0,//44 19200,
 T_SCONF,0,5,0,//45 57600
 T_SCONF,0,6,0//46 115200
 };
+
 //Массив названий
-prog_char file_0[] PROGMEM = "Main Menu";
-prog_char file_1[] PROGMEM = "Start";
-prog_char file_2[] PROGMEM = "Settings";
-prog_char file_3[] PROGMEM = "Parameters";
-prog_char file_4[] PROGMEM = "Lights";
-prog_char file_5[] PROGMEM = "Photo";
-prog_char file_6[] PROGMEM = "Light 1";
-prog_char file_7[] PROGMEM = "Light 2";
-prog_char file_8[] PROGMEM = "Light 3";
-prog_char file_9[] PROGMEM = "Light 4";
-prog_char file_10[] PROGMEM = "Light IR";
-prog_char file_11[] PROGMEM = "On";
-prog_char file_12[] PROGMEM = "Off";
-prog_char file_13[] PROGMEM = "Model";
-prog_char file_14[] PROGMEM = "Connection";
-prog_char file_15[] PROGMEM = "Canon";
-prog_char file_16[] PROGMEM = "Nikon";
-prog_char file_17[] PROGMEM = "Pentax";
-prog_char file_18[] PROGMEM = "Wired";
-prog_char file_19[] PROGMEM = "IR";
-prog_char file_20[] PROGMEM = "Photosesion";
-prog_char file_21[] PROGMEM = "Photo";
-prog_char file_22[] PROGMEM = "Lights";
-prog_char file_23[] PROGMEM = "Drive";
-prog_char file_24[] PROGMEM = "Communication";
-prog_char file_25[] PROGMEM = "Session photos";
-prog_char file_26[] PROGMEM = "Test photos";
-prog_char file_27[] PROGMEM = "Motion in test";
-prog_char file_28[] PROGMEM = "Switch delay";
-prog_char file_29[] PROGMEM = "Ready delay";
-prog_char file_30[] PROGMEM = "Charge control";
-prog_char file_31[] PROGMEM = "Charge time";
-prog_char file_32[] PROGMEM = "Max speed";
-prog_char file_33[] PROGMEM = "Max accelerate";
-prog_char file_34[] PROGMEM = "Encoder imp";
-prog_char file_35[] PROGMEM = "Direction";
-prog_char file_36[] PROGMEM = "Right";
-prog_char file_37[] PROGMEM = "Left";
-prog_char file_38[] PROGMEM = "Enable connect";
-prog_char file_39[] PROGMEM = "Bods per sec.";
-prog_char file_40[] PROGMEM = "PC support";
-prog_char file_41[] PROGMEM = "4800"; 
-prog_char file_42[] PROGMEM = "9600";
-prog_char file_43[] PROGMEM = "14400"; 
-prog_char file_44[] PROGMEM = "19200";
-prog_char file_45[] PROGMEM = "57600";
-prog_char file_46[] PROGMEM = "115200";
+static PROGMEM const char file_0[] = "Main Menu";
+static PROGMEM const char file_1[] = "Start";
+static PROGMEM const char file_2[] = "Settings";
+static PROGMEM const char file_3[] = "Parameters";
+static PROGMEM const char file_4[] = "Lights";
+static PROGMEM const char file_5[] = "Photo";
+static PROGMEM const char file_6[] = "Light 1";
+static PROGMEM const char file_7[] = "Light 2";
+static PROGMEM const char file_8[] = "Light 3";
+static PROGMEM const char file_9[] = "Light 4";
+static PROGMEM const char file_10[] = "Light IR";
+static PROGMEM const char file_11[] = "On";
+static PROGMEM const char file_12[] = "Off";
+static PROGMEM const char file_13[] = "Model";
+static PROGMEM const char file_14[] = "Connection";
+static PROGMEM const char file_15[] = "Canon";
+static PROGMEM const char file_16[] = "Nikon";
+static PROGMEM const char file_17[] = "Pentax";
+static PROGMEM const char file_18[] = "Wired";
+static PROGMEM const char file_19[] = "IR";
+static PROGMEM const char file_20[] = "Photosesion";
+static PROGMEM const char file_21[] = "Photo";
+static PROGMEM const char file_22[] = "Lights";
+static PROGMEM const char file_23[] = "Drive";
+static PROGMEM const char file_24[] = "Communication";
+static PROGMEM const char file_25[] = "Session photos";
+static PROGMEM const char file_26[] = "Test photos";
+static PROGMEM const char file_27[] = "Motion in test";
+static PROGMEM const char file_28[] = "Switch delay";
+static PROGMEM const char file_29[] = "Ready delay";
+static PROGMEM const char file_30[] = "Charge control";
+static PROGMEM const char file_31[] = "Charge time";
+static PROGMEM const char file_32[] = "Max speed";
+static PROGMEM const char file_33[] = "Max accelerate";
+static PROGMEM const char file_34[] = "Encoder imp";
+static PROGMEM const char file_35[] = "Direction";
+static PROGMEM const char file_36[] = "Right";
+static PROGMEM const char file_37[] = "Left";
+static PROGMEM const char file_38[] = "Enable connect";
+static PROGMEM const char file_39[] = "Bods per sec.";
+static PROGMEM const char file_40[] = "PC support";
+static PROGMEM const char file_41[] = "4800"; 
+static PROGMEM const char file_42[] = "9600";
+static PROGMEM const char file_43[] = "14400"; 
+static PROGMEM const char file_44[] = "19200";
+static PROGMEM const char file_45[] = "57600";
+static PROGMEM const char file_46[] = "115200";
 
-
-PROGMEM const char *fileNames[] = {   
+static const char* fileNames[] PROGMEM = {   
  file_0,  file_1,  file_2,  file_3,  file_4,  file_5,  file_6,  file_7,  file_8,
   file_9,  file_10,  file_11,  file_12,  file_13,  file_14,  file_15,  file_16, 
   file_17,  file_18,  file_19,  file_20,  file_21,  file_22,  file_23,  file_24,
@@ -126,7 +125,7 @@ PROGMEM const char *fileNames[] = {
   file_41,  file_42,  file_43,  file_44,  file_45, file_46
 };
 
-PROGMEM static uint16_t configsLimit[] = {
+static const PROGMEM uint16_t configsLimit[] = {
 6,127,0,// PHOTOSNUMBERSERIAL  0
 0,127,2,//PHTOSNUMBTEST		1
 0,1,4,//PHOTOSTESTMOTION	2

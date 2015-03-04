@@ -132,7 +132,7 @@ uint8_t HwDispSelectString(uint8_t row);
  *  
  *  \details Details
  */
-uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
+uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length);
 
 /**
  *  \brief Return strings count
@@ -142,6 +142,10 @@ uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
  *  \details Details
  */
 uint8_t HwDispGetStringsNumb(void);
+
+uint8_t HwDispGetStringsLength(void);
+
+void HwDispClearScreen(void);
 
 
 /*===================================================================
@@ -158,6 +162,17 @@ uint8_t HwDispGetStringsNumb(void);
  *  \details Details
  */
 uint8_t HwFileGetInfo(uint8_t filenumber, filedata* file);
+
+/**
+ *  \brief Return file info
+ *  
+ *  \param [in] filenumber number of selected file
+ *  \param [in] file byte position to read
+ *  \return 0
+ *  
+ *  \details Details
+ */
+uint8_t HwFileGetInfo(uint8_t filenumber, uint8_t pos);
 
 /**
  *  \brief Read file name from memory

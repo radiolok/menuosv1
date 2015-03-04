@@ -11,13 +11,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 
 #include "config.h"
-#include <string.h>//Работа функций копирования буфера
-#include <avr/pgmspace.h>
 
 #include "menudef.h"
 
 void ConfigButtonsHandler(uint8_t button){
-	Config.Buttons(button);
+	Config.ButtonsLogic(button);
 }
 
 /**
@@ -32,15 +30,15 @@ void ConfigButtonsHandler(uint8_t button){
  *  
  *  \details Details
  */
-void Config::Setup(uint8_t argc, uint8_t *argv){
+void MConfig::Setup(uint8_t argc, uint8_t *argv){
 
 	shift = 0;//TODO: calc shift for dynamic config
 	
 	fileid  = argv[argc * BRCRUMBSLENGTH];
 	
-	configid = HwFileGetInfo(fileid, MODE1);
+	configid = HwFileGetInfo(fileid, (uint8_t)BRCRMODE1);
 	
-	HwConfigGetData(configid, config, shift);
+	HwConfigGetData(configid, &config, shift);
 	
 	row = argv[(argc - 1) * BRCRUMBSLENGTH + CRUMBCURSOR];
 	
@@ -49,10 +47,10 @@ void Config::Setup(uint8_t argc, uint8_t *argv){
 	Show();
 }
 
-void Config::GetString(uint8_t filenumb, char* text, uint16_t shift){
+void MConfig::GetString(uint8_t filenumb, char* text, uint16_t shift){
 	filedata file;
-	HwFileGetInfo(filenumb, file);
-	uint8_t status = HwConfigGetData(file.mode1, config, shift);
+	HwFileGetInfo(filenumb, &file);
+	uint8_t status = HwConfigGetData(file.mode1, &config, shift);
 	if (status){//shift index error
 		sprintf(text, "INDEX ERROR");
 		return;
@@ -67,26 +65,25 @@ void Config::GetString(uint8_t filenumb, char* text, uint16_t shift){
 		}
 	}
 	else{//not boolean
-		sprintf(text, "%s %d", file.name, confiv.value);
+		sprintf(text, "%s %d", file.name, config.value);
 	}
 	return;
 }
 
-void Config::Show(){
+void MConfig::Show(){
 	char text[DISPSTRLENGTH];//TODO: use malloc
 	GetString(fileid, text, shift);
 	HwDispPutString(row, 0, text, sizeof(text));
 	//HwDispSetCursor();
 }
 
-void Config::ButtonsLogic(uint8_t button){
+void MConfig::ButtonsLogic(uint8_t button){
 	switch (button){
 		case BUTTONLEFT:
 			ButtonLeft();
 		break;
 		case BUTTONRIGHT:
-		case BUTTONENTER:
-			ButonRight();
+			ButtonRight();
 		break;
 		case BUTTONRETURN:
 			Return();
@@ -103,7 +100,7 @@ void Config::ButtonsLogic(uint8_t button){
 	}
 }
 
-void Config::ButtonUp(){
+void MConfig::ButtonUp(){
 	if (config.max != 0){//not boolean
 		config.value += UIntPow(10, digit);
 		if (config.value > config.max){
@@ -121,7 +118,7 @@ void Config::ButtonUp(){
 	Show();
 }
 
-void Config::ButtonDown(){
+void MConfig::ButtonDown(){
 	if (config.max != 0){//not boolean
 		config.value -= UIntPow(10, digit);
 		if (config.value < config.min){
@@ -139,23 +136,24 @@ void Config::ButtonDown(){
 	Show();
 }
 
-void Config::ButtonLeft(){
+void MConfig::ButtonLeft(){
 	if (digit > 0){
 		digit--;
 	}
 	Show();
 }
 
-void Config::ButtonRight(){
-	if (digit < ditits)
+void MConfig::ButtonRight(){
+	if (digit < digits)
+	{
 		digit++;
 	}
 	Show();
 }
 
-void Config::Return(){
+void MConfig::Return(){
 	//save changes
-	HwConfigSetData(configid, config, shift);
+	HwConfigSetData(configid, &config, shift);
 	Task.ActiveApp = 0;
 }
 

@@ -10,7 +10,7 @@
 #ifndef speed_H
 #define speed_H
 
-static uint8_t speed[] PROGMEM = {
+static const uint8_t speed[] PROGMEM = {
   15, // width
   9, // height
 

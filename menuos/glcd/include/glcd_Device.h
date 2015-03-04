@@ -28,7 +28,7 @@
 #define GLCD_DEVICE_H
 
 #include "../glcd_Config.h"
-#include "../../util/Print.h" // used when deriving this class in Arduino 
+#include "../../util/Print.h" // used when deriving this class in Arduino
 
 
 

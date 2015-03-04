@@ -13,19 +13,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef BUTTONS_H_
 #define BUTTONS_H_
 
-#include <inttypes.h>
-
-#include <hardware.h>
+#include "hwi.h"
 
 class buttons{
 private:
 	
-	void (*buttslot[BSLOTS])();//buttns slot
+	void (*buttslot[BSLOTS])(uint8_t);//buttns slot
 	uint8_t buttonoldstate;
 	
 	uint32_t lastupdatetime;
 	
-	uint32_t updatetime;
+	int32_t updatetime;
 	
 public:
 	/**
@@ -38,7 +36,7 @@ public:
 	 */
 	void Setup(uint32_t period);
 	
-	void ClearAll(void);
+	void Clear(void);
 	
 	/**
 	 *  \brief Add function to whole buttons control
@@ -48,9 +46,9 @@ public:
 	 *  
 	 *  \details Details
 	 */
-	void AddSlot(void (*_f)());
+	void Add(void (*_f)(uint8_t));
 	
-	void AddSlot(uint8_t _slot, void (*_f)());
+	void Add(uint8_t _slot, void (*_f)(uint8_t));
 	
 	void Search(uint32_t time);
 	

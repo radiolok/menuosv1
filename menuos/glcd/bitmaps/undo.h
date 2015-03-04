@@ -10,7 +10,7 @@
 #ifndef undo_H
 #define undo_H
 
-static uint8_t undo[] PROGMEM = {
+static const  uint8_t undo[] PROGMEM = {
   15, // width
   9, // height
 

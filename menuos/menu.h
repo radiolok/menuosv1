@@ -16,7 +16,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "menudef.h"
 #include "buttons.h"
 #include "MTask.h"
-#include "config.h"	
+#include "hwi.h"
 
 
 class MMenu{
@@ -28,12 +28,8 @@ class MMenu{
 	//current cursor position
 	uint8_t cursor;
 	
-	enum{
-		CRUMBPARENT,
-		CRUMBPAGE,
-		CRUMBCURSOR
-	}
-	uint8_t brCrumbs[MAXDEPTH+1][3];
+	
+	uint8_t brCrumbs[(MAXDEPTH+1) * BRCRUMBSLENGTH];
 	
 	//current file info structure
 	filedata file;
@@ -56,9 +52,9 @@ class MMenu{
 	
 			
 	public:
-		Menu();
+		MMenu(void);
 		
-		~Menu();
+		~MMenu();
 		
 		/**
 		 *  \brief Setup all internal menu logic

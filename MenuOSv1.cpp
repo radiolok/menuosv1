@@ -13,9 +13,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 extern "C" void __cxa_pure_virtual() { while (1); }
 	
 
-#include "MTask.h"//TManager Setup
-#include "buttons.h"//buttons Setup
-#include "menu.h"
+#include "menuos/MTask.h"//TManager Setup
+#include "menuos/buttons.h"//buttons Setup
+#include "menuos/menu.h"
 
 //Define sustem classes
 MTask Task;
@@ -26,11 +26,12 @@ MMenu Menu;
 int main(void)
 {
 	sei();
-	Buttons.Setup();
+	Buttons.Setup(100);
 	Menu.Setup();
 	Task.Start();//never turn back
 	
    while(1)
     {
     }
+	return 0;
 }

@@ -25,6 +25,23 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #define BRCRUMBSLENGTH 3
 
+//Set Mode2 for App if you don't want to start programm in background
+#define BACKGROUND 0x1F
+
+
+enum{
+	CRUMBPARENT,
+	CRUMBPAGE,
+	CRUMBCURSOR
+};
+
+enum{
+	BRCRTYPE = 0,
+	BRCRPARENT = 1,
+	BRCRMODE1 = 2,
+	BRCRMODE2 = 3	
+	};
+
 
 /**
  *  Main Filedata structure

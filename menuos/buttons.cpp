@@ -18,7 +18,7 @@ void buttons::Setup(uint32_t period){
 	updatetime = period;
 	lastupdatetime = 0;
 	
-	ClearAll();//clear all slots
+	Clear();//clear all slots
 }
 
 
@@ -27,13 +27,13 @@ void buttons::Clear(void){//clear slots
     buttslot[_i] = 0;
 }
 
-void buttons:AddSlot(void (*_f)()){//connect only zero slot. Any button call one function
+void buttons::Add(void (*_f)(uint8_t)){//connect only zero slot. Any button call one function
 
-	ClearAll();
+	Clear();
 	buttslot[0]=_f;
 }
 
-void buttons::AddSlot(uint8_t _slot, void (*_f)()){//button for separate function
+void buttons::Add(uint8_t _slot, void (*_f)(uint8_t)){//button for separate function
   if (_slot < HwButtonsCount()){
 	buttslot[_slot]=_f;//put function into slot
   }
@@ -50,15 +50,16 @@ void buttons::Search(uint32_t time){//Tmanager function
 				if (buttslot[buttonslot]) {
 					if (buttonscurrstate == (1 << buttonslot) && !(buttonoldstate&(1 << buttonslot))) 
 					{
-						(*buttslot[buttonslot])();
+						(*buttslot[buttonslot])(buttonscurrstate&(1 << buttonslot));
 					}//call button slot if not NUll
 					else{
-					//undefined behaviour prevent
+					//undefined behavior prevent
 					}
+				}
 				else {
 				//we Must check zero slot before default use
 					if (buttslot[0]){
-						*buttslot[0])();
+						(*buttslot[0])(buttonscurrstate);
 					}
 				}
 			}

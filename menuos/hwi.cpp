@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  *  This file define any links to hardware API or drivers.  
  *  
  */
- 
+#include "hwi.h"
  
   
  uint8_t HwButtonsCount(void){
@@ -51,10 +51,27 @@ uint8_t HwDispSetup(void){
 	return 0;
 }
 
+uint8_t HwDispPutChar(uint8_t row, uint8_t col, char symbol){
+//check stirng bound
+if ((row >= 0) && (row < DISPSTRNUMB)){
+	#if defined(TLCD)
+	
+	#endif
+	
+	#if defined(GLCD)
+	HwDispClearString(row, col, DISPSTRNUMB-col);
+	GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
+	GLCD.PutChar(symbol);//write
+	#endif
+	
+}
+return 0;	
+}
+
 
 uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 	//check stirng bound
-	if ((str>=0) && (str<DISPSTR)){
+	if ((row >= 0) && (row < DISPSTRNUMB)){
 	#if defined(TLCD)
 		
 	#endif
@@ -62,7 +79,7 @@ uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 	#if defined(GLCD)
 		HwDispClearString(row, col, DISPSTRNUMB-col);
 		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
-		GLCD.Puts(textstr);//write
+		GLCD.Puts(text);//write
 	#endif
 		
 	}
@@ -99,9 +116,9 @@ uint8_t HwDispSelectString(uint8_t row){
 	#endif
 		
 	}
+	return 0;
 }
 
-uint8_t HwDispSetCursor(uint8_t row, uint8_t col, uint8_t length);
 
 void HwDispClearScreen(void){
 	#if defined(TLCD)

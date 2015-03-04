@@ -13,9 +13,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#include "hwi.h"
+#include "menu.h"
 
-class Config{
+class MConfig{
 	private:
 	
 		uint8_t fileid;
@@ -46,9 +46,9 @@ class Config{
 		
 	public:
 	
-		Config();
+		MConfig();
 		
-		~Config();
+		~MConfig();
 		
 		void Setup(uint8_t argc, uint8_t *argv);
 		
@@ -63,9 +63,11 @@ class Config{
 		 *  
 		 *  \details Details
 		 */
-		void GetString(uint8_t filenumb, char* text);
+		void GetString(uint8_t filenumb, char* text, uint16_t shift);
 		
 };
+
+extern MConfig Config;
 
 void ConfigButtonsHandler(uint8_t button);
 

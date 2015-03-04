@@ -16,7 +16,7 @@
 extern "C" void TIMER5_OVF_vect(void)  __attribute__ ((signal));
 
 struct MAppStruct{
-	void (*prt)();
+	void (*ptr)();
 	uint32_t time;
 	uint32_t tick;
 };
