@@ -141,6 +141,12 @@
     <Compile Include="menuos\buttons.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="menuos\hwdisp.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hwdisp.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menuos\hwfile.cpp">
       <SubType>compile</SubType>
     </Compile>

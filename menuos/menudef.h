@@ -13,6 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define MENUDEF_H_
 
 #include <stdint.h>
+#include <stdio.h>
 
 //File types definitions
 #define T_FOLDER         0 //Folder file
@@ -30,10 +31,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 
 enum{
-	CRUMBPARENT,
-	CRUMBPAGE,
-	CRUMBCURSOR
-};
+	CRUMBPARENT = 0,
+	CRUMBPAGE = 1,
+	CRUMBCURSOR = 2
+	};
 
 enum{
 	BRCRTYPE = 0,

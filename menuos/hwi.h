@@ -25,6 +25,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
  //file structure file
  #include "hwfile.h"
+ 
+ #include "hwdisp.h"
   
 /*===================================================================
 					BUTTONS HW ROUTINE ACCESS
@@ -60,93 +62,6 @@ uint8_t HwButtonsSetup(uint8_t mode);
 uint8_t HwButtonsState(uint8_t mode); 
  
  
-/*===================================================================
-					DISPLAY HW ROUTINE ACCESS
-===================================================================*/
-
- /**
- *  \brief Display Setup
- *  
- *  \return 0 if good
- *  
- *  \details Details
- */
-uint8_t HwDispSetup(void);
-
-/**
- *  \brief Put symbol to position
- *  
- *  \param [in] row selected row
- *  \param [in] col selected column
- *  \param [in] symbol symbol to put out
- *  \return 0
- *  
- *  \details Details
- */
-uint8_t HwDispPutChar(uint8_t row, uint8_t col, char symbol);
-
-/**
- *  \brief Put string to position
- *  
- *  \param [in] row selected row for first symbol
- *  \param [in] col selected column for first symbol
- *  \param [in] symbols text string
- *  \param [in] length string length
- *  \return 0
- *  
- *  \details Details
- */
-uint8_t HwDispPutString(uint8_t row, uint8_t col, char* symbols, uint8_t length);
-
-/**
- *  \brief Draw Cursor at defined position
- *  
- *  \param [in] row selected row
- *  \param [in] col selected column
- *  \param [in] length cursor length
- *  \return 0
- *  
- *  \details 
- */
-uint8_t HwDispDrawCursor(uint8_t row, uint8_t col, uint8_t length);
-
-/**
- *  \brief Add string selection.
- *  
- *  \param [in] row selected row
- *  \return 0
- *  
- *  \details 
- *  for symbolic LCD add > symbol to left position
- *  for GLCD - invert all string
- */
-uint8_t HwDispSelectString(uint8_t row);
-
-/**
- *  \brief Clear selected string
- *  
- *  \param [in] row selected row
- *  \param [in] col start column
- *  \param [in] length clear length
- *  \return 0
- *  
- *  \details Details
- */
-uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length);
-
-/**
- *  \brief Return strings count
- *  
- *  \return strings count
- *  
- *  \details Details
- */
-uint8_t HwDispGetStringsNumb(void);
-
-uint8_t HwDispGetStringsLength(void);
-
-void HwDispClearScreen(void);
-
 
  #endif //HWI_H_
  

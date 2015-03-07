@@ -18,6 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <avr/eeprom.h>
+#include <stdlib.h>
 
  #define RLN_ELECTRO_2012_SE
 
@@ -33,10 +34,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	BUTTONRETURN = 0x01,
 	BUTTONLEFT = 0x02,
 	BUTTONRIGHT = 0x10,
-	BUTTONSUP = 0x04,
+	BUTTONUP = 0x04,
 	BUTTONDOWN = 0x08,
 	BUTTONENTER = 0x10
- }
+ };
  
  /**button slot number
   *  NOTICE: RIGHT and ENTER hase the same slot by default! MenuOS do not use ENTER button!
@@ -48,7 +49,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	BUTTONSSLOTUP = 3,
 	BUTTONSLOTDOWN = 4,
 	BUTTONSLOTENTER = 2	
- }
+ };
   
 	//configured LCD type
 	#define TLCD 
@@ -69,7 +70,7 @@ enum{
 	FILEPARENT,
 	FILEMODE1,
 	FILEMODE2
-}
+};
 
 #define MAXDEPTH 4//max menu depth
 
@@ -105,7 +106,7 @@ enum {
 	CONFVALUE,
 	CONFMIN,
 	CONFMAX	
-}
+};
 //define store memory space
 #define CONFMAXADDRESS 4096
 
