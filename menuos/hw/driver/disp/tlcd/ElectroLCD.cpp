@@ -218,14 +218,15 @@ void LiquidCrystal::pulseEnable(void) {
 }
 
 void LiquidCrystal::write4bits(uint8_t value) {
+	PORTH &= ~0x3C;
 	for (int i = 0; i < 4; i++) {
-    if ((value >> i) & 0x01){
-	PORTH|=(1<<(5-i));
+		if ((value >> i) & 0x01){
+			PORTH|=(1<<(5-i));
+		}
+		else {
+			PORTH&=~(1<<(5-i));
+		}
 	}
-	else {
-	PORTH&=~(1<<(5-i));
-	}
-  }
-  pulseEnable();
+	pulseEnable();
 }
 

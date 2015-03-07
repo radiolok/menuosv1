@@ -29,6 +29,8 @@ uint8_t HwDispSetup(void){
 	#endif
 	
 	#if defined(GRAPH_DISPLAY)
+		GLCD.Init(NON_INVERTED);
+		GLCD.ClearScreen();
 		GLCD.SelectFont(MENUFONT);
 	#endif
 	return 0;
@@ -44,7 +46,7 @@ if ((row >= 0) && (row < DISPSTRNUMB)){
 	
 	#if defined(GRAPH_DISPLAY)
 		HwDispClearString(row, col, DISPSTRNUMB-col);
-		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
+		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFONTHEIGHT);//set cursor
 		GLCD.PutChar(symbol);//write
 	#endif
 	
@@ -56,17 +58,17 @@ return 0;
 uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 	//check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(TEXT_DISPLAY)
-		col++;//make left position free
-		lcd.setCursor(col, row);
-		lcd.print(text);
-	#endif
+		#if defined(TEXT_DISPLAY)
+			col+=1;//make left position free
+			lcd.setCursor(col, row);
+			lcd.print(text);
+		#endif
 	
-	#if defined(GRAPH_DISPLAY)
-		HwDispClearString(row, col, DISPSTRNUMB-col);
-		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
-		GLCD.Puts(text);//write
-	#endif
+		#if defined(GRAPH_DISPLAY)
+			HwDispClearString(row, col, DISPSTRNUMB-col);
+			GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFONTHEIGHT);//set cursor
+			GLCD.Puts(text);//write
+		#endif
 		
 	}
 	return 0;
@@ -82,10 +84,8 @@ uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
 	#endif
 	
 	#if defined(GRAPH_DISPLAY)
-		GLCD.DrawRectangle(XINDENT+1+col*MENUFONTWIDTH,
-							YINDENT+1+row*MENUFOTNHEIGHT,
-							XINDENT+1+(col+length)*MENUFONTWIDTH,
-							YINDENT+1+(row+1)*MENUFOTNHEIGHT)
+		GLCD.FillRect(XINDENT, YINDENT + row * MENUFONTHEIGHT, LCDWIDTH - XINDENT, MENUFONTHEIGHT, WHITE);
+						
 	#endif
 		
 	}	
@@ -101,7 +101,7 @@ uint8_t HwDispSelectString(uint8_t row){
 	#endif
 	
 	#if defined(GRAPH_DISPLAY)
-		GLCD.InvertRect(XINDENT, row*MENUFOTNHIGHT, LCDWIDTH - XINDENT,MENUFOTNHIGHT);
+		GLCD.InvertRect(XINDENT, YINDENT + row*MENUFONTHEIGHT, LCDWIDTH - XINDENT,MENUFONTHEIGHT);
 	#endif
 		
 	}

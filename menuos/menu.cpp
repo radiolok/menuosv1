@@ -203,12 +203,14 @@ void MMenu::ShowFolder(){
 				if (T_CONF == ftype){
 					Config.GetString(fstart + i, fname, 0);
 					log_trace_txt("Item: ", fname);
-					HwDispPutString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR], 0, fname, HwDispGetStringsLength());
+					log_trace_val("Pos: ", i);
+					HwDispPutString(i, 0, fname, HwDispGetStringsLength());
 				}
 				else{//show usual string
 					HwFileGetName(fstart + i, fname);
 					log_trace_txt("Item: ", fname);
-					HwDispPutString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR], 0, fname, HwDispGetStringsLength());
+					log_trace_val("Pos: ", i);
+					HwDispPutString(i, 0, fname, HwDispGetStringsLength());
 				}
 			}
  		break;
@@ -220,6 +222,7 @@ void MMenu::ShowFolder(){
 				//give filename look like: item0, item 1, item 2,  etc
 				sprintf(buff, "%s %d", fname, cursor);
 				log_trace_txt("Item: ", fname);
+				log_trace_val("Pos: ", i);
 				HwDispPutString(i, 0, fname, HwDispGetStringsLength());
 			}
 		break;	

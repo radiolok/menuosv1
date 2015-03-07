@@ -77,7 +77,9 @@
 
 //#include "config/ks0108_Manual_Config.h"       // generic ks0108 configuration
 //#include "config/ks0108_133_Frolov.h"       // generic ks0108 configuration
-#include "config/ks0108_RLN_Electro.h"
+//#include "config/ks0108_RLN_Electro.h"
+
+#include "config/ks0108_lightAutmat.h"
 //#include "config/Modadm12864f_Manual_Config.h" // configuration for BGMicro 128x64 display with pinout diagram
 //#include "config/Modvk5121_Manual_Config.h"    // configuration for vk5121 122x32 display with pinout diagram
 //#include "config/Modmt12232d_Manual_Config.h" // configuration for Russian mt12232 display with pinout diagram
