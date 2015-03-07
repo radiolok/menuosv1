@@ -181,6 +181,8 @@ void MMenu::Action(void){
 			AppStart();
 		break;
 		case T_CONF:
+			Task.Add(MENUSLOT, MenuAppStop, 10);//100 ms update
+			Task.ActiveApp = 1;//app should release AtiveApp to zero itself
 			Config.Setup(level, brCrumbs);
 		break;
 		default://Unsupported
@@ -204,7 +206,7 @@ void MMenu::ShowFolder(){
 			for (uint8_t i = 0; i < maxcursor; i++){
 				ftype = HwFileGetType(fstart + i);
 				if (T_CONF == ftype){
-					Config.GetString(fstart + i, fname, 0);
+					Config.GetString(fstart + i, fname, 0, 0);
 					log_trace_txt("Item: ", fname);
 					log_trace_val("Pos: ", i);
 					HwDispPutString(i, 0, fname, HwDispGetStringsLength());
@@ -242,7 +244,7 @@ void MMenu::ShowFolder(){
 
 void MMenu::AppStart(void){
 	if (file.mode2 != BACKGROUND){
-		Task.Add(1, MenuAppStop, 10);//100 ms update
+		Task.Add(MENUSLOT, MenuAppStop, 10);//100 ms update
 		Task.ActiveApp = 1;//app should release AtiveApp to zero itself
 	}
 	switch (file.mode1){//AppNumber
