@@ -57,11 +57,12 @@ uint8_t MMenu::ButtonsLogic(uint8_t button){
 		case BUTTONRETURN:
 			Return();
 		break;
+		//Menu start from top to bottom, so we has inverted buttons implementation
 		case BUTTONUP:
-			ButtonUp();
+			ButtonDown();
 		break;
 		case BUTTONDOWN:
-			ButtonDown();
+			ButtonUp();
 		break;
 		default:
 		
@@ -84,7 +85,7 @@ void MMenu::ButtonUp(){
 		cursor--;
 	}
     else{
-		cursor = file.mode2;//go to first file in folder
+		cursor = file.mode2 - 1;//go to first file in folder
 	}
 	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = cursor / DISPSTRNUMB;
 	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = cursor % DISPSTRNUMB;
@@ -93,7 +94,7 @@ void MMenu::ButtonUp(){
 
 void MMenu::ButtonDown(){
 	log_trace("Button Down");
-	if (cursor < file.mode2){
+	if (cursor < file.mode2 - 1){
 		cursor++;
 	}
     else{
