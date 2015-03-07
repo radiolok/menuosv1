@@ -18,8 +18,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #if defined (TEXT_DISPLAY)
 
 	#include "hw/driver/disp/tlcd/ElectroLCD.h"
-
-
 	
 #endif
 

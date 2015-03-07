@@ -108,6 +108,21 @@ uint8_t HwDispSelectString(uint8_t row){
 	return 0;
 }
 
+uint8_t HwDispDrawCursor(uint8_t row, uint8_t col, uint8_t length){
+	if ((row >= 0) && (row < DISPSTRNUMB)){
+		#if defined(TEXT_DISPLAY)
+			lcd.setCursor(0, row);
+			lcd.print(">");
+		#endif
+		
+		#if defined(GRAPH_DISPLAY)
+			GLCD.DrawRect(XINDENT + col*MENUFONTWIDTH, YINDENT + row*MENUFONTHEIGHT, length * MENUFONTWIDTH, MENUFONTHEIGHT);
+		#endif
+		
+	}
+	return 0;	
+}
+
 
 void HwDispClearScreen(void){
 	#if defined(TEXT_DISPLAY)
