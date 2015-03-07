@@ -38,6 +38,7 @@ int main(void)
 		
 	uart_init( UART_BAUD_SELECT(UART0_BAUD_RATE,F_CPU));
 	log_trace("System started");
+	Menu.Return();
 	Task.Start();//never turn back
 
 	
