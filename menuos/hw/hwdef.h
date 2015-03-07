@@ -55,8 +55,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  };
   
 	//configured LCD type
-	#define tLCD 
-	//#define gLCD 
+	#define TEXT_DISPLAY 
+	//#define GRAPH_DISPLAY 
 
 
 
@@ -77,28 +77,7 @@ enum{
 
 #define MAXDEPTH 4//max menu depth
 
-#if defined(tLCD)
-	#define LCDROW 8//display rows
-	#define LCDCOL 20//display cumns
-#endif
 
-#if defined(gLCD)
-	#include "glcd/glcd.h"
-	#include "glcd/glcd_Buildinfo.h"
-	#include "glcd/glcd_Config.h"
-	#include "glcd/fonts/SystemFont5x7.h"
-	
-	#define LCDWIDTH 128
-	
-	#define LCDHEIGTH 64
-
-	#define XINDENT 6
-	#define YINDENT 10
-	
-	#define MENUFONT SystemFont5x7
-	#define MENUFONTWEIGHT 6
-	#define MENUFOTNHIGHT 8
-#endif
 
 //used MTask slots
 #define MENUSLOT 0

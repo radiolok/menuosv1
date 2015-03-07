@@ -15,18 +15,20 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /*===================================================================
 					DISPLAY HW ROUTINE ACCESS
 ===================================================================*/
-#if defined(tLCD)
-	
+#if defined (TEXT_DISPLAY)
+
+	LiquidCrystal lcd;
+
 #endif
 
 
  
 uint8_t HwDispSetup(void){
-	#if defined(tLCD)
-		
+	#if defined(TEXT_DISPLAY)
+		lcd.begin(LCDCOL,LCDROW);
 	#endif
 	
-	#if defined(gLCD)
+	#if defined(GRAPH_DISPLAY)
 		GLCD.SelectFont(MENUFONT);
 	#endif
 	return 0;
@@ -35,14 +37,15 @@ uint8_t HwDispSetup(void){
 uint8_t HwDispPutChar(uint8_t row, uint8_t col, char symbol){
 //check stirng bound
 if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(tLCD)
-	
+	#if defined(TEXT_DISPLAY)
+		lcd.setCursor(col, row);
+		lcd.print(symbol);
 	#endif
 	
-	#if defined(gLCD)
-	HwDispClearString(row, col, DISPSTRNUMB-col);
-	GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
-	GLCD.PutChar(symbol);//write
+	#if defined(GRAPH_DISPLAY)
+		HwDispClearString(row, col, DISPSTRNUMB-col);
+		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
+		GLCD.PutChar(symbol);//write
 	#endif
 	
 }
@@ -53,11 +56,13 @@ return 0;
 uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 	//check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(tLCD)
-		
+	#if defined(TEXT_DISPLAY)
+		col++;//make left position free
+		lcd.setCursor(col, row);
+		lcd.print(text);
 	#endif
 	
-	#if defined(gLCD)
+	#if defined(GRAPH_DISPLAY)
 		HwDispClearString(row, col, DISPSTRNUMB-col);
 		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
 		GLCD.Puts(text);//write
@@ -70,11 +75,13 @@ uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
 	//check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(tLCD)
-		
+	#if defined(TEXT_DISPLAY)
+		for (uint8_t i = col; i < col + length; i++){
+			HwDispPutChar(row, i, ' ');//put spaces
+		}
 	#endif
 	
-	#if defined(gLCD)
+	#if defined(GRAPH_DISPLAY)
 		GLCD.DrawRectangle(XINDENT+1+col*MENUFONTWIDTH,
 							YINDENT+1+row*MENUFOTNHEIGHT,
 							XINDENT+1+(col+length)*MENUFONTWIDTH,
@@ -88,11 +95,12 @@ uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
 uint8_t HwDispSelectString(uint8_t row){
 //check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(tLCD)
-		
+	#if defined(TEXT_DISPLAY)
+		lcd.setCursor(0, row);
+		lcd.print(">");
 	#endif
 	
-	#if defined(gLCD)
+	#if defined(GRAPH_DISPLAY)
 		GLCD.InvertRect(XINDENT, row*MENUFOTNHIGHT, LCDWIDTH - XINDENT,MENUFOTNHIGHT);
 	#endif
 		
@@ -102,11 +110,11 @@ uint8_t HwDispSelectString(uint8_t row){
 
 
 void HwDispClearScreen(void){
-	#if defined(tLCD)
-		
+	#if defined(TEXT_DISPLAY)
+		lcd.clear();
 	#endif
 	
-	#if defined(gLCD)
+	#if defined(GRAPH_DISPLAY)
 		GLCD.ClearScreen();
 	#endif	
 }
