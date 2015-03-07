@@ -157,8 +157,10 @@ void MMenu::Enter(uint8_t filenumb){
 	//go to next level:
 	level++;
 	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPARENT] = filenumb;//save our positions
-	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = 0;
-	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = 0;
+	
+	cursor = 0;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] = cursor / DISPSTRNUMB;
+	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR] = cursor % DISPSTRNUMB;
 
 	//Get new file data:
 	HwFileGetInfo(filenumb, &file);
@@ -218,13 +220,14 @@ void MMenu::ShowFolder(){
 		case T_DFOLDER:
 			//read share name
 			HwFileGetName(file.mode1, fname);
+			fstart = brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * HwDispGetStringsNumb();
 			char buff[20] = "\0";
 			for (uint8_t i = 0; i < maxcursor; i++){
 				//give filename look like: item0, item 1, item 2,  etc
-				sprintf(buff, "%s %d", fname, cursor);
-				log_trace_txt("Item: ", fname);
+				sprintf(buff, "%s %d", fname, fstart + i);
+				log_trace_txt("Item: ", buff);
 				log_trace_val("Pos: ", i);
-				HwDispPutString(i, 0, fname, HwDispGetStringsLength());
+				HwDispPutString(i, 0, buff, HwDispGetStringsLength());
 			}
 		break;	
 	}

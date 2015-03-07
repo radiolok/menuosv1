@@ -19,7 +19,7 @@ static const uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
 		T_FOLDER, 0, 7, 3,			//2
 			T_APP,	1, 1, 0,		//3
 			T_APP,	1, 2, 0,		//4
-			T_DFOLDER, 1, 6, 65,	//5
+			T_DFOLDER, 1, 6, 66,	//5
 				T_APP,	5, 3, 0,	//6
 			
 			T_CONF,	2, 0, 0,		//7
