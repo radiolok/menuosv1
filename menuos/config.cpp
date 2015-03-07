@@ -14,6 +14,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "menudef.h"
 
+#include "util/log.h"
 MConfig::MConfig(){
 	
 }
@@ -50,38 +51,68 @@ void MConfig::Setup(uint8_t argc, uint8_t *argv){
 	
 	row = argv[(argc - 1) * BRCRUMBSLENGTH + CRUMBCURSOR];
 	
+	digit = 0;
+	
+	digits = DigitsCount(config.max);
+	
+	log_trace_val("Config:Digits:", digits);
+	
 	Buttons.Add(ConfigButtonsHandler);
 	
 	Show();
 }
 
-void MConfig::GetString(uint8_t filenumb, char* text, uint16_t shift){
+void MConfig::GetString(uint8_t filenumb, char* text, uint16_t shift, uint8_t mode = 0){
 	filedata file;
+	uint8_t status = 0;
 	HwFileGetInfo(filenumb, &file);
-	uint8_t status = HwConfigGetData(file.mode1, &config, shift);
+	if (mode == 0){
+		status = HwConfigGetData(file.mode1, &config, shift);
+	}
 	if (status){//shift index error
 		sprintf(text, "INDEX ERROR");
 		return;
 	}
-	//TODO: need to add right align for config values
-	if (config.max == 0){//boolean
-		if (config.value){
-			sprintf(text, "%s Yes", file.name);
+	AlignStr(file.name, config.value, config.max, HwDispGetStringsLength(), text);
+
+	return;
+}
+
+void MConfig::AlignStr(char *fname, int16_t val, uint8_t mode, uint8_t length, char *str){
+	//we show full text to string
+	uint8_t symbols = sprintf(str, "%s", fname);
+	for (uint8_t i = symbols; i < length; i++){
+		str[i] = ' ';
+	}
+	uint8_t dig = 0;
+	char valtext[12];
+	if (mode){//numeric
+		dig = DigitsCount(val);
+		ltoa(val, valtext, 10);
+		strcpy(str + length - dig,  valtext);
+	}
+	else{
+		if (val){
+			strcpy(str + length - 4, " Yes");
 		}
 		else{
-			sprintf(text, "%s No", file.name);
+			strcpy(str + length - 3, " No");
 		}
 	}
-	else{//not boolean
-		sprintf(text, "%s %d", file.name, config.value);
-	}
+	log_trace_txt("Config:", str);
 	return;
 }
 
 void MConfig::Show(){
 	char text[DISPSTRLENGTH];//TODO: use malloc
-	GetString(fileid, text, shift);
+	GetString(fileid, text, shift, 1);
 	HwDispPutString(row, 0, text, sizeof(text));
+	if (config.max){
+		HwDispDrawCursor(row, HwDispGetStringsLength() - digit - 1 , 1);
+	}
+	else{
+		HwDispDrawCursor(row, HwDispGetStringsLength() - 3, 4);
+	}
 	//HwDispSetCursor();
 }
 
@@ -163,6 +194,20 @@ void MConfig::Return(){
 	//save changes
 	HwConfigSetData(configid, &config, shift);
 	Task.ActiveApp = 0;
+}
+
+
+uint8_t MConfig::DigitsCount(int16_t val){
+	uint8_t dig = 1;
+	if (val < 0){
+		dig++;
+	}
+	val = abs(val);
+	while (val > 10){
+		val = val / 10;
+		dig++;//count digits
+	}
+	return dig;	
 }
 
 /**

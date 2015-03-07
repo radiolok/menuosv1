@@ -46,11 +46,11 @@ PROGMEM static const char *fileNames[]  = {
 	file_9
 };
 
-
+//number of cell(step by 2), minimal value, maximum value
 static const PROGMEM uint16_t configsLimit[] = {
 	0,0,0,// config  0
-	0,127,2,//config 1
-	0,1,4,//config	2
+	2,2,127,//config 1
+	4,1,48,//config	2
 	
 };
 
@@ -95,8 +95,8 @@ uint8_t HwConfigGetData(uint8_t configid, struct configdata* config, uint16_t sh
 		return 1;//address error
 	}
 	config->value = eeprom_read_word ((uint16_t *)address);
-	config->value = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMIN]);
-	config->value = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMAX]);
+	config->min = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMIN]);
+	config->max = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMAX]);
 	
 	return 0;
 }

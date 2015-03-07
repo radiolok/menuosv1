@@ -44,6 +44,10 @@ class MConfig{
 		
 		void Show(void);
 		
+		uint8_t DigitsCount(int16_t val);
+		
+		void AlignStr(char *text, int16_t val, uint8_t mode, uint8_t length, char *str);
+		
 	public:
 	
 		MConfig();
@@ -63,7 +67,7 @@ class MConfig{
 		 *  
 		 *  \details Details
 		 */
-		void GetString(uint8_t filenumb, char* text, uint16_t shift);
+		void GetString(uint8_t filenumb, char* text, uint16_t shift, uint8_t mode) ;
 		
 };
 
