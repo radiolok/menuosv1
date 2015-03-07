@@ -25,7 +25,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  
 uint8_t HwDispSetup(void){
 	#if defined(TEXT_DISPLAY)
-		lcd.begin(LCDCOL,LCDROW);
+		lcd.begin(16,2);
 	#endif
 	
 	#if defined(GRAPH_DISPLAY)

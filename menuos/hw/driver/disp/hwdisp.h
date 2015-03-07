@@ -18,8 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #if defined (TEXT_DISPLAY)
 
 	#include "hw/driver/disp/tlcd/ElectroLCD.h"
-	#define LCDROW 8//display rows
-	#define LCDCOL 20//display nums
+
 
 	
 #endif
@@ -30,6 +29,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "glcd/glcd_Buildinfo.h"
 #include "glcd/glcd_Config.h"
 #include "glcd/fonts/SystemFont5x7.h"
+
+	#define LCDROW 8//display rows
+	#define LCDCOL 20//display nums
 
 #define LCDWIDTH 128
 

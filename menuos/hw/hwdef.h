@@ -60,12 +60,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 
 
-#define DISPSTRNUMB 4//display strings number.
+#define DISPSTRNUMB 2//display strings number.
 
 
-#define DISPSTRLENGTH 20 //stirng length
+#define DISPSTRLENGTH 16 //stirng length
  
-#define FILENUMB 47 //files number
+#define FILENUMB 10 //files number
 #define FILEREW  4//bytes for the file
 
 enum{
