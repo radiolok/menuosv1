@@ -13,6 +13,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef HW_DEF_H_
 #define HW_DEF_H_
 
+#define F_CPU 16000000ul
+
+#include <util/delay.h>
 #include <avr/io.h>
 #include <inttypes.h>
 #include <avr/interrupt.h>
@@ -52,8 +55,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  };
   
 	//configured LCD type
-	#define TLCD 
-	//#define GLCD 
+	#define tLCD 
+	//#define gLCD 
 
 
 
@@ -74,12 +77,12 @@ enum{
 
 #define MAXDEPTH 4//max menu depth
 
-#if defined(TLCD)
+#if defined(tLCD)
 	#define LCDROW 8//display rows
 	#define LCDCOL 20//display cumns
 #endif
 
-#if defined(GLCD)
+#if defined(gLCD)
 	#include "glcd/glcd.h"
 	#include "glcd/glcd_Buildinfo.h"
 	#include "glcd/glcd_Config.h"

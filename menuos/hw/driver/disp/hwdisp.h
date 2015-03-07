@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef __HWDISP_H__
 #define __HWDISP_H__
 
-#include "hwdef.h"
+#include "../../hwdef.h"
 
 
 /*===================================================================

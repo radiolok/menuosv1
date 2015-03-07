@@ -569,7 +569,7 @@ uint8_t x, data;
 }
 #else
 
-inline uint8_t glcd_Device::ReadData()
+uint8_t glcd_Device::ReadData()
 {  
 uint8_t x, data;
 

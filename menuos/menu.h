@@ -16,7 +16,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "menudef.h"
 #include "buttons.h"
 #include "MTask.h"
-#include "hwi.h"
+#include "hw/hwi.h"
 
 
 class MMenu{

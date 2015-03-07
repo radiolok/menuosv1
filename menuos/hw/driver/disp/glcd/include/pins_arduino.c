@@ -23,7 +23,6 @@
 */
 
 #include <avr/io.h>
-#include "wiring_private.h"
 #include "pins_arduino.h"
 
 // On the Arduino board, digital pins are also used

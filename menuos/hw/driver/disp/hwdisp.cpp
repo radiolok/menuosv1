@@ -15,14 +15,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /*===================================================================
 					DISPLAY HW ROUTINE ACCESS
 ===================================================================*/
+#if defined(tLCD)
+	
+#endif
+
 
  
 uint8_t HwDispSetup(void){
-	#if defined(TLCD)
+	#if defined(tLCD)
 		
 	#endif
 	
-	#if defined(GLCD)
+	#if defined(gLCD)
 		GLCD.SelectFont(MENUFONT);
 	#endif
 	return 0;
@@ -31,11 +35,11 @@ uint8_t HwDispSetup(void){
 uint8_t HwDispPutChar(uint8_t row, uint8_t col, char symbol){
 //check stirng bound
 if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(TLCD)
+	#if defined(tLCD)
 	
 	#endif
 	
-	#if defined(GLCD)
+	#if defined(gLCD)
 	HwDispClearString(row, col, DISPSTRNUMB-col);
 	GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
 	GLCD.PutChar(symbol);//write
@@ -49,11 +53,11 @@ return 0;
 uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 	//check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(TLCD)
+	#if defined(tLCD)
 		
 	#endif
 	
-	#if defined(GLCD)
+	#if defined(gLCD)
 		HwDispClearString(row, col, DISPSTRNUMB-col);
 		GLCD.CursorToXY(XINDENT+1+col*MENUFONTWIDTH,YINDENT+1+row*MENUFOTNHEIGHT);//set cursor
 		GLCD.Puts(text);//write
@@ -66,11 +70,11 @@ uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
 uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
 	//check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(TLCD)
+	#if defined(tLCD)
 		
 	#endif
 	
-	#if defined(GLCD)
+	#if defined(gLCD)
 		GLCD.DrawRectangle(XINDENT+1+col*MENUFONTWIDTH,
 							YINDENT+1+row*MENUFOTNHEIGHT,
 							XINDENT+1+(col+length)*MENUFONTWIDTH,
@@ -84,11 +88,11 @@ uint8_t HwDispClearString(uint8_t row, uint8_t col, uint8_t length){
 uint8_t HwDispSelectString(uint8_t row){
 //check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
-	#if defined(TLCD)
+	#if defined(tLCD)
 		
 	#endif
 	
-	#if defined(GLCD)
+	#if defined(gLCD)
 		GLCD.InvertRect(XINDENT, row*MENUFOTNHIGHT, LCDWIDTH - XINDENT,MENUFOTNHIGHT);
 	#endif
 		
@@ -98,11 +102,11 @@ uint8_t HwDispSelectString(uint8_t row){
 
 
 void HwDispClearScreen(void){
-	#if defined(TLCD)
+	#if defined(tLCD)
 		
 	#endif
 	
-	#if defined(GLCD)
+	#if defined(gLCD)
 		GLCD.ClearScreen();
 	#endif	
 }

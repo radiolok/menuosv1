@@ -13,9 +13,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef HWFILE_H_
 #define HWFILE_H_
 
-#include "hwdef.h"
+#include "../../hwdef.h"
 
-#include "menudef.h"
+#include "../../../menudef.h"
 
 
 /*===================================================================

@@ -21,12 +21,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  #include "hwdef.h"
  
  //main menu definitions
- #include "menudef.h"
+ #include "../menudef.h"
 
  //file structure file
- #include "hwfile.h"
+ #include "driver/files/hwfile.h"
  
- #include "hwdisp.h"
+ #include "driver/disp/hwdisp.h"
   
 /*===================================================================
 					BUTTONS HW ROUTINE ACCESS

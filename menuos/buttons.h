@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef BUTTONS_H_
 #define BUTTONS_H_
 
-#include "hwi.h"
+#include "hw/hwi.h"
 
 class buttons{
 private:
