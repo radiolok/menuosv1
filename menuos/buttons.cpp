@@ -47,19 +47,18 @@ void buttons::Search(uint32_t time){//Tmanager function
 			{ //check all buttons slot
 			for (uint8_t buttonslot = 0; buttonslot < HwButtonsCount(); buttonslot++)
 				{//detect edge only
-				if (buttslot[buttonslot]) {
-					if (buttonscurrstate == (1 << buttonslot) && !(buttonoldstate&(1 << buttonslot))) 
+				if (buttonscurrstate == (1 << buttonslot) && !(buttonoldstate&(1 << buttonslot)))
+				{
+					if (buttslot[buttonslot])
 					{
 						(*buttslot[buttonslot])(buttonscurrstate&(1 << buttonslot));
-					}//call button slot if not NUll
-					else{
-					//undefined behavior prevent
+						//call button slot if not NUll
 					}
-				}
-				else {
-				//we Must check zero slot before default use
-					if (buttslot[0]){
-						(*buttslot[0])(buttonscurrstate);
+					else {
+					//we Must check zero slot before default use
+						if (buttslot[0]){
+							(*buttslot[0])(buttonscurrstate);
+						}
 					}
 				}
 			}
