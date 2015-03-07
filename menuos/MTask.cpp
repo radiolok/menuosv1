@@ -14,6 +14,13 @@
 
 MTask::MTask()
 {
+
+}
+
+MTask::~MTask(){
+
+}
+void MTask::Setup(){
 	ActiveApp = 0;
 	TCCR5A |= (1<<WGM50);//PWM 8-bit with 0xFF on TOP
 	TCCR5B |= (1<<WGM52);
@@ -21,11 +28,7 @@ MTask::MTask()
 	for (uint8_t slot = 0; slot < PSLOTS; slot++)
 	{//clear all slots
 		Release(slot);
-	}
-}
-
-MTask::~MTask(){
-
+	}	
 }
 
 void MTask::Start(){

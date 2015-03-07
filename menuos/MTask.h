@@ -42,6 +42,8 @@ MTask(void);
 
 ~MTask();
 
+void Setup(void);
+
 /**
  *  \brief Start soft work Task Manager
  *  NOTICE: Never returns back!

@@ -15,7 +15,7 @@
     <AssemblyName>MenuOSv1</AssemblyName>
     <Name>MenuOSv1</Name>
     <RootNamespace>MenuOSv1</RootNamespace>
-    <ToolchainFlavour>Native</ToolchainFlavour>
+    <ToolchainFlavour>avr studio 5</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
@@ -39,6 +39,19 @@
       </framework-data>
     </AsfFrameworkConfig>
     <AsfVersion>3.1.3</AsfVersion>
+    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
+    <com_atmel_avrdbg_tool_avrdragon>
+      <ToolOptions>
+        <InterfaceProperties>
+          <JtagDbgClock>2000000</JtagDbgClock>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
+      <ToolNumber>00A200040458</ToolNumber>
+      <ToolName>AVR Dragon</ToolName>
+    </com_atmel_avrdbg_tool_avrdragon>
+    <avrtoolinterface>JTAG</avrtoolinterface>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -126,7 +139,6 @@
   <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
   <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
   <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
-  <avrgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11</avrgcccpp.compiler.miscellaneous.OtherFlags>
   <avrgcccpp.compiler.miscellaneous.Verbose>True</avrgcccpp.compiler.miscellaneous.Verbose>
   <avrgcccpp.linker.libraries.Libraries>
     <ListValues>
@@ -300,10 +312,19 @@
     <Compile Include="menuos\hw\hwi.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="menuos\util\log.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menuos\util\Print.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="menuos\util\Print.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\util\uart.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\util\uart.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="menuos\clock.cpp">

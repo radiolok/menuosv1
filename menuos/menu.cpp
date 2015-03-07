@@ -13,6 +13,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "config.h"
 
+#include "util/log.h"
+
 MConfig Config;
 
 //we can't easily add class function to button slot
@@ -77,6 +79,7 @@ uint8_t MMenu::SetButtons(void){
 
 //Смена указателя вверх
 void MMenu::ButtonUp(){
+	log_trace("Button Up");
 	if (cursor > 0){
 		cursor--;
 	}
@@ -89,6 +92,7 @@ void MMenu::ButtonUp(){
 }
 
 void MMenu::ButtonDown(){
+	log_trace("Button Down");
 	if (cursor < file.mode2){
 		cursor++;
 	}
@@ -101,10 +105,12 @@ void MMenu::ButtonDown(){
 }
 
 void MMenu::ButtonLeft(){
+	log_trace("Button Left");
 	//n/a
 }
 
 void MMenu::ButtonRight(){
+	log_trace("Button Up");
 	//define type of current folder
 	uint8_t newfilenum = 0;
 	switch (file.type){
@@ -127,6 +133,7 @@ void MMenu::ButtonRight(){
 
 
 void MMenu::Return(){
+	log_trace("Return");
 	SetButtons();
 	HwDispClearScreen();
 	brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPARENT] = 0;
@@ -142,6 +149,7 @@ void MMenu::Return(){
 }
 
 void MMenu::Enter(uint8_t filenumb){
+	log_trace("Enter");
 	if (MAXDEPTH < level){
 		return; //do nothing
 	}
@@ -159,6 +167,7 @@ void MMenu::Enter(uint8_t filenumb){
 }
 
 void MMenu::Action(void){
+	
 	switch (file.type){
 		case T_FOLDER:
 		case T_DFOLDER:
@@ -179,8 +188,7 @@ void MMenu::Action(void){
 
 //show current folder
 void MMenu::ShowFolder(){
-	
-	
+		
 	//select folder type:
 	uint8_t maxcursor = file.mode2 - brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * HwDispGetStringsNumb();
 	char fname[DISPSTRLENGTH] = "\0";
@@ -194,10 +202,12 @@ void MMenu::ShowFolder(){
 				ftype = HwFileGetType(fstart + i);
 				if (T_CONF == ftype){
 					Config.GetString(fstart + i, fname, 0);
+					log_trace_txt("Item: ", fname);
 					HwDispPutString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR], 0, fname, HwDispGetStringsLength());
 				}
 				else{//show usual string
 					HwFileGetName(fstart + i, fname);
+					log_trace_txt("Item: ", fname);
 					HwDispPutString(brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBCURSOR], 0, fname, HwDispGetStringsLength());
 				}
 			}
@@ -209,6 +219,7 @@ void MMenu::ShowFolder(){
 			for (uint8_t i = 0; i < maxcursor; i++){
 				//give filename look like: item0, item 1, item 2,  etc
 				sprintf(buff, "%s %d", fname, cursor);
+				log_trace_txt("Item: ", fname);
 				HwDispPutString(i, 0, fname, HwDispGetStringsLength());
 			}
 		break;	

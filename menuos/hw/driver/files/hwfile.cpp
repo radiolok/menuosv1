@@ -41,7 +41,7 @@ static PROGMEM const char file_7[] = "config 0";
 static PROGMEM const char file_8[] = "config 1";
 static PROGMEM const char file_9[] = "config 2";
 
-static const char* fileNames[] = {
+PROGMEM static const char *fileNames[]  = {
 	file_0,  file_1,  file_2,  file_3,  file_4,  file_5,  file_6,  file_7,  file_8,
 	file_9
 };
@@ -75,7 +75,8 @@ uint8_t HwFileGetInfo(uint8_t filenumb, uint8_t pos){
 }
 
 uint8_t HwFileGetName(uint8_t filenumb, char* name){
-	strlcpy_P(name, (char*)pgm_read_byte((fileNames[filenumb])), DISPSTRLENGTH);	
+	strcpy_P(name, (char*)pgm_read_word(&(fileNames[filenumb])));	
+
 	
 	return 0;
 }

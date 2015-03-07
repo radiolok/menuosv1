@@ -15,11 +15,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #define F_CPU 16000000ul
 
+#include <math.h>
 #include <util/delay.h>
 #include <avr/io.h>
 #include <inttypes.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <string.h>
 #include <avr/eeprom.h>
 #include <stdlib.h>
 
