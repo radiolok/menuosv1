@@ -14,16 +14,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define BUTTONS_H_
 
 #include "hw/hwi.h"
-
+#include "util/log.h"
 class buttons{
 private:
 	
-	void (*buttslot[BSLOTS])(uint8_t);//buttns slot
-	uint8_t buttonoldstate;
+	void (*buttslot[BSLOTS])(uint8_t);//buttons slot
 	
 	uint32_t lastupdatetime;
 	
 	int32_t updatetime;
+	
+	uint8_t buttonoldstate;
 	
 public:
 	/**

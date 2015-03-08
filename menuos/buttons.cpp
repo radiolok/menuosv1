@@ -28,9 +28,8 @@ void buttons::Clear(void){//clear slots
 }
 
 void buttons::Add(void (*_f)(uint8_t)){//connect only zero slot. Any button call one function
-
-	Clear();
-	buttslot[0]=_f;
+  for (uint8_t _i = 0; _i < HwButtonsCount(); _i++)
+	 buttslot[_i] = _f;
 }
 
 void buttons::Add(uint8_t _slot, void (*_f)(uint8_t)){//button for separate function
@@ -47,18 +46,11 @@ void buttons::Search(uint32_t time){//Tmanager function
 			{ //check all buttons slot
 			for (uint8_t buttonslot = 0; buttonslot < HwButtonsCount(); buttonslot++)
 				{//detect edge only
-				if (buttonscurrstate == (1 << buttonslot) && !(buttonoldstate&(1 << buttonslot)))
+				if ((buttonscurrstate&(1 << buttonslot)) && (!(buttonoldstate&(1 << buttonslot))))
 				{
 					if (buttslot[buttonslot])
 					{
 						(*buttslot[buttonslot])(buttonscurrstate&(1 << buttonslot));
-						//call button slot if not NUll
-					}
-					else {
-					//we Must check zero slot before default use
-						if (buttslot[0]){
-							(*buttslot[0])(buttonscurrstate);
-						}
 					}
 				}
 			}
