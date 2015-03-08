@@ -67,7 +67,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #define DISPSTRLENGTH 16 //stirng length
  
-#define FILENUMB 10 //files number
+#define FILENUMB 11 //files number
 #define FILEREW  4//bytes for the file
 
 enum{

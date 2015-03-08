@@ -16,7 +16,7 @@ static const uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
 {
 	T_FOLDER, 0, 1, 2,				//0
 		T_FOLDER, 0, 3, 3,			//1
-		T_FOLDER, 0, 7, 3,			//2
+		T_FOLDER, 0, 7, 4,			//2
 			T_APP,	1, 1, 0,		//3
 			T_APP,	1, 2, 0,		//4
 			T_DFOLDER, 1, 6, 66,	//5
@@ -24,7 +24,8 @@ static const uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
 			
 			T_CONF,	2, 0, 0,		//7
 			T_CONF,	2, 1, 0,		//8
-			T_CONF,	2, 2, 0			//9
+			T_CONF,	2, 2, 0,		//9
+			T_APP, 2, 3, 0			//10
 		
 	
 };
@@ -40,10 +41,11 @@ static PROGMEM const char file_6[] = "App";
 static PROGMEM const char file_7[] = "config 0";
 static PROGMEM const char file_8[] = "config 1";
 static PROGMEM const char file_9[] = "config 2";
+static PROGMEM const char file_10[] = "App 3";
 
 PROGMEM static const char *fileNames[]  = {
 	file_0,  file_1,  file_2,  file_3,  file_4,  file_5,  file_6,  file_7,  file_8,
-	file_9
+	file_9, file_10
 };
 
 //number of cell(step by 2), minimal value, maximum value
