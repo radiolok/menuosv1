@@ -41,22 +41,33 @@ void ConfigButtonsHandler(uint8_t button){
  */
 void MConfig::Setup(uint8_t argc, uint8_t *argv){
 
-	shift = 0;//TODO: calc shift for dynamic config
+	shift = 0;
+	//calc shift for dynamic folders
+	for (uint8_t level = 0; level < argc; level++){
+		if (T_DFOLDER == HwFileGetType(argv[level * BRCRUMBSLENGTH])){
+			shift += argv[level * BRCRUMBSLENGTH + CRUMBPAGE] * HwDispGetStringsNumb() + argv[level * BRCRUMBSLENGTH + CRUMBCURSOR];
+		}
+	}
 	
 	fileid  = argv[argc * BRCRUMBSLENGTH];
+	
+	row = argv[(argc - 1) * BRCRUMBSLENGTH + CRUMBCURSOR];
 	
 	configid = HwFileGetInfo(fileid, (uint8_t)BRCRMODE1);
 	
 	HwConfigGetData(configid, &config, shift);
 	
-	row = argv[(argc - 1) * BRCRUMBSLENGTH + CRUMBCURSOR];
+	//check initial values:
+	if (config.value > config.max){
+		config.value = config.max;
+	}
+	if (config.value < config.min){
+		config.value = config.min;
+	}
 	
-	digit = 0;
-	
+	digit = 0;	
 	digits = DigitsCount(config.max);
-	
-	log_trace_val("Config:Digits:", digits);
-	
+		
 	Buttons.Add(ConfigButtonsHandler);
 	
 	Show();
@@ -99,7 +110,6 @@ void MConfig::AlignStr(char *fname, int16_t val, uint8_t mode, uint8_t length, c
 			strcpy(str + length - 3, " No");
 		}
 	}
-	log_trace_txt("Config:", str);
 	return;
 }
 
@@ -113,7 +123,6 @@ void MConfig::Show(){
 	else{
 		HwDispDrawCursor(row, HwDispGetStringsLength() - 3, 4);
 	}
-	//HwDispSetCursor();
 }
 
 void MConfig::ButtonsLogic(uint8_t button){
@@ -176,16 +185,16 @@ void MConfig::ButtonDown(){
 }
 
 void MConfig::ButtonLeft(){
-	if (digit > 0){
-		digit--;
+	if (digit < (digits - 1))
+	{
+		digit += 1;
 	}
-	Show();
+	Show();	
 }
 
 void MConfig::ButtonRight(){
-	if (digit < digits)
-	{
-		digit++;
+	if (0 < digit){
+		digit -= 1;
 	}
 	Show();
 }
@@ -199,11 +208,11 @@ void MConfig::Return(){
 
 uint8_t MConfig::DigitsCount(int16_t val){
 	uint8_t dig = 1;
-	if (val < 0){
+	if (0 > val){
 		dig++;
 	}
 	val = abs(val);
-	while (val > 10){
+	while (val >= 10){
 		val = val / 10;
 		dig++;//count digits
 	}
@@ -220,7 +229,7 @@ uint8_t MConfig::DigitsCount(int16_t val){
  *  \details 
  */
 uint16_t UIntPow(uint16_t _data, uint8_t _pow){
-        uint16_t _result=1;
+        uint16_t _result = 1;
         if (!_pow)
 			return 1;
         while (_pow){

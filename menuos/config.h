@@ -18,14 +18,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 class MConfig{
 	private:
 	
-		uint8_t fileid;
-		
-		uint8_t configid;
+		uint16_t shift;
 		
 		configdata config;
 		
-		uint16_t shift;
+		uint8_t fileid;
 		
+		uint8_t configid;
+				
 		uint8_t row;
 		
 		uint8_t digit;
