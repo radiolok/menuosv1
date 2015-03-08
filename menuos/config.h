@@ -27,9 +27,7 @@ class MConfig{
 		uint8_t configid;
 				
 		uint8_t row;
-		
-		uint8_t digit;
-		
+
 		uint8_t digits;
 		
 		void ButtonLeft(void);

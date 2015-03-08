@@ -41,6 +41,8 @@ void ConfigButtonsHandler(uint8_t button){
  */
 void MConfig::Setup(uint8_t argc, uint8_t *argv){
 
+	Buttons.Add(ConfigButtonsHandler);
+	
 	shift = 0;
 	//calc shift for dynamic folders
 	for (uint8_t level = 0; level < argc; level++){
@@ -65,11 +67,9 @@ void MConfig::Setup(uint8_t argc, uint8_t *argv){
 		config.value = config.min;
 	}
 	
-	digit = 0;	
+	config.digit = 0;	
 	digits = DigitsCount(config.max);
 		
-	Buttons.Add(ConfigButtonsHandler);
-	
 	Show();
 }
 
@@ -114,14 +114,14 @@ void MConfig::AlignStr(char *fname, int16_t val, uint8_t mode, uint8_t length, c
 }
 
 void MConfig::Show(){
-	char text[DISPSTRLENGTH];//TODO: use malloc
+	char text[DISPSTRLENGTH * 2];//TODO: use malloc
 	GetString(fileid, text, shift, 1);
-	HwDispPutString(row, 0, text, sizeof(text));
+	HwDispPutString(row, 0, text, HwDispGetStringsLength());
 	if (config.max){
-		HwDispDrawCursor(row, HwDispGetStringsLength() - digit - 1 , 1);
+		HwDispDrawCursor(row, HwDispGetStringsLength() - config.digit - 1 , 1);
 	}
 	else{
-		HwDispDrawCursor(row, HwDispGetStringsLength() - 3, 4);
+		HwDispDrawCursor(row, HwDispGetStringsLength() - 4, 5);
 	}
 }
 
@@ -150,7 +150,7 @@ void MConfig::ButtonsLogic(uint8_t button){
 
 void MConfig::ButtonUp(){
 	if (config.max != 0){//not boolean
-		config.value += UIntPow(10, digit);
+		config.value += UIntPow(10, config.digit);
 		if (config.value > config.max){
 			config.value = config.max;
 		}
@@ -160,7 +160,7 @@ void MConfig::ButtonUp(){
 			config.value = 0;
 		}
 		else{
-		config.value = 1;
+			config.value = 1;
 		}
 	}
 	Show();
@@ -168,7 +168,7 @@ void MConfig::ButtonUp(){
 
 void MConfig::ButtonDown(){
 	if (config.max != 0){//not boolean
-		config.value -= UIntPow(10, digit);
+		config.value -= UIntPow(10, config.digit);
 		if (config.value < config.min){
 			config.value = config.min;
 		}
@@ -185,16 +185,16 @@ void MConfig::ButtonDown(){
 }
 
 void MConfig::ButtonLeft(){
-	if (digit < (digits - 1))
+	if (config.digit < (digits - 1))
 	{
-		digit += 1;
+		config.digit++;
 	}
 	Show();	
 }
 
 void MConfig::ButtonRight(){
-	if (0 < digit){
-		digit -= 1;
+	if (0 < config.digit){
+		config.digit--;
 	}
 	Show();
 }
