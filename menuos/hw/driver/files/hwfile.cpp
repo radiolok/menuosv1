@@ -41,7 +41,7 @@ static PROGMEM const char file_6[] = "App";
 static PROGMEM const char file_7[] = "config 0";
 static PROGMEM const char file_8[] = "config 1";
 static PROGMEM const char file_9[] = "config 2";
-static PROGMEM const char file_10[] = "App 3";
+static PROGMEM const char file_10[] = "Date and Time";
 
 PROGMEM static const char *fileNames[]  = {
 	file_0,  file_1,  file_2,  file_3,  file_4,  file_5,  file_6,  file_7,  file_8,
@@ -49,9 +49,9 @@ PROGMEM static const char *fileNames[]  = {
 };
 
 //number of cell(step by 2), minimal value, maximum value
-static const PROGMEM uint16_t configsLimit[] = {
+static const PROGMEM int16_t configsLimit[] = {
 	0,0,0,// config  0
-	2,2,127,//config 1
+	2,-8099,8096,//config 1
 	4,1,48,//config	2
 	
 };

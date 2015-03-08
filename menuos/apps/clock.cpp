@@ -10,10 +10,9 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
 
-#include <ks0108.h>
-#include <SystemFont5x7.h>
-#include <Wire.h>
-#include <DS1307.h>
+
+#include "clock.h"
+
 
 //char[][]={Sun,Mon,Tue,Wen,Thu,Fri,Sat};
 /*
@@ -90,14 +89,14 @@ void ClockDispTime()
 void ClockDispStatic()
 {
   GLCD.ClearScreen();
-  GLCD.DrawHoriLine(0, 8, 127, BLACK);//верхний сепаратор
-  GLCD.DrawHoriLine(0, 54, 127, BLACK);//нижний сепаратор
+  GLCD.DrawHLine(0, 8, 127, BLACK);//верхний сепаратор
+  GLCD.DrawHLine(0, 54, 127, BLACK);//нижний сепаратор
   GLCD.CursorTo(0,7);
   GLCD.Puts("  <    -    +     >  ");//кнопки
   //Сепараторы между кнопками
-  GLCD.DrawVertLine(30, 55, 8, BLACK);
-  GLCD.DrawVertLine(60, 55, 8, BLACK);
-  GLCD.DrawVertLine(90, 55, 8, BLACK);
+  GLCD.DrawVLine(30, 55, 8, BLACK);
+  GLCD.DrawVLine(60, 55, 8, BLACK);
+  GLCD.DrawVLine(90, 55, 8, BLACK);
   GLCD.InvertRect(0, 55, 127, 8);//Хуета в кнопках(или кнопки в хуете?)
   GLCD.CursorTo(0,0);//ставим курсор
   GLCD.Puts("Data/Time setup");
@@ -114,13 +113,13 @@ void ClockDispStatic()
 }
 void dispDraw()//Рисует сепараторы, и кнопки
 {
-  GLCD.DrawHoriLine(0, 54, 127, BLACK);//верхний сепаратор
+  GLCD.DrawHLine(0, 54, 127, BLACK);//верхний сепаратор
   GLCD.CursorTo(0,7);
   GLCD.Puts("  <    -    +     >  ");//кнопки
   //Сепараторы между кнопками
-  GLCD.DrawVertLine(30, 55, 8, BLACK);
-  GLCD.DrawVertLine(60, 55, 8, BLACK);
-  GLCD.DrawVertLine(90, 55, 8, BLACK);
+  GLCD.DrawVLine(30, 55, 8, BLACK);
+  GLCD.DrawVLine(60, 55, 8, BLACK);
+  GLCD.DrawVLine(90, 55, 8, BLACK);
   GLCD.InvertRect(0, 55, 127, 8);//Нижний Сепаратор
 }
 
@@ -225,56 +224,57 @@ void clockCursor(uint8_t cursorSt)
     GLCD.InvertRect(7, 56, 16, 6);
     break;
   case 1://seconds
-    GLCD.DrawHoriLine(48,47, 10, BLACK);
+    GLCD.DrawHLine(48,47, 10, BLACK);
     break;
   case 2://minutes
-    GLCD.DrawHoriLine(29,47, 10, BLACK);
+    GLCD.DrawHLine(29,47, 10, BLACK);
     break;
   case 3://hour
-    GLCD.DrawHoriLine(12,47, 10, BLACK);
+    GLCD.DrawHLine(12,47, 10, BLACK);
     break;
   case 4://dow
-    GLCD.DrawHoriLine(78,31, 15, BLACK);
+    GLCD.DrawHLine(78,31, 15, BLACK);
     break;
   case 5://day
-    GLCD.DrawHoriLine(12,31, 10, BLACK);
+    GLCD.DrawHLine(12,31, 10, BLACK);
     break;
   case 6://mounth
-    GLCD.DrawHoriLine(29,31, 10, BLACK);
+    GLCD.DrawHLine(29,31, 10, BLACK);
     break;
   case 7://year
-    GLCD.DrawHoriLine(48,31, 24, BLACK);
+    GLCD.DrawHLine(48,31, 24, BLACK);
     break;
   }
 }
 
 
-void setup()
+void clockSetup(uint8_t argc, uint8_t *argv)
 {
-  DDRB=B00000000;
+	Buttons.Add(clockButtonsHandler);
   // Serial.begin(9600);
-  GLCD.Init(NON_INVERTED);   // initialise the library, non inverted writes pixels onto a clear screen
   GLCD.ClearScreen();  
-  GLCD.SelectFont(System5x7);
-}
+ }
 
-void loop()
+void clockButtonsHandler(uint8_t button)
 {
   RTC.get(rtc,true);//получаем данные часов
-  switch (buttonsStat())
+  switch (button)
   {
-  case 3://кнопка  +
-  ClockUpButton(rtcState);
-    break;
-  case 1://кнопка  <
-  if (rtcState>0) rtcState--;
-    break;
-  case 2://-
-    ClockDownButton(rtcState);
-    break;
-  case 4://>
-    if (rtcState<7) rtcState++;
-    break;      
+	  case BUTTONUP://кнопка  +
+	  ClockUpButton(rtcState);
+		break;
+	  case BUTTONLEFT://кнопка  <
+	  if (rtcState>0) rtcState--;
+		break;
+	  case BUTTONDOWN://-
+		ClockDownButton(rtcState);
+		break;
+	  case BUTTONRIGHT://>
+		if (rtcState<7) rtcState++;
+		break;
+	case BUTTONRETURN:
+		Task.ActiveApp = 0;
+		break;      
   }
   ClockDispStatic();//рисуем статику
   ClockDispData();//пишем дату
@@ -285,29 +285,4 @@ void loop()
 
 
 
-//Обработчик кнопок
-uint8_t buttonsStat()
-{
-  uint8_t button=0;
-  uint8_t buttons=(~PINB)&B00001111;
-  if (buttons)
-  {
-    switch (buttons)
-    {
-    case 1://кнопка  +
-      button=3;
-      break;
-    case 2://кнопка  > 
-      button=4;
-      break;
-    case 4://кнопка  <
-      button=1;
-      break;
-    case 8://кнопка  -
-      button=2;
-      break;
-    }
-  }
-  return button;
-}
 

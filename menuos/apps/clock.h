@@ -14,6 +14,33 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef CLOCK_H_
 #define CLOCK_H_
 
+#include "hw/hwi.h"
+
+#include "hw/driver/i2c/Wire.h"
+#include "hw/driver/DS1307.h"
+
+#include "menuos/MTask.h"
+#include "menuos/buttons.h"
+
+void clockSetup(uint8_t argc, uint8_t *argv);
+
+void clockButtonsHandler(uint8_t button);
+
+void clockCursor(uint8_t cursorSt);
+
+void ClockDownButton(uint8_t cursorSt);
+
+void ClockUpButton(uint8_t cursorSt);
+
+void dispDraw();
+
+void ClockDispStatic();
+
+void ClockDispTime();
+
+void ClockDispData();
+
+
 
 
 

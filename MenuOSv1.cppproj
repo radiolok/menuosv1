@@ -163,10 +163,22 @@
     <Compile Include="MenuOSv1.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="menuos\apps\clock.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\apps\clock.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menuos\buttons.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="menuos\buttons.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\driver\DS1307.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\driver\DS1307.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="menuos\hw\driver\files\hwfile.cpp">
@@ -313,6 +325,18 @@
     <Compile Include="menuos\hw\driver\disp\tlcd\ElectroLCD.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="menuos\hw\driver\i2c\twi.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\driver\i2c\twi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\driver\i2c\Wire.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\driver\i2c\Wire.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menuos\hw\hwdef.h">
       <SubType>compile</SubType>
     </Compile>
@@ -337,12 +361,6 @@
     <Compile Include="menuos\util\uart.h">
       <SubType>compile</SubType>
     </Compile>
-    <None Include="menuos\clock.cpp">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="menuos\clock.h">
-      <SubType>compile</SubType>
-    </None>
     <Compile Include="menuos\config.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -379,6 +397,7 @@
     <Folder Include="menuos\hw\" />
     <Folder Include="menuos\hw\driver\" />
     <Folder Include="menuos\hw\driver\files\" />
+    <Folder Include="menuos\hw\driver\i2c\" />
     <Folder Include="menuos\hw\driver\kb\" />
     <Folder Include="menuos\hw\driver\disp" />
     <Folder Include="menuos\hw\driver\disp\glcd" />
@@ -388,6 +407,7 @@
     <Folder Include="menuos\hw\driver\disp\glcd\fonts" />
     <Folder Include="menuos\hw\driver\disp\glcd\include" />
     <Folder Include="menuos\hw\driver\disp\tlcd" />
+    <Folder Include="menuos\apps" />
     <Folder Include="menuos\util\" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

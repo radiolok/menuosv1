@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "MTask.h"
 #include "hw/hwi.h"
 
+#include "apps/clock.h"
+
 
 class MMenu{
 	private:

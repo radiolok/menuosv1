@@ -248,7 +248,8 @@ void MMenu::AppStart(void){
 		Task.ActiveApp = 1;//app should release AtiveApp to zero itself
 	}
 	switch (file.mode1){//AppNumber
-		case 1:
+		case 3:
+		clockSetup(level, brCrumbs);
 		break;
 		default:
 			Task.ActiveApp = 0;		
