@@ -36,6 +36,7 @@ MMenu::~MMenu(){
 //Configure system
 uint8_t MMenu::Setup(){
 	//Prepare display with text LCD
+	level = 0;
 	HwDispSetup();
 	
 	SetButtons();
@@ -248,6 +249,9 @@ void MMenu::AppStart(void){
 		Task.ActiveApp = 1;//app should release AtiveApp to zero itself
 	}
 	switch (file.mode1){//AppNumber
+		case 2:
+			SampleApp.Setup(level, brCrumbs);
+		break;
 		case 3:
 			Clock.Setup(level, brCrumbs);
 		break;

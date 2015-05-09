@@ -23,13 +23,15 @@ void buttons::Setup(uint32_t period){
 
 
 void buttons::Clear(void){//clear slots
-  for (uint8_t _i = 0; _i < HwButtonsCount(); _i++)
+  for (uint8_t _i = 0; _i < HwButtonsCount(); _i++){
     buttslot[_i] = 0;
+  }
 }
 
 void buttons::Add(void (*_f)(uint8_t)){//connect only zero slot. Any button call one function
-  for (uint8_t _i = 0; _i < HwButtonsCount(); _i++)
+  for (uint8_t _i = 0; _i < HwButtonsCount(); _i++){
 	 buttslot[_i] = _f;
+  }
 }
 
 void buttons::Add(uint8_t _slot, void (*_f)(uint8_t)){//button for separate function

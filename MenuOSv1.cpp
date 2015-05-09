@@ -21,12 +21,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "menuos/MTask.h"//TManager Setup
 #include "menuos/buttons.h"//buttons Setup
 #include "menuos/menu.h"
+#include "menuos/apps/sampleapp.h"
 
 //Define system classes
 MTask Task;
 buttons Buttons;
 MMenu Menu;
 MClock Clock;
+sampleapp SampleApp;
 
 
 int main(void)

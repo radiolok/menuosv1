@@ -169,6 +169,12 @@
     <Compile Include="menuos\apps\clock.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="menuos\apps\sampleapp.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\apps\sampleapp.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menuos\buttons.cpp">
       <SubType>compile</SubType>
     </Compile>

@@ -19,6 +19,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "hw/hwi.h"
 
 #include "apps/clock.h"
+#include "apps/sampleapp.h"
 
 
 class MMenu{
