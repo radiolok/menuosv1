@@ -38,7 +38,6 @@ uint8_t MClock::Setup(uint8_t argc, uint8_t *argv)
 	Buttons.Add(ClockButtonsHandler);
 	GLCD.ClearScreen();
 	RTC.get(rtc,true);//получаем данные часов
-	RTC.stop();
 	DrawStatic();//рисуем статику
 	DrawDate();//пишем дату
 	DrawTime();//Пишем время
@@ -54,7 +53,7 @@ void ClockButtonsHandler(uint8_t button)
 }
 
 uint8_t MClock::ButtonsLogic(uint8_t button){
-	
+	RTC.get(rtc,true);//получаем данные часов
 	switch (button){
 		case BUTTONLEFT:
 		 log_trace("Button Left");
@@ -159,52 +158,48 @@ void MClock::DrawStatic()
 
 void MClock::ButtonUp()
 {
+  RTC.stop();
   switch (cursorSt)
   {
-  case 0:
-    Return();
-    break;
-  case 1://секунды
-    if (rtc[0]<59) 
-		rtc[0]++;
-    else 
-		rtc[0]=0;
-    break;
-  case 2://минуты
-    if (rtc[1]<59) 
-		rtc[1]++;
-    else 
-		rtc[1]=0;
-    break;
-  case 3://часы
-    if (rtc[2]<23) 
-		rtc[2]++;
-    else 
-		rtc[2]=0;
-    break;
-  case 4://дни недели
-    if (rtc[3]<7) 
-		rtc[3]++;
-    else 
-		rtc[3]=1;
-    break;
-  case 5://день
-    if (rtc[4]<31) 
-		rtc[4]++;
-    else 
-		rtc[4]=1;
-    break;
-  case 6://месяц
-    if (rtc[5]<12) 
-		rtc[5]++;
-    else 
-		rtc[5]=1;
-    break;
-  case 7://год
-    if (rtc[6] < 2038)
-		rtc[6]++;	
-    break;
+	  case 0:
+	  Return();
+	  break;
+	  case 1://секунды
+	  if (rtc[0]<59) rtc[0]++;
+	  else rtc[0]=0;
+	  RTC.set(0,rtc[0]);
+	  break;
+	  case 2://минуты
+	  if (rtc[1]<59) rtc[1]++;
+	  else rtc[1]=0;
+	  RTC.set(1,rtc[1]);
+	  break;
+	  case 3://часы
+	  if (rtc[2]<23) rtc[2]++;
+	  else rtc[2]=0;
+	  RTC.set(2,rtc[2]);
+	  break;
+	  case 4://дни недели
+	  if (rtc[3]<7) rtc[3]++;
+	  else rtc[3]=1;
+	  RTC.set(3,rtc[3]);
+	  break;
+	  case 5://день
+	  if (rtc[4]<31) rtc[4]++;
+	  else rtc[4]=1;
+	  RTC.set(4,rtc[4]);
+	  break;
+	  case 6://месяц
+	  if (rtc[5]<12) rtc[5]++;
+	  else rtc[5]=1;
+	  RTC.set(5,rtc[5]);
+	  break;
+	  case 7://год
+	  rtc[6]++;
+	  RTC.set(6,rtc[6]-2000);
+	  break;
   }
+  RTC.start();
 }
 
 
@@ -241,69 +236,54 @@ void MClock::DrawCursor()
 
 void MClock::ButtonDown()
 {
+  RTC.stop();
   switch (cursorSt)
   {
-  case 0:
-    Return();
-    break;
-  case 1://секунды
-    if (rtc[0]>0) 
-		rtc[0]--;
-    else 
-		rtc[0]=59;
-    
-    break;
-  case 2://минуты
-    if (rtc[1]>0) 
-		rtc[1]--;
-    else 
-		rtc[1]=59;
-    
-    break;
-  case 3://часы
-    if (rtc[2]>0) 
-		rtc[2]--;
-    else 
-		rtc[2]=23;    
-    break;
-  case 4://дни недели
-    if (rtc[3]>1) 
-		rtc[3]--;
-    else 
-		rtc[3]=7;    
-    break;
-  case 5://день
-    if (rtc[4]>1) 
-		rtc[4]--;
-    else 
-		rtc[4]=31;
-    break;
-  case 6://месяц
-    if (rtc[5]>1) 
-		rtc[5]--;
-    else 
-		rtc[5]=12;
-    break;
-  case 7://год
-    if (rtc[6]>2000) 
-		rtc[6]--;   
-    break;
+	  case 0:
+	  Return();
+	  break;
+	  case 1://секунды
+	  if (rtc[0]>0) rtc[0]--;
+	  else rtc[0]=59;
+	  RTC.set(0,rtc[0]);
+	  break;
+	  case 2://минуты
+	  if (rtc[1]>0) rtc[1]--;
+	  else rtc[1]=59;
+	  RTC.set(1,rtc[1]);
+	  break;
+	  case 3://часы
+	  if (rtc[2]>0) rtc[2]--;
+	  else rtc[2]=23;
+	  RTC.set(2,rtc[2]);
+	  break;
+	  case 4://дни недели
+	  if (rtc[3]>1) rtc[3]--;
+	  else rtc[3]=7;
+	  RTC.set(3,rtc[3]);
+	  break;
+	  case 5://день
+	  if (rtc[4]>1) rtc[4]--;
+	  else rtc[4]=31;
+	  RTC.set(4,rtc[4]);
+	  break;
+	  case 6://месяц
+	  if (rtc[5]>1) rtc[5]--;
+	  else rtc[5]=12;
+	  RTC.set(5,rtc[5]);
+	  break;
+	  case 7://год
+	  if (rtc[6]>2000) rtc[6]--;
+	  RTC.set(6,rtc[6]-2000);
+	  break;
   }
- 
+  RTC.start();
 }
 
 
 
 void MClock::Return(){
-	RTC.set(0,rtc[0]);
-	RTC.set(1,rtc[1]);
-	RTC.set(2,rtc[2]);
-	RTC.set(3,rtc[3]);
-	RTC.set(4,rtc[4]);
-	RTC.set(5,rtc[5]);
-	RTC.set(6,rtc[6]-2000);
-	RTC.start();
-	Buttons.Clear();
+
 	Task.ActiveApp = 0;	
 }
 

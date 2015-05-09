@@ -53,7 +53,6 @@ static const PROGMEM int16_t configsLimit[] = {
 	0,0,0,// config  0
 	2,-8099,8096,//config 1
 	4,1,48,//config	2
-	
 };
 
 

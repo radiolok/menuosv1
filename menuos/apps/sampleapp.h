@@ -20,9 +20,10 @@ class sampleapp
 public:
 	uint8_t  Setup(uint8_t argc, uint8_t *argv);
 	uint8_t  ButtonsLogic(uint8_t button);
+	uint8_t TaskLogic(void);
 protected:
 private:
-
+	uint8_t tick;
 	void Return();
 
 //functions
@@ -36,5 +37,7 @@ private:
 extern sampleapp SampleApp;
 
 void SampleAppButtonsHandler(uint8_t button);
+
+void SampleAppTaskHandler();
 
 #endif //__SAMPLEAPP_H__

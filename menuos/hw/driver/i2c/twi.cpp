@@ -69,9 +69,6 @@ void twi_init(void)
   cbi(TWSR, TWPS1);
   TWBR = ((CPU_FREQ / TWI_FREQ) - 16) / 2;
   
-  DDRB|=_BV(PB4);
-  
-  PORTB|=_BV(PB4);
   //init internal pull-ups:
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega640__)
 
@@ -330,7 +327,6 @@ void twi_releaseBus(void)
 }
 
 ISR(TWI_vect){
-	PORTB = PINB^0x10;
   switch(TW_STATUS){
     // All Master
     case TW_START:     // sent start condition
