@@ -35,10 +35,10 @@ MClock::~MClock(){
 
 uint8_t MClock::Setup(uint8_t argc, uint8_t *argv)
 {
-	RTC.stop();
-	RTC.get(rtc,true);//получаем данные часов
 	Buttons.Add(ClockButtonsHandler);
 	GLCD.ClearScreen();
+	RTC.get(rtc,true);//получаем данные часов
+	RTC.stop();
 	DrawStatic();//рисуем статику
 	DrawDate();//пишем дату
 	DrawTime();//Пишем время
@@ -55,6 +55,7 @@ void ClockButtonsHandler(uint8_t button)
 
 uint8_t MClock::ButtonsLogic(uint8_t button){
 	switch (button){
+	log_trace("Button Left");
 		case BUTTONLEFT:
 			cursorSt--;
 			if (cursorSt < 0){
@@ -62,20 +63,24 @@ uint8_t MClock::ButtonsLogic(uint8_t button){
 			}			
 		break;
 		case BUTTONRIGHT:
+			log_trace("Button Right");
 			cursorSt++;
 				if (cursorSt > 7){
 					cursorSt = 0;
 				}
 		break;
 		case BUTTONRETURN:
+			log_trace("Return");
 			Return();
 		break;
 		//Menu start from top to bottom, so we has inverted buttons implementation
 		case BUTTONUP:
-			ButtonDown();
+			log_trace("Button Up");
+			ButtonUp();
 		break;
 		case BUTTONDOWN:
-			ButtonUp();
+			log_trace("Button Down");
+			ButtonDown();
 		break;
 		default:
 		
@@ -91,6 +96,10 @@ uint8_t MClock::ButtonsLogic(uint8_t button){
 
 void MClock::DrawDate()
 {
+	GLCD.CursorTo(2,2);//ставим курсор
+	GLCD.Puts("Date");
+	GLCD.CursorTo(4,3);//ставим курсор
+	GLCD.Puts("/  /");
   if(rtc[4]<10)
     GLCD.CursorTo(3,3);
   else  
@@ -109,7 +118,11 @@ void MClock::DrawDate()
 
 void MClock::DrawTime()
 {
-  if(rtc[2]<10)
+  GLCD.CursorTo(2,4);//ставим курсор
+  GLCD.Puts("Time");
+  GLCD.CursorTo(4,5);//ставим курсор
+  GLCD.Puts("h  m  s");
+ if(rtc[2]<10)
     GLCD.CursorTo(3,5);
   else  
     GLCD.CursorTo(2,5);
@@ -140,16 +153,6 @@ void MClock::DrawStatic()
   GLCD.InvertRect(0, 55, 127, 8);
   GLCD.CursorTo(0,0);//ставим курсор
   GLCD.Puts("Data/Time setup");
-  GLCD.CursorTo(2,2);//ставим курсор
-  GLCD.Puts("Date");
-  GLCD.CursorTo(4,3);//ставим курсор
-  GLCD.Puts("/  /");
-  GLCD.CursorTo(2,4);//ставим курсор
-  GLCD.Puts("Time");
-  GLCD.CursorTo(4,5);//ставим курсор
-  GLCD.Puts("h  m  s");
-  //GLCD.Puts(datatime);//пишем
-
 }
 
 
@@ -299,6 +302,7 @@ void MClock::Return(){
 	RTC.set(5,rtc[5]);
 	RTC.set(6,rtc[6]-2000);
 	RTC.start();
+	Buttons.Clear();
 	Task.ActiveApp = 0;	
 }
 

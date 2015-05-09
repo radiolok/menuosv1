@@ -140,9 +140,6 @@ uint8_t twi_readFrom(uint8_t address, uint8_t* data, uint8_t length)
 
   // send start condition
   TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT) | _BV(TWSTA);
-  
-  dbg_trace_val("wire:read:TWCR:",TWCR);
-
   // wait for read operation to complete
   while(TWI_MRX == twi_state){
     continue;
@@ -208,8 +205,7 @@ uint8_t twi_writeTo(uint8_t address, uint8_t* data, uint8_t length, uint8_t wait
   
 	  // send start condition
 	  TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT) | _BV(TWSTA);
-	  dbg_trace_val("wire:write:TWCR:",TWCR);
-	  // wait for write operation to complete
+	    // wait for write operation to complete
 	  while((TWI_MTX == twi_state)){
 		continue;
 	  }
@@ -256,8 +252,7 @@ uint8_t status = 0;
   for(i = 0; i < length; ++i){
     twi_txBuffer[i] = data[i];
   }
-  dbg_trace_val("TWI:Transmit:",status);
-  return status;
+   return status;
 }
 
 /* 

@@ -34,12 +34,12 @@ sampleapp SampleApp;
 int main(void)
 {
 	sei();
+	uart_init( UART_BAUD_SELECT(UART0_BAUD_RATE,F_CPU));
 
 	Buttons.Setup(100);
 	Task.Setup();
-	Menu.Setup();
-		
-	uart_init( UART_BAUD_SELECT(UART0_BAUD_RATE,F_CPU));
+	Menu.Setup();		
+
 	log_trace("System started");
 	Menu.Return();
 	Task.Start();//never turn back

@@ -112,7 +112,7 @@ void MMenu::ButtonLeft(){
 }
 
 void MMenu::ButtonRight(){
-	log_trace("Button Up");
+	log_trace("Button Right");
 	//define type of current folder
 	uint8_t newfilenum = 0;
 	switch (file.type){

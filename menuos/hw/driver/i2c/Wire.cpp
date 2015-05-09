@@ -123,7 +123,6 @@ uint8_t TwoWire::endTransmission(void)
 // or after beginTransmission(address)
 void TwoWire::send(uint8_t data)
 {
-	dbg_trace_txt("TWI:","Send");
   if(transmitting){
   // in master transmitter mode
     // don't bother if buffer is full
