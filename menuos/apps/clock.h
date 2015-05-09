@@ -39,7 +39,7 @@ void DrawTime();
 
 void DrawDate();
 
-void DrawCursor();		
+void DrawCursor();			
 	
 private:
 
