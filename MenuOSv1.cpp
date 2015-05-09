@@ -26,6 +26,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 MTask Task;
 buttons Buttons;
 MMenu Menu;
+MClock Clock;
 
 
 int main(void)

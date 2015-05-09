@@ -14,7 +14,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "clock.h"
 
 
-//char[][]={Sun,Mon,Tue,Wen,Thu,Fri,Sat};
+static char weekday[8][4]={"Nul","Mon","Tue","Wen","Thu","Fri","Sat","Sun"};
 /*
 Программа установки времени
  время отображается так:
@@ -23,11 +23,67 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  Date:
  00/00/0000 Mon
  */
-uint8_t workType;
-uint8_t rtcState;//местоположение курсора
-int rtc[7];
 
-void ClockDispData()
+
+MClock::MClock(){
+	
+}
+
+MClock::~MClock(){
+	
+}
+
+uint8_t MClock::Setup(uint8_t argc, uint8_t *argv)
+{
+	Buttons.Add(ClockButtonsHandler);
+	GLCD.ClearScreen();
+	DrawStatic();//рисуем статику
+	DrawDate();//пишем дату
+	DrawTime();//Пишем время
+	DrawCursor();
+	
+	return 0;
+}
+
+
+void ClockButtonsHandler(uint8_t button)
+{
+	Clock.ButtonsLogic(button);
+}
+
+uint8_t MClock::ButtonsLogic(uint8_t button){
+	RTC.get(rtc,true);//получаем данные часов
+	switch (button){
+		case BUTTONLEFT:
+		cursorSt--;
+		if (cursorSt < 0)
+		break;
+		case BUTTONRIGHT:
+		cursorSt++;
+		break;
+		case BUTTONRETURN:
+		Return();
+		break;
+		//Menu start from top to bottom, so we has inverted buttons implementation
+		case BUTTONUP:
+		ButtonDown();
+		break;
+		case BUTTONDOWN:
+		ButtonUp();
+		break;
+		default:
+		
+		break;
+		
+	}
+	DrawStatic();//рисуем статику
+	DrawDate();//пишем дату
+	DrawTime();//Пишем время
+	DrawCursor();
+	return 0;
+}
+
+void MClock::DrawDate()
 {
   if(rtc[4]<10)
     GLCD.CursorTo(3,3);
@@ -42,32 +98,10 @@ void ClockDispData()
   GLCD.CursorTo(8,3);
   GLCD.PrintNumber(rtc[6]);//годы
   GLCD.CursorTo(13,3);
-  switch (rtc[3])
-  {
-  case 1:
-    GLCD.Puts("Mon");
-    break;
-  case 2:
-    GLCD.Puts("Tue");
-    break;
-  case 3:
-    GLCD.Puts("Wen");
-    break;
-  case 4:
-    GLCD.Puts("Thu");
-    break;
-  case 5:
-    GLCD.Puts("Fri");
-    break;
-  case 6:
-    GLCD.Puts("Sat");
-    break;
-  case 7:
-    GLCD.Puts("Sun");
-    break;
-  }
+  GLCD.Puts(weekday[rtc[3]]);
 }
-void ClockDispTime()
+
+void MClock::DrawTime()
 {
   if(rtc[2]<10)
     GLCD.CursorTo(3,5);
@@ -86,7 +120,7 @@ void ClockDispTime()
   GLCD.PrintNumber(rtc[0]);//секунды
 
 }
-void ClockDispStatic()
+void MClock::DrawStatic()
 {
   GLCD.ClearScreen();
   GLCD.DrawHLine(0, 8, 127, BLACK);//верхний сепаратор
@@ -97,7 +131,7 @@ void ClockDispStatic()
   GLCD.DrawVLine(30, 55, 8, BLACK);
   GLCD.DrawVLine(60, 55, 8, BLACK);
   GLCD.DrawVLine(90, 55, 8, BLACK);
-  GLCD.InvertRect(0, 55, 127, 8);//Хуета в кнопках(или кнопки в хуете?)
+  GLCD.InvertRect(0, 55, 127, 8);
   GLCD.CursorTo(0,0);//ставим курсор
   GLCD.Puts("Data/Time setup");
   GLCD.CursorTo(2,2);//ставим курсор
@@ -111,25 +145,15 @@ void ClockDispStatic()
   //GLCD.Puts(datatime);//пишем
 
 }
-void dispDraw()//Рисует сепараторы, и кнопки
-{
-  GLCD.DrawHLine(0, 54, 127, BLACK);//верхний сепаратор
-  GLCD.CursorTo(0,7);
-  GLCD.Puts("  <    -    +     >  ");//кнопки
-  //Сепараторы между кнопками
-  GLCD.DrawVLine(30, 55, 8, BLACK);
-  GLCD.DrawVLine(60, 55, 8, BLACK);
-  GLCD.DrawVLine(90, 55, 8, BLACK);
-  GLCD.InvertRect(0, 55, 127, 8);//Нижний Сепаратор
-}
 
-void ClockUpButton(uint8_t cursorSt)
+
+void MClock::ButtonUp()
 {
   RTC.stop();
   switch (cursorSt)
   {
   case 0:
-    workType=0;
+    Return();
     break;
   case 1://секунды
     if (rtc[0]<59) rtc[0]++;
@@ -169,13 +193,45 @@ void ClockUpButton(uint8_t cursorSt)
   RTC.start();
 }
 
-void ClockDownButton(uint8_t cursorSt)
+
+void MClock::DrawCursor()
+{
+	switch (cursorSt)
+	{
+		case 0://return
+		GLCD.InvertRect(7, 56, 16, 6);
+		break;
+		case 1://seconds
+		GLCD.DrawHLine(48,47, 10, BLACK);
+		break;
+		case 2://minutes
+		GLCD.DrawHLine(29,47, 10, BLACK);
+		break;
+		case 3://hour
+		GLCD.DrawHLine(12,47, 10, BLACK);
+		break;
+		case 4://dow
+		GLCD.DrawHLine(78,31, 15, BLACK);
+		break;
+		case 5://day
+		GLCD.DrawHLine(12,31, 10, BLACK);
+		break;
+		case 6://mounth
+		GLCD.DrawHLine(29,31, 10, BLACK);
+		break;
+		case 7://year
+		GLCD.DrawHLine(48,31, 24, BLACK);
+		break;
+	}
+}
+
+void MClock::ButtonDown()
 {
   RTC.stop();
   switch (cursorSt)
   {
   case 0:
-    workType=0;
+    Return();
     break;
   case 1://секунды
     if (rtc[0]>0) rtc[0]--;
@@ -208,7 +264,7 @@ void ClockDownButton(uint8_t cursorSt)
     RTC.set(5,rtc[5]);
     break;
   case 7://год
-    if (rtc[6]>2000) rtc[6]--;//Пшол нахуй из моего прошлого! :)
+    if (rtc[6]>2000) rtc[6]--;
     RTC.set(6,rtc[6]-2000);
     break;
   }
@@ -216,72 +272,12 @@ void ClockDownButton(uint8_t cursorSt)
 }
 
 
-void clockCursor(uint8_t cursorSt)
-{
-  switch (cursorSt)
-  {
-  case 0://return
-    GLCD.InvertRect(7, 56, 16, 6);
-    break;
-  case 1://seconds
-    GLCD.DrawHLine(48,47, 10, BLACK);
-    break;
-  case 2://minutes
-    GLCD.DrawHLine(29,47, 10, BLACK);
-    break;
-  case 3://hour
-    GLCD.DrawHLine(12,47, 10, BLACK);
-    break;
-  case 4://dow
-    GLCD.DrawHLine(78,31, 15, BLACK);
-    break;
-  case 5://day
-    GLCD.DrawHLine(12,31, 10, BLACK);
-    break;
-  case 6://mounth
-    GLCD.DrawHLine(29,31, 10, BLACK);
-    break;
-  case 7://year
-    GLCD.DrawHLine(48,31, 24, BLACK);
-    break;
-  }
+
+void MClock::Return(){
+	Task.ActiveApp = 0;	
 }
 
 
-void clockSetup(uint8_t argc, uint8_t *argv)
-{
-	Buttons.Add(clockButtonsHandler);
-  // Serial.begin(9600);
-  GLCD.ClearScreen();  
- }
-
-void clockButtonsHandler(uint8_t button)
-{
-  RTC.get(rtc,true);//получаем данные часов
-  switch (button)
-  {
-	  case BUTTONUP://кнопка  +
-	  ClockUpButton(rtcState);
-		break;
-	  case BUTTONLEFT://кнопка  <
-	  if (rtcState>0) rtcState--;
-		break;
-	  case BUTTONDOWN://-
-		ClockDownButton(rtcState);
-		break;
-	  case BUTTONRIGHT://>
-		if (rtcState<7) rtcState++;
-		break;
-	case BUTTONRETURN:
-		Task.ActiveApp = 0;
-		break;      
-  }
-  ClockDispStatic();//рисуем статику
-  ClockDispData();//пишем дату
-  ClockDispTime();//Пишем время
-  clockCursor(rtcState);
-  _delay_ms(250);
-}
 
 
 

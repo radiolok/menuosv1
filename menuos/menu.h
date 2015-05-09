@@ -127,7 +127,7 @@ extern MMenu Menu;
  *  
  *  \details called every time, if button is pressed
  */
-void MenuButtonsHandler(void);
+void MenuButtonsHandler(uint8_t button);
 
 /**
  *  \brief Task function handlaer for automaticaly returning to menu

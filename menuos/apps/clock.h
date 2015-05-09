@@ -22,27 +22,39 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "menuos/MTask.h"
 #include "menuos/buttons.h"
 
-void clockSetup(uint8_t argc, uint8_t *argv);
+class MClock{
+public:
 
-void clockButtonsHandler(uint8_t button);
+MClock();
 
-void clockCursor(uint8_t cursorSt);
+~MClock();
 
-void ClockDownButton(uint8_t cursorSt);
+uint8_t Setup(uint8_t argc, uint8_t *argv);
 
-void ClockUpButton(uint8_t cursorSt);
+uint8_t ButtonsLogic(uint8_t button);
 
-void dispDraw();
+void DrawStatic();
 
-void ClockDispStatic();
+void DrawTime();
 
-void ClockDispTime();
+void DrawDate();
 
-void ClockDispData();
+void DrawCursor();		
+	
+private:
 
+	void ButtonDown();
 
+	void ButtonUp();
+	
+	void Return();
+	
+	uint8_t cursorSt;
+	int rtc[8];
+};
+extern MClock Clock;
 
-
+void ClockButtonsHandler(uint8_t button);
 
 
 #endif /* CLOCK_H_ */

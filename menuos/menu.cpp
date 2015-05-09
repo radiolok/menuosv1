@@ -249,7 +249,7 @@ void MMenu::AppStart(void){
 	}
 	switch (file.mode1){//AppNumber
 		case 3:
-		clockSetup(level, brCrumbs);
+			Clock.Setup(level, brCrumbs);
 		break;
 		default:
 			Task.ActiveApp = 0;		
