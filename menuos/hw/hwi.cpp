@@ -23,7 +23,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  uint8_t HwButtonsSetup(uint8_t mode){
 	#if defined (RLN_ELECTRO_2012_SE)
 		BUTTONSDDR&=~BUTTONSMASK;//input
-		BUTTONSPORT=BUTTONSMASK;//setup buttons port pull-up
+		BUTTONSPORT = BUTTONSMASK;//setup buttons port pull-up
 	#else
 		#error "undefined board"
 	#endif
@@ -32,7 +32,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  
  uint8_t HwButtonsState(uint8_t mode){
 	//inverted, because pressed button return zero.
-	return(~BUTTONSPIN)&BUTTONSMASK;
+	return (~BUTTONSPIN)&BUTTONSMASK;
  }
  
 

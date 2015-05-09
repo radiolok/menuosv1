@@ -32,6 +32,8 @@ void buttons::Clear(void){//clear slots
 void buttons::Add(void (*_f)(uint8_t)){//connect only zero slot. Any button call one 	
 	uint8_t slots = HwButtonsCount();
 	for (uint8_t _i = 0; _i < slots; _i++){
+		log_trace_val("Slot:", _i);
+		log_trace_val("Handler:", _f);
 	 buttslot[_i] = _f;
   }
 }
@@ -43,17 +45,21 @@ void buttons::Add(uint8_t _slot, void (*_f)(uint8_t)){//button for separate func
 }
 
 void buttons::Search(uint32_t time){//Tmanager function
+	uint8_t slots = HwButtonsCount();
+	uint8_t buttonscurrstate = HwButtonsState(0);
 	//update buttons every some time, with overflow prevention
 	if (abs(time - lastupdatetime) > updatetime){
-		uint8_t buttonscurrstate = HwButtonsState(0);
 		if (buttonscurrstate)//if any button was pressed
 			{ //check all buttons slot
-			for (uint8_t buttonslot = 0; buttonslot < HwButtonsCount(); buttonslot++)
+				log_trace_val("HwButtonState:",buttonscurrstate);
+			for (uint8_t buttonslot = 0; buttonslot < slots ; buttonslot++)
 				{//detect edge only
 				if ((buttonscurrstate&(1 << buttonslot)) && (!(buttonoldstate&(1 << buttonslot))))
 				{
-					if (buttslot[buttonslot])
+					log_trace_val("Slot:",buttonslot);
+					if (buttslot[buttonslot]);
 					{
+						log_trace_val("Handler:", buttslot[buttonslot]);
 						(*buttslot[buttonslot])(buttonscurrstate&(1 << buttonslot));
 					}
 				}

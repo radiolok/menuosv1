@@ -41,7 +41,6 @@ int main(void)
 	Menu.Setup();		
 
 	log_trace("System started");
-	Menu.Return();
 	Task.Start();//never turn back
 
 	

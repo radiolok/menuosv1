@@ -54,9 +54,10 @@ void ClockButtonsHandler(uint8_t button)
 }
 
 uint8_t MClock::ButtonsLogic(uint8_t button){
+	
 	switch (button){
-	log_trace("Button Left");
 		case BUTTONLEFT:
+		 log_trace("Button Left");
 			cursorSt--;
 			if (cursorSt < 0){
 				cursorSt = 7;

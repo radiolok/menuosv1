@@ -49,7 +49,7 @@ private:
 	
 	void Return();
 	
-	int8_t cursorSt;
+	uint8_t cursorSt;
 	int rtc[8];
 };
 extern MClock Clock;

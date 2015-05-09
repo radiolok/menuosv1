@@ -32,7 +32,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  #define BUTTONSPORT PORTB
  #define BUTTONSPIN PINB
  #define BUTTONSMASK 0x1F
- #define BSLOTS 6
+ #define BSLOTS 5
  
  /**Button mask*/
  enum{
@@ -40,20 +40,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	BUTTONLEFT = 0x02,
 	BUTTONRIGHT = 0x10,
 	BUTTONUP = 0x08,
-	BUTTONDOWN = 0x04,
-	BUTTONENTER = 0x10
+	BUTTONDOWN = 0x04
  };
  
  /**button slot number
-  *  NOTICE: RIGHT and ENTER hase the same slot by default! MenuOS do not use ENTER button!
+  *  NOTICE: RIGHT and ENTER has the same slot by default! MenuOS do not use ENTER button!
   */
  enum{
 	BUTTONSLOTRETURN = 0,
 	BUTTONSLOTLEFT = 1,
 	BUTTONSLOTRIGHT = 2,
 	BUTTONSSLOTUP = 3,
-	BUTTONSLOTDOWN = 4,
-	BUTTONSLOTENTER = 2	
+	BUTTONSLOTDOWN = 4
  };
   
 	//configured LCD type
