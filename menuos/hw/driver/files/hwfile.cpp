@@ -30,7 +30,7 @@ static const uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
 	
 };
 
-//Массив названий
+//names array
 static PROGMEM const char file_0[] = "Root";
 static PROGMEM const char file_1[] = "Folder 1";
 static PROGMEM const char file_2[] = "Folder 2";
@@ -43,7 +43,7 @@ static PROGMEM const char file_8[] = "config 1";
 static PROGMEM const char file_9[] = "config 2";
 static PROGMEM const char file_10[] = "Date and Time";
 
-PROGMEM static const char *fileNames[]  = {
+ PGM_P const fileNames[] PROGMEM = {
 	file_0,  file_1,  file_2,  file_3,  file_4,  file_5,  file_6,  file_7,  file_8,
 	file_9, file_10
 };
