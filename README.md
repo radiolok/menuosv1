@@ -1,4 +1,9 @@
 In almost all projects with LCD display you needto create a convinient menu for configuration of devicesand launching of required applications. And it would be nice to have a ready tool for creating it. This tool enables you to concentrate on designing of the final product, not spending resources on designing interface configurator. And this article is about this tool. The project Menu OS was established in August 2010, and since that time it has been used in designing of devices of controlling and automation. Firstly the project was conceived as an open-source, but at the same time, there was an older closed version. Honestly, almost all functionality of the closed version gradually moved into the opened branch and this version of Menu OS is the most actual and constantly supported. License of the project BSD allows to create on it's basis commercial firmware. Menu OS is free, but some closed moduls are purchased and developed for a fee. 
+
+# Menu OS overview on youtube #
+
+[![MenuOS Overview](https://img.youtube.com/vi/S7zko5tAmUQ/0.jpg)](https://youtube.com/watch?v=S7zko5tAmUQ)
+
 # The structure of the system: #
 
 File is the basic unit of the system. File is characterized by a type, name and a set of 
