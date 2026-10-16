@@ -12,6 +12,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "hwdisp.h"
 
+/* Direct-drive LCDs. The terminal display lives in term/termdisp.cpp. */
+#if defined(TEXT_DISPLAY) || defined(GRAPH_DISPLAY)
+
 /*===================================================================
 					DISPLAY HW ROUTINE ACCESS
 ===================================================================*/
@@ -55,7 +58,7 @@ return 0;
 }
 
 
-uint8_t HwDispPutString(uint8_t row, uint8_t col, char* text, uint8_t length){
+uint8_t HwDispPutString(uint8_t row, uint8_t col, const char* text, uint8_t length){
 	//check stirng bound
 	if ((row >= 0) && (row < DISPSTRNUMB)){
 		#if defined(TEXT_DISPLAY)
@@ -141,3 +144,8 @@ uint8_t HwDispGetStringsNumb(void){
 uint8_t HwDispGetStringsLength(void){
 	return DISPSTRLENGTH;
 }
+
+void HwDispUpdate(void){
+}
+
+#endif /* TEXT_DISPLAY || GRAPH_DISPLAY */

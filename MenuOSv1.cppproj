@@ -175,6 +175,27 @@
     <Compile Include="menuos\apps\sampleapp.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="menuos\port\port.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\port\avr\port_avr.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\port\avr\port_avr.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\boards\rln_electro_2012.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\hw\boards\rln_electro_2012.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\util\console.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="menuos\util\console.cpp">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menuos\buttons.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -415,6 +436,9 @@
     <Folder Include="menuos\hw\driver\disp\tlcd" />
     <Folder Include="menuos\apps" />
     <Folder Include="menuos\util\" />
+    <Folder Include="menuos\port\" />
+    <Folder Include="menuos\port\avr\" />
+    <Folder Include="menuos\hw\boards\" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

@@ -15,6 +15,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "menudef.h"
 
 #include "util/log.h"
+#include "util/console.h"
 MConfig::MConfig(){
 	
 }
@@ -60,11 +61,16 @@ void MConfig::Setup(uint8_t argc, uint8_t *argv){
 	HwConfigGetData(configid, &config, shift);
 	
 	//check initial values:
-	if (config.value > config.max){
-		config.value = config.max;
+	if (config.max == 0){//Yes/No config: keep what the menu shows
+		config.value = config.value ? 1 : 0;
 	}
-	if (config.value < config.min){
-		config.value = config.min;
+	else{
+		if (config.value > config.max){
+			config.value = config.max;
+		}
+		if (config.value < config.min){
+			config.value = config.min;
+		}
 	}
 	
 	config.digit = 0;	
@@ -81,7 +87,7 @@ void MConfig::GetString(uint8_t filenumb, char* text, uint16_t shift, uint8_t mo
 		status = HwConfigGetData(file.mode1, &config, shift);
 	}
 	if (status){//shift index error
-		sprintf(text, "INDEX ERROR");
+		strcpy(text, "INDEX ERROR");
 		return;
 	}
 	AlignStr(file.name, config.value, config.max, HwDispGetStringsLength(), text);
@@ -89,9 +95,11 @@ void MConfig::GetString(uint8_t filenumb, char* text, uint16_t shift, uint8_t mo
 	return;
 }
 
-void MConfig::AlignStr(char *fname, int16_t val, uint8_t mode, uint8_t length, char *str){
+void MConfig::AlignStr(char *fname, int16_t val, int16_t mode, uint8_t length, char *str){
 	//we show full text to string
-	uint8_t symbols = sprintf(str, "%s", fname);
+	strncpy(str, fname, length);
+	str[length] = '\0';
+	uint8_t symbols = (uint8_t)strlen(str);
 	for (uint8_t i = symbols; i < length; i++){
 		str[i] = ' ';
 	}
@@ -99,7 +107,7 @@ void MConfig::AlignStr(char *fname, int16_t val, uint8_t mode, uint8_t length, c
 	char valtext[12];
 	if (mode){//numeric
 		dig = DigitsCount(val);
-		ltoa(val, valtext, 10);
+		menuos_itoa(val, valtext);
 		strcpy(str + length - dig,  valtext);
 	}
 	else{

@@ -13,11 +13,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "clock.h"
 
+#if defined(MENUOS_HAS_RTC_CLOCK)
+
 
 static char weekday[8][4]={"Nul","Mon","Tue","Wen","Thu","Fri","Sat","Sun"};
 /*
-Программа установки времени
- время отображается так:
+РџСЂРѕРіСЂР°РјРјР° СѓСЃС‚Р°РЅРѕРІРєРё РІСЂРµРјРµРЅРё
+ РІСЂРµРјСЏ РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ С‚Р°Рє:
  Time:
  00:00:00 
  Date:
@@ -37,10 +39,10 @@ uint8_t MClock::Setup(uint8_t argc, uint8_t *argv)
 {
 	Buttons.Add(ClockButtonsHandler);
 	GLCD.ClearScreen();
-	RTC.get(rtc,true);//получаем данные часов
-	DrawStatic();//рисуем статику
-	DrawDate();//пишем дату
-	DrawTime();//Пишем время
+	RTC.get(rtc,true);//РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ С‡Р°СЃРѕРІ
+	DrawStatic();//СЂРёСЃСѓРµРј СЃС‚Р°С‚РёРєСѓ
+	DrawDate();//РїРёС€РµРј РґР°С‚Сѓ
+	DrawTime();//РџРёС€РµРј РІСЂРµРјСЏ
 	DrawCursor();
 	
 	return 0;
@@ -53,7 +55,7 @@ void ClockButtonsHandler(uint8_t button)
 }
 
 uint8_t MClock::ButtonsLogic(uint8_t button){
-	RTC.get(rtc,true);//получаем данные часов
+	RTC.get(rtc,true);//РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ С‡Р°СЃРѕРІ
 	switch (button){
 		case BUTTONLEFT:
 		 log_trace("Button Left");
@@ -87,71 +89,71 @@ uint8_t MClock::ButtonsLogic(uint8_t button){
 		break;
 		
 	}
-	DrawStatic();//рисуем статику
-	DrawDate();//пишем дату
-	DrawTime();//Пишем время
+	DrawStatic();//СЂРёСЃСѓРµРј СЃС‚Р°С‚РёРєСѓ
+	DrawDate();//РїРёС€РµРј РґР°С‚Сѓ
+	DrawTime();//РџРёС€РµРј РІСЂРµРјСЏ
 	DrawCursor();
 	return 0;
 }
 
 void MClock::DrawDate()
 {
-	GLCD.CursorTo(2,2);//ставим курсор
+	GLCD.CursorTo(2,2);//СЃС‚Р°РІРёРј РєСѓСЂСЃРѕСЂ
 	GLCD.Puts("Date");
-	GLCD.CursorTo(4,3);//ставим курсор
+	GLCD.CursorTo(4,3);//СЃС‚Р°РІРёРј РєСѓСЂСЃРѕСЂ
 	GLCD.Puts("/  /");
   if(rtc[4]<10)
     GLCD.CursorTo(3,3);
   else  
     GLCD.CursorTo(2,3);
-  GLCD.PrintNumber(rtc[4]);//сутки
+  GLCD.PrintNumber(rtc[4]);//СЃСѓС‚РєРё
   if(rtc[5]<10)
     GLCD.CursorTo(6,3);
   else  
     GLCD.CursorTo(5,3);
-  GLCD.PrintNumber(rtc[5]);//месяцы
+  GLCD.PrintNumber(rtc[5]);//РјРµСЃСЏС†С‹
   GLCD.CursorTo(8,3);
-  GLCD.PrintNumber(rtc[6]);//годы
+  GLCD.PrintNumber(rtc[6]);//РіРѕРґС‹
   GLCD.CursorTo(13,3);
   GLCD.Puts(weekday[rtc[3]]);
 }
 
 void MClock::DrawTime()
 {
-  GLCD.CursorTo(2,4);//ставим курсор
+  GLCD.CursorTo(2,4);//СЃС‚Р°РІРёРј РєСѓСЂСЃРѕСЂ
   GLCD.Puts("Time");
-  GLCD.CursorTo(4,5);//ставим курсор
+  GLCD.CursorTo(4,5);//СЃС‚Р°РІРёРј РєСѓСЂСЃРѕСЂ
   GLCD.Puts("h  m  s");
  if(rtc[2]<10)
     GLCD.CursorTo(3,5);
   else  
     GLCD.CursorTo(2,5);
-  GLCD.PrintNumber(rtc[2]);//часы
+  GLCD.PrintNumber(rtc[2]);//С‡Р°СЃС‹
   if(rtc[1]<10)
     GLCD.CursorTo(6,5);
   else  
     GLCD.CursorTo(5,5);
-  GLCD.PrintNumber(rtc[1]);//минуты
+  GLCD.PrintNumber(rtc[1]);//РјРёРЅСѓС‚С‹
   if(rtc[0]<10)
     GLCD.CursorTo(9,5);
   else  
     GLCD.CursorTo(8,5);
-  GLCD.PrintNumber(rtc[0]);//секунды
+  GLCD.PrintNumber(rtc[0]);//СЃРµРєСѓРЅРґС‹
 
 }
 void MClock::DrawStatic()
 {
   GLCD.ClearScreen();
-  GLCD.DrawHLine(0, 8, 127, BLACK);//верхний сепаратор
-  GLCD.DrawHLine(0, 54, 127, BLACK);//нижний сепаратор
+  GLCD.DrawHLine(0, 8, 127, BLACK);//РІРµСЂС…РЅРёР№ СЃРµРїР°СЂР°С‚РѕСЂ
+  GLCD.DrawHLine(0, 54, 127, BLACK);//РЅРёР¶РЅРёР№ СЃРµРїР°СЂР°С‚РѕСЂ
   GLCD.CursorTo(0,7);
-  GLCD.Puts("  <    -    +     >  ");//кнопки
-  //Сепараторы между кнопками
+  GLCD.Puts("  <    -    +     >  ");//РєРЅРѕРїРєРё
+  //РЎРµРїР°СЂР°С‚РѕСЂС‹ РјРµР¶РґСѓ РєРЅРѕРїРєР°РјРё
   GLCD.DrawVLine(30, 55, 8, BLACK);
   GLCD.DrawVLine(60, 55, 8, BLACK);
   GLCD.DrawVLine(90, 55, 8, BLACK);
   GLCD.InvertRect(0, 55, 127, 8);
-  GLCD.CursorTo(0,0);//ставим курсор
+  GLCD.CursorTo(0,0);//СЃС‚Р°РІРёРј РєСѓСЂСЃРѕСЂ
   GLCD.Puts("Data/Time setup");
 }
 
@@ -164,37 +166,37 @@ void MClock::ButtonUp()
 	  case 0:
 	  Return();
 	  break;
-	  case 1://секунды
+	  case 1://СЃРµРєСѓРЅРґС‹
 	  if (rtc[0]<59) rtc[0]++;
 	  else rtc[0]=0;
 	  RTC.set(0,rtc[0]);
 	  break;
-	  case 2://минуты
+	  case 2://РјРёРЅСѓС‚С‹
 	  if (rtc[1]<59) rtc[1]++;
 	  else rtc[1]=0;
 	  RTC.set(1,rtc[1]);
 	  break;
-	  case 3://часы
+	  case 3://С‡Р°СЃС‹
 	  if (rtc[2]<23) rtc[2]++;
 	  else rtc[2]=0;
 	  RTC.set(2,rtc[2]);
 	  break;
-	  case 4://дни недели
+	  case 4://РґРЅРё РЅРµРґРµР»Рё
 	  if (rtc[3]<7) rtc[3]++;
 	  else rtc[3]=1;
 	  RTC.set(3,rtc[3]);
 	  break;
-	  case 5://день
+	  case 5://РґРµРЅСЊ
 	  if (rtc[4]<31) rtc[4]++;
 	  else rtc[4]=1;
 	  RTC.set(4,rtc[4]);
 	  break;
-	  case 6://месяц
+	  case 6://РјРµСЃСЏС†
 	  if (rtc[5]<12) rtc[5]++;
 	  else rtc[5]=1;
 	  RTC.set(5,rtc[5]);
 	  break;
-	  case 7://год
+	  case 7://РіРѕРґ
 	  rtc[6]++;
 	  RTC.set(6,rtc[6]-2000);
 	  break;
@@ -242,37 +244,37 @@ void MClock::ButtonDown()
 	  case 0:
 	  Return();
 	  break;
-	  case 1://секунды
+	  case 1://СЃРµРєСѓРЅРґС‹
 	  if (rtc[0]>0) rtc[0]--;
 	  else rtc[0]=59;
 	  RTC.set(0,rtc[0]);
 	  break;
-	  case 2://минуты
+	  case 2://РјРёРЅСѓС‚С‹
 	  if (rtc[1]>0) rtc[1]--;
 	  else rtc[1]=59;
 	  RTC.set(1,rtc[1]);
 	  break;
-	  case 3://часы
+	  case 3://С‡Р°СЃС‹
 	  if (rtc[2]>0) rtc[2]--;
 	  else rtc[2]=23;
 	  RTC.set(2,rtc[2]);
 	  break;
-	  case 4://дни недели
+	  case 4://РґРЅРё РЅРµРґРµР»Рё
 	  if (rtc[3]>1) rtc[3]--;
 	  else rtc[3]=7;
 	  RTC.set(3,rtc[3]);
 	  break;
-	  case 5://день
+	  case 5://РґРµРЅСЊ
 	  if (rtc[4]>1) rtc[4]--;
 	  else rtc[4]=31;
 	  RTC.set(4,rtc[4]);
 	  break;
-	  case 6://месяц
+	  case 6://РјРµСЃСЏС†
 	  if (rtc[5]>1) rtc[5]--;
 	  else rtc[5]=12;
 	  RTC.set(5,rtc[5]);
 	  break;
-	  case 7://год
+	  case 7://РіРѕРґ
 	  if (rtc[6]>2000) rtc[6]--;
 	  RTC.set(6,rtc[6]-2000);
 	  break;
@@ -287,8 +289,4 @@ void MClock::Return(){
 	Task.ActiveApp = 0;	
 }
 
-
-
-
-
-
+#endif /* MENUOS_HAS_RTC_CLOCK */

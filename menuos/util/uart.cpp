@@ -573,7 +573,7 @@ Returns:  none
 **************************************************************************/
 void uart_puts_p(const char *progmem_s )
 {
-    register char c;
+    char c;
     
     while ( (c = pgm_read_byte(progmem_s++)) ) 
       uart_putc(c);

@@ -17,6 +17,7 @@ void buttons::Setup(uint32_t period){
 	}
 	updatetime = period;
 	lastupdatetime = 0;
+	buttonoldstate = 0;
 	
 	Clear();//clear all slots
 }
@@ -46,14 +47,14 @@ void buttons::Search(uint32_t time){//Tmanager function
 	uint8_t slots = HwButtonsCount();
 	uint8_t buttonscurrstate = HwButtonsState(0);
 	//update buttons every some time, with overflow prevention
-	if (abs(time - lastupdatetime) > updatetime){
+	if ((uint32_t)(time - lastupdatetime) > updatetime){
 		if (buttonscurrstate)//if any button was pressed
 			{ //check all buttons slot
 			for (uint8_t buttonslot = 0; buttonslot < slots ; buttonslot++)
 				{//detect edge only
 				if ((buttonscurrstate&(1 << buttonslot)) && (!(buttonoldstate&(1 << buttonslot))))
 				{
-					if (buttslot[buttonslot]);
+					if (buttslot[buttonslot])
 					{
 						(*buttslot[buttonslot])(buttonscurrstate&(1 << buttonslot));
 					}

@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  host:
+    name: Host tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and run menu tests
+        run: make ARCH=host test
+      - name: Build simulator
+        run: make ARCH=host build/host-native/menuos-sim
+
+  avr:
+    name: AVR ${{ matrix.mcu }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        mcu: [atmega1280, atmega2560]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install avr-gcc
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-avr avr-libc binutils-avr
+          avr-gcc --version | head -1
+      - name: Build
+        run: make ARCH=avr MCU=${{ matrix.mcu }}
+      - name: Size report
+        run: |
+          echo "### AVR ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          avr-size build/avr-${{ matrix.mcu }}/menuos.elf >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menuos-avr-${{ matrix.mcu }}
+          path: |
+            build/avr-${{ matrix.mcu }}/menuos.elf
+            build/avr-${{ matrix.mcu }}/menuos.hex
+
+  msp430:
+    name: MSP430 ${{ matrix.mcu }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        mcu: [msp430g2553, msp430f2618]
+    env:
+      MSP430_GCC_VERSION: 9.3.1.2
+      MSP430_GCC_ROOT: ${{ github.workspace }}/.toolchain/msp430-gcc
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache TI MSP430-GCC
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.MSP430_GCC_ROOT }}
+          key: msp430-gcc-${{ env.MSP430_GCC_VERSION }}-linux64
+      - name: Install TI MSP430-GCC
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends p7zip-full
+          cd "$RUNNER_TEMP"
+          curl -fsSL -O "https://dr-download.ti.com/software-development/ide-configuration-compiler-or-debugger/MD-LlCjWuAbzH/${MSP430_GCC_VERSION}/msp430-gcc-full-linux-x64-installer-${MSP430_GCC_VERSION}.7z"
+          7z x "msp430-gcc-full-linux-x64-installer-${MSP430_GCC_VERSION}.7z"
+          chmod +x "msp430-gcc-full-linux-x64-installer-${MSP430_GCC_VERSION}.run"
+          "./msp430-gcc-full-linux-x64-installer-${MSP430_GCC_VERSION}.run" --prefix "$MSP430_GCC_ROOT" --mode unattended
+      - name: Add toolchain to PATH
+        run: |
+          echo "$MSP430_GCC_ROOT/bin" >> "$GITHUB_PATH"
+      - name: Build
+        run: |
+          msp430-elf-gcc --version | head -1
+          make ARCH=msp430 MCU=${{ matrix.mcu }} MSP430_GCC_ROOT="$MSP430_GCC_ROOT"
+      - name: Size report
+        run: |
+          echo "### MSP430 ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          msp430-elf-size build/msp430-${{ matrix.mcu }}/menuos.elf >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menuos-msp430-${{ matrix.mcu }}
+          path: |
+            build/msp430-${{ matrix.mcu }}/menuos.elf
+            build/msp430-${{ matrix.mcu }}/menuos.hex

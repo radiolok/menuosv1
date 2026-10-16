@@ -1,4 +1,4 @@
-/*Copyright (c) 2013, Artem Kashkanov
+/*Copyright (c) 2013-2026, Artem Kashkanov
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -13,59 +13,62 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef HW_DEF_H_
 #define HW_DEF_H_
 
-#define F_CPU 16000000ul
-
-#include <math.h>
-#include <util/delay.h>
-#include <avr/io.h>
-#include <inttypes.h>
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
+#include <stdint.h>
 #include <string.h>
-#include <avr/eeprom.h>
 #include <stdlib.h>
 
- #define RLN_ELECTRO_2012_SE
+#include "../port/port.h"
 
-//buttons are connected to this MCU port
- #define BUTTONSDDR DDRB
- #define BUTTONSPORT PORTB
- #define BUTTONSPIN PINB
- #define BUTTONSMASK 0x1F
- #define BSLOTS 5
- 
- /**Button mask*/
- enum{
-	BUTTONRETURN = 0x01,
-	BUTTONLEFT = 0x02,
-	BUTTONRIGHT = 0x10,
-	BUTTONUP = 0x08,
-	BUTTONDOWN = 0x04
- };
- 
- /**button slot number
-  *  NOTICE: RIGHT and ENTER has the same slot by default! MenuOS do not use ENTER button!
-  */
- enum{
+/*===================================================================
+					BOARD SELECTION
+  Pick a board with -DMENUOS_BOARD_xxx, otherwise a default board
+  is used for the detected architecture.
+===================================================================*/
+#if !defined(MENUOS_BOARD_RLN_ELECTRO_2012) && \
+    !defined(MENUOS_BOARD_MSP430_LAUNCHPAD) && \
+    !defined(MENUOS_BOARD_HOST_SIM)
+	#if defined(MENUOS_ARCH_AVR)
+		#define MENUOS_BOARD_RLN_ELECTRO_2012
+	#elif defined(MENUOS_ARCH_MSP430)
+		#define MENUOS_BOARD_MSP430_LAUNCHPAD
+	#else
+		#define MENUOS_BOARD_HOST_SIM
+	#endif
+#endif
+
+#if defined(MENUOS_BOARD_RLN_ELECTRO_2012)
+	#include "boards/rln_electro_2012.h"
+#elif defined(MENUOS_BOARD_MSP430_LAUNCHPAD)
+	#include "boards/msp430_launchpad.h"
+#elif defined(MENUOS_BOARD_HOST_SIM)
+	#include "boards/host_sim.h"
+#endif
+
+/*
+ * A board header must define:
+ *   BSLOTS                      number of buttons (1..8)
+ *   BUTTONRETURN..BUTTONDOWN    button masks, each equals (1 << slot)
+ *   one of TEXT_DISPLAY / GRAPH_DISPLAY / TERM_DISPLAY
+ *   DISPSTRNUMB, DISPSTRLENGTH  visible menu rows and their length
+ *   MAXDEPTH                    max menu nesting depth
+ *   CONFMAXADDRESS              size of config storage in bytes
+ */
+#if !defined(BSLOTS) || !defined(DISPSTRNUMB) || !defined(DISPSTRLENGTH) || \
+    !defined(MAXDEPTH) || !defined(CONFMAXADDRESS)
+	#error "MenuOS: board header is incomplete"
+#endif
+
+/**button slot number
+ *  NOTICE: RIGHT and ENTER has the same slot by default! MenuOS do not use ENTER button!
+ */
+enum{
 	BUTTONSLOTRETURN = 0,
 	BUTTONSLOTLEFT = 1,
 	BUTTONSLOTRIGHT = 2,
 	BUTTONSSLOTUP = 3,
 	BUTTONSLOTDOWN = 4
- };
-  
-	//configured LCD type
-	//#define TEXT_DISPLAY 
-	#define GRAPH_DISPLAY 
+};
 
-
-
-#define DISPSTRNUMB 5//display strings number.
-
-
-#define DISPSTRLENGTH 16 //stirng length
- 
-#define FILENUMB 11 //files number
 #define FILEREW  4//bytes for the file
 
 enum{
@@ -75,10 +78,6 @@ enum{
 	FILEMODE2
 };
 
-#define MAXDEPTH 4//max menu depth
-
-
-
 //used MTask slots
 #define MENUSLOT 0
 
@@ -87,11 +86,9 @@ enum{
 enum {
 	CONFVALUE,
 	CONFMIN,
-	CONFMAX	
+	CONFMAX
 };
-//define store memory space
-#define CONFMAXADDRESS 4096
 
-#define PROGVERSIONTEXT ("v1.00") //current program version string
+#define PROGVERSIONTEXT ("v1.01") //current program version string
 
 #endif /* HW_DEF_H_ */

@@ -12,78 +12,85 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "hwfile.h"
 
-static const uint8_t fileStruct[FILENUMB*FILEREW] PROGMEM =
+/*===================================================================
+					MENU TABLE
+  This is the part you edit for your own device. See docs/menu-table.md.
+
+  Every file is 4 bytes: type, parent, mode1, mode2.
+    T_FOLDER   mode1 = first child id,          mode2 = number of children
+    T_DFOLDER  mode1 = id of the repeated file,  mode2 = number of copies
+    T_APP      mode1 = application number,      mode2 = BACKGROUND or 0
+    T_CONF     mode1 = config id (row of configsLimit[])
+  Children of a folder must have consecutive ids.
+===================================================================*/
+
+#define FILENUMB 11 //files number
+
+static const uint8_t fileStruct[FILENUMB*FILEREW] MENUOS_ROM =
 {
-	T_FOLDER, 0, 1, 2,				//0
-		T_FOLDER, 0, 3, 3,			//1
-		T_FOLDER, 0, 7, 4,			//2
-			T_APP,	1, 1, 0,		//3
-			T_APP,	1, 2, 0,		//4
-			T_DFOLDER, 1, 6, 66,	//5
-				T_APP,	5, 2, 0,	//6
-			
-			T_CONF,	2, 0, 0,		//7
-			T_CONF,	2, 1, 0,		//8
-			T_CONF,	2, 2, 0,		//9
-			T_APP, 2, 3, 0			//10
-		
-	
+	T_FOLDER, 0, 1, 2,				//0  Root
+		T_FOLDER, 0, 3, 3,			//1  Folder 1
+		T_FOLDER, 0, 7, 4,			//2  Folder 2
+			T_APP,	1, 1, 0,		//3  App 1
+			T_APP,	1, 2, 0,		//4  App 2 (sample app)
+			T_DFOLDER, 1, 6, 66,	//5  Dyn Folder: 66 copies of file 6
+				T_APP,	5, 2, 0,	//6  App
+			T_CONF,	2, 0, 0,		//7  config 0 (Yes/No)
+			T_CONF,	2, 1, 0,		//8  config 1 (-8099..8096)
+			T_CONF,	2, 2, 0,		//9  config 2 (1..48)
+			T_APP, 2, 3, 0			//10 Date and Time (clock app)
 };
 
 //names array
-static PROGMEM const char file_0[] = "Root";
-static PROGMEM const char file_1[] = "Folder 1";
-static PROGMEM const char file_2[] = "Folder 2";
-static PROGMEM const char file_3[] = "App 1";
-static PROGMEM const char file_4[] = "App 2";
-static PROGMEM const char file_5[] = "Dyn Folder";
-static PROGMEM const char file_6[] = "App";
-static PROGMEM const char file_7[] = "config 0";
-static PROGMEM const char file_8[] = "config 1";
-static PROGMEM const char file_9[] = "config 2";
-static PROGMEM const char file_10[] = "Date and Time";
+static const char file_0[] MENUOS_ROM = "Root";
+static const char file_1[] MENUOS_ROM = "Folder 1";
+static const char file_2[] MENUOS_ROM = "Folder 2";
+static const char file_3[] MENUOS_ROM = "App 1";
+static const char file_4[] MENUOS_ROM = "App 2";
+static const char file_5[] MENUOS_ROM = "Dyn Folder";
+static const char file_6[] MENUOS_ROM = "App";
+static const char file_7[] MENUOS_ROM = "config 0";
+static const char file_8[] MENUOS_ROM = "config 1";
+static const char file_9[] MENUOS_ROM = "config 2";
+static const char file_10[] MENUOS_ROM = "Date and Time";
 
- PGM_P const fileNames[] PROGMEM = {
+static const char * const fileNames[FILENUMB] MENUOS_ROM = {
 	file_0,  file_1,  file_2,  file_3,  file_4,  file_5,  file_6,  file_7,  file_8,
 	file_9, file_10
 };
 
-//number of cell(step by 2), minimal value, maximum value
-static const PROGMEM int16_t configsLimit[] = {
+//storage address (bytes, step by 2), minimal value, maximum value
+//max == 0 means a Yes/No config
+static const int16_t configsLimit[] MENUOS_ROM = {
 	0,0,0,// config  0
 	2,-8099,8096,//config 1
 	4,1,48,//config	2
 };
 
-
-
 /*===================================================================
 					FILE STRUCTURE ACCESS
 ===================================================================*/
 
-
 uint8_t HwFileGetInfo(uint8_t filenumb, struct filedata *file){
-	
-	file->type = pgm_read_byte(&fileStruct[filenumb * FILEREW]);
-	file->parent = pgm_read_byte(&fileStruct[filenumb * FILEREW + 1]);
-	file->mode1 = pgm_read_byte(&fileStruct[filenumb * FILEREW + 2]);
-	file->mode2 = pgm_read_byte(&fileStruct[filenumb * FILEREW + 3]);
+	file->type = menuos_rom_byte(&fileStruct[filenumb * FILEREW]);
+	file->parent = menuos_rom_byte(&fileStruct[filenumb * FILEREW + 1]);
+	file->mode1 = menuos_rom_byte(&fileStruct[filenumb * FILEREW + 2]);
+	file->mode2 = menuos_rom_byte(&fileStruct[filenumb * FILEREW + 3]);
 	HwFileGetName(filenumb, file->name);
 	return 0;
 }
+
 uint8_t HwFileGetInfo(uint8_t filenumb, uint8_t pos){
-	return pgm_read_byte(&fileStruct[filenumb * FILEREW + pos]);
+	return menuos_rom_byte(&fileStruct[filenumb * FILEREW + pos]);
 }
 
 uint8_t HwFileGetName(uint8_t filenumb, char* name){
-	strcpy_P(name, (char*)pgm_read_word(&(fileNames[filenumb])));	
-
-	
+	menuos_rom_strcpy(name, menuos_rom_ptr(&fileNames[filenumb]));
 	return 0;
 }
 
 uint8_t HwFileGetType(uint8_t filenumb){
-	return pgm_read_byte(&fileStruct[filenumb * FILEREW]);
+	return menuos_rom_byte(&fileStruct[filenumb * FILEREW]);
 }
 
 /*===================================================================
@@ -91,23 +98,22 @@ uint8_t HwFileGetType(uint8_t filenumb){
 ===================================================================*/
 
 uint8_t HwConfigGetData(uint8_t configid, struct configdata* config, uint16_t shift){
-	uint16_t address = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFVALUE]) + shift*2;
-	if (CONFMAXADDRESS < address){
+	uint16_t address = (uint16_t)menuos_rom_word(&configsLimit[configid * CONFARRAYWIDTH+CONFVALUE]) + shift*2;
+	if (CONFMAXADDRESS <= address + 1){
 		return 1;//address error
 	}
-	config->value = eeprom_read_word ((uint16_t *)address);
-	config->min = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMIN]);
-	config->max = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMAX]);
-	
+	config->value = (int16_t)PortNvRead16(address);
+	config->min = (int16_t)menuos_rom_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMIN]);
+	config->max = (int16_t)menuos_rom_word(&configsLimit[configid * CONFARRAYWIDTH+CONFMAX]);
 	return 0;
 }
 
 uint8_t HwConfigSetData(uint8_t configid, struct configdata* config, uint16_t shift){
 	//set address
-	uint16_t address = pgm_read_word(&configsLimit[configid * CONFARRAYWIDTH+CONFVALUE]) + shift*2;
-	if (CONFMAXADDRESS < address){
+	uint16_t address = (uint16_t)menuos_rom_word(&configsLimit[configid * CONFARRAYWIDTH+CONFVALUE]) + shift*2;
+	if (CONFMAXADDRESS <= address + 1){
 		return 1;//address error!
 	}
-	eeprom_write_word ((uint16_t *) address, config->value);
+	PortNvWrite16(address, (uint16_t)config->value);
 	return 0;
 }

@@ -18,7 +18,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "MTask.h"
 #include "hw/hwi.h"
 
+#if defined(MENUOS_HAS_RTC_CLOCK)
 #include "apps/clock.h"
+#endif
 #include "apps/sampleapp.h"
 
 

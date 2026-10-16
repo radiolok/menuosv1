@@ -22,7 +22,7 @@ private:
 	
 	uint32_t lastupdatetime;
 	
-	int32_t updatetime;
+	uint32_t updatetime;
 	
 	uint8_t buttonoldstate;
 	
