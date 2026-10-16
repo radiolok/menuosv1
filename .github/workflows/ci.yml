@@ -53,7 +53,7 @@ jobs:
       matrix:
         mcu: [msp430g2553, msp430f2618]
     env:
-      MSP430_GCC_VERSION: 9.3.1.2
+      MSP430_GCC_RELEASE: 9.3.1.2
       MSP430_GCC_ROOT: ${{ github.workspace }}/.toolchain/msp430-gcc
     steps:
       - uses: actions/checkout@v7
@@ -62,7 +62,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ${{ env.MSP430_GCC_ROOT }}
-          key: msp430-gcc-${{ env.MSP430_GCC_VERSION }}-linux64-v3
+          key: msp430-gcc-${{ env.MSP430_GCC_RELEASE }}-linux64-v3
       - name: Install TI MSP430-GCC
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
