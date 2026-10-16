@@ -74,8 +74,11 @@ lists the new source files too.
 ## MSP430
 
 Toolchain: TI **MSP430-GCC** (`msp430-elf-gcc`) with its support files (device headers and
-linker scripts). Download it from TI, or reuse the commands from
-[`.github/workflows/ci.yml`](../.github/workflows/ci.yml), which installs version 9.3.1.2.
+linker scripts). Download it from TI, or use the script CI uses (needs `curl` and `7z`):
+
+```sh
+tools/ci/install-msp430-gcc.sh $HOME/ti/msp430-gcc 9.3.1.2
+```
 
 ```sh
 make ARCH=msp430 MCU=msp430g2553 MSP430_GCC_ROOT=$HOME/ti/msp430-gcc

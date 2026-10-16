@@ -11,11 +11,19 @@
 # exist no matter how TI named the top-level directory.
 set -euo pipefail
 
+# In GitHub Actions report problems as annotations, so they show up on the run page.
+fail(){
+	if [ -n "${GITHUB_ACTIONS:-}" ]; then echo "::error title=install-msp430-gcc::$*"; fi
+	echo "$*" >&2
+	exit 1
+}
+trap 'fail "line $LINENO: \"$BASH_COMMAND\" exited with $?"' ERR
+
 PREFIX=${1:-/opt/msp430-gcc}
 VERSION=${2:-9.3.1.2}
 URL="https://dr-download.ti.com/software-development/ide-configuration-compiler-or-debugger/MD-LlCjWuAbzH/${VERSION}/msp430-gcc-full-linux-x64-installer-${VERSION}.7z"
 
-command -v 7z >/dev/null || { echo "7z not found (apt install p7zip-full)" >&2; exit 1; }
+command -v 7z >/dev/null || fail "7z not found (apt install p7zip-full)"
 
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
@@ -33,9 +41,7 @@ if [ -z "$gcc" ]; then
 		"$run" --mode unattended --prefix "$PREFIX"
 		gcc="$PREFIX/bin/msp430-elf-gcc"
 	else
-		echo "msp430-elf-gcc not found in the archive:" >&2
-		find "$work/x" -maxdepth 3 >&2
-		exit 1
+		fail "msp430-elf-gcc not found in the archive: $(find "$work/x" -maxdepth 3 | sed "s|$work/x/||" | head -40 | tr '\n' ' ')"
 	fi
 else
 	root=$(dirname "$(dirname "$gcc")")
@@ -49,8 +55,7 @@ fi
 if [ ! -f "$PREFIX/include/msp430g2553.ld" ]; then
 	ld=$(find "$PREFIX" -name msp430g2553.ld | head -1)
 	if [ -z "$ld" ]; then
-		echo "device support files (msp430g2553.ld) not found" >&2
-		exit 1
+		fail "device support files (msp430g2553.ld) not found under $PREFIX"
 	fi
 	mkdir -p "$PREFIX/include"
 	cp -a "$(dirname "$ld")"/. "$PREFIX/include/"
