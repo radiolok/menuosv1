@@ -28,6 +28,7 @@
 #ifndef	GLCD_IO_H
 #define GLCD_IO_H
 
+#include <avr/io.h>                  // newer avr-libc no longer pulls it in via pgmspace.h
 #include "../include/arduino_io.h"    // these macros map arduino pins
 
 /*

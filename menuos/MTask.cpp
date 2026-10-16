@@ -1,92 +1,99 @@
 /*
- * taskmanager.cpp
+ * MTask.cpp - cooperative task manager of MenuOS
  *
  * Created: 02.01.2013 18:30:26
- *  Author: Artem
- */ 
+ *  Author: Artem Kashkanov
+ */
 
 
 #include "MTask.h"
 
 #include "buttons.h"
+#include "hw/hwi.h"
 
-#define TIMETICK (6) //0.01мс
-
-MTask::MTask()
-{
-
+MTask::MTask(){
+	timemillis = 0;
+	ActiveApp = 0;
 }
 
 MTask::~MTask(){
-
 }
+
 void MTask::Setup(){
 	ActiveApp = 0;
-	TCCR5A |= (1<<WGM50);//PWM 8-bit with 0xFF on TOP
-	TCCR5B |= (1<<WGM52);
-	TCNT5 = TIMETICK;//1мс
 	for (uint8_t slot = 0; slot < PSLOTS; slot++)
 	{//clear all slots
 		Release(slot);
-	}	
-}
-
-void MTask::Start(){
-	
-	HwStart();
-	
-	while(1)
-	{//SwRoutine
-		Buttons.Search(timemillis);
-		for (uint8_t slot = 0; slot < PSLOTS; slot++)
-		{
-			if ((App[slot].ptr != 0)&&(App[slot].time != 0))
-			{
-				if (App[slot].tick == 0)
-				{
-					App[slot].tick = App[slot].time;
-					(*App[slot].ptr)();//non-interrupt work
-				}
-			}
-		}	
 	}
 }
 
+void MTask::Start(){
+	HwStart();
+	while(1)
+	{//SwRoutine
+		Poll();
+		PortIdle();
+	}
+}
+
+void MTask::Poll(){
+	Buttons.Search(Millis());
+	for (uint8_t slot = 0; slot < PSLOTS; slot++)
+	{
+		if ((App[slot].ptr != 0)&&(App[slot].time != 0))
+		{
+			uint8_t irq = PortIrqSave();
+			uint8_t due = (App[slot].tick == 0);
+			if (due){
+				App[slot].tick = App[slot].time;
+			}
+			PortIrqRestore(irq);
+			if (due){
+				(*App[slot].ptr)();//non-interrupt work
+			}
+		}
+	}
+	HwDispUpdate();
+}
 
 void MTask::HwStart()
 {
-	timemillis=0;//reset time counter
-	TCCR5B |= (1<<CS51) | (1<<CS50);//prescaler at 64.
-	TIMSK5 |= (1<<TOIE5);
+	timemillis = 0;//reset time counter
+	PortTickStart();
 }
 
 void MTask::Add(uint8_t slot, void (*_f)(), uint32_t periodic)
 {
 	if (PSLOTS > slot){
+		uint8_t irq = PortIrqSave();
 		App[slot].ptr = _f;
 		App[slot].time = periodic;
 		App[slot].tick = periodic;
+		PortIrqRestore(irq);
 	}
 }
 
 void MTask::Release(uint8_t slot)
 {
 	if (PSLOTS > slot){
+		uint8_t irq = PortIrqSave();
 		App[slot].ptr = 0;
 		App[slot].time = 0;
 		App[slot].tick = 0;
+		PortIrqRestore(irq);
 	}
 }
 
-void MTask::HwStop()//Останавливает работу диспетчера
+void MTask::HwStop()//РћСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЂР°Р±РѕС‚Сѓ РґРёСЃРїРµС‚С‡РµСЂР°
 {
-	TCCR5B &= ~((1<<CS51) | (1<<CS50));//прескалер на 64.
-	TIMSK5 &= ~(1<<TOIE5);
+	PortTickStop();
 }
 
 uint32_t MTask::Millis(){
-	return timemillis;
-	
+	uint8_t irq = PortIrqSave();
+	uint32_t t = timemillis;
+	PortIrqRestore(irq);
+	return t;
 }
 
 void MTask::Search(){
@@ -98,12 +105,15 @@ void MTask::Search(){
 				App[slot].tick--;//Count to zero
 			}
 		}
-	} 
+	}
 }
 
-
-ISR(TIMER5_OVF_vect) {
-	TCNT5 = TIMETICK;//update tick
+/* Called by the port from the 1 ms timer interrupt. */
+void MTaskTick(void){
 	Task.Search();
- }  
+}
 
+/* Called by the host port; same as one main loop pass. */
+void MTaskPoll(void){
+	Task.Poll();
+}

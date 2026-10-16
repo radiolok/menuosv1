@@ -10,13 +10,9 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
 //if any problem shoot in the leg
-	
-#include "menuos/util/uart.h"
+
+#include "menuos/port/port.h"
 #include "menuos/util/log.h"
-
-//system OSC
-#define  UART0_BAUD_RATE 38400
-
 
 #include "menuos/MTask.h"//TManager Setup
 #include "menuos/buttons.h"//buttons Setup
@@ -27,25 +23,27 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 MTask Task;
 buttons Buttons;
 MMenu Menu;
+#if defined(MENUOS_HAS_RTC_CLOCK)
 MClock Clock;
+#endif
 sampleapp SampleApp;
 
-
+#if !defined(MENUOS_HOST)
 int main(void)
 {
-	sei();
-	uart_init( UART_BAUD_SELECT(UART0_BAUD_RATE,F_CPU));
+	PortInit();//clocks, watchdog, console
+	PortIrqEnable();
 
 	Buttons.Setup(100);
 	Task.Setup();
-	Menu.Setup();		
+	Menu.Setup();
 
 	log_trace("System started");
 	Task.Start();//never turn back
 
-	
-   while(1)
-    {
-    }
+	while(1)
+	{
+	}
 	return 0;
 }
+#endif

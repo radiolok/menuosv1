@@ -1,114 +1,92 @@
 /*
- * taskmanager.h
+ * MTask.h - cooperative task manager of MenuOS
  *
  * Created: 02.01.2013 18:30:36
- *  Author: Artem
- */ 
+ *  Author: Artem Kashkanov
+ */
 
 
 #ifndef TASKMANAGER_H_
 #define TASKMANAGER_H_
 
-#include <avr/interrupt.h>
-#include <inttypes.h>
-
-
-extern "C" void TIMER5_OVF_vect(void)  __attribute__ ((signal));
+#include <stdint.h>
+#include "port/port.h"
 
 struct MAppStruct{
 	void (*ptr)();
 	uint32_t time;
-	uint32_t tick;
+	volatile uint32_t tick;
 };
 
 
 #define PSLOTS 8 //App slots number
 
+/**
+ *  Cooperative scheduler.
+ *
+ *  A 1 ms hardware tick (see port.h) counts every slot down; the main loop
+ *  calls a slot function when its counter reaches zero and reloads it.
+ *  Slot functions run in the main loop, never in the interrupt.
+ */
 class MTask{
-	
+
 public:
 
-friend void TIMER5_OVF_vect();
-
-
-/**
- *  \brief Task Manager Setup
- *  
- *  \return none
- *  
- *  \details Details
- */
 MTask(void);
 
 ~MTask();
 
+/**
+ *  \brief Task Manager Setup: clear all slots
+ */
 void Setup(void);
 
 /**
- *  \brief Start soft work Task Manager
+ *  \brief Start the tick and run the main loop
  *  NOTICE: Never returns back!
- *  
- *  \return none
- *  
- *  \details Details
  */
 void Start(void);
 
 /**
- *  \brief Start TManager
- *  
- *  \return none
- *  
- *  \details Details
+ *  \brief One pass of the main loop: poll buttons, run due tasks
+ */
+void Poll(void);
+
+/**
+ *  \brief Start the hardware tick
  */
 void HwStart(void);
 
 /**
- *  \brief Stop TManager
- *  
- *  \return none
- *  
- *  \details Details
+ *  \brief Stop the hardware tick
  */
 void HwStop(void);
 
 /**
  *  \brief Add function to slot
- *  
+ *
  *  \param [in] slot number of slot
  *  \param [in] _f function pointer
  *  \param [in] periodic call period in ms
- *  \return none
- *  
- *  \details Details
  */
 void Add(uint8_t slot, void (*_f)(), uint32_t periodic);
 
 /**
  *  \brief Release active slot
- *  
+ *
  *  \param [in] slot slot to release
- *  \return none
- *  
- *  \details Details
  */
 void Release(uint8_t slot);
 
 /**
- *  \brief Periodic function
- *  
- *  \return none
- *  
- *  \details Details
+ *  \brief Tick handler, called from the 1 ms interrupt
  */
 void Search();
 
 /**
  *  \brief time after start in ms
- *  
+ *
  *  \return time in ms
- *  
- *  \details Details
  */
 uint32_t Millis();
 
@@ -118,8 +96,8 @@ uint8_t ActiveApp;
 private:
 
 	MAppStruct App[PSLOTS];
-	
-	uint32_t timemillis;
+
+	volatile uint32_t timemillis;
 };
 
 extern MTask Task;

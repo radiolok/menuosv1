@@ -7,6 +7,9 @@
 
 
 #include "sampleapp.h"
+#include "../util/console.h"
+
+static const char sampleText[] = "Sample Text";
 
 // default constructor
 sampleapp::sampleapp()
@@ -22,12 +25,14 @@ sampleapp::~sampleapp()
 
 uint8_t sampleapp::Setup(uint8_t argc, uint8_t *argv)
 {
+	(void)argc;
+	(void)argv;
 	tick = 0;
 	Buttons.Add(SampleAppButtonsHandler);//add button handler
 	Task.Add(1, SampleAppTaskHandler, 1000);//add task ha
-	GLCD.ClearScreen();
-	GLCD.CursorTo((HwDispGetStringsLength()-11)/2, HwDispGetStringsNumb()/2);
-	GLCD.Puts("Sample Text");	
+	HwDispClearScreen();
+	HwDispPutString(HwDispGetStringsNumb()/2 - 1, (HwDispGetStringsLength() - (sizeof(sampleText) - 1))/2,
+		sampleText, HwDispGetStringsLength());
 	return 0;
 }
 
@@ -40,8 +45,11 @@ void SampleAppTaskHandler(){
 }
 
 uint8_t sampleapp::TaskLogic(void){
-	GLCD.CursorTo((HwDispGetStringsLength()-11)/2, HwDispGetStringsNumb()/2+1);
-	GLCD.PrintNumber(tick++);	
+	char text[8];
+	menuos_itoa((int16_t)tick++, text);
+	HwDispPutString(HwDispGetStringsNumb()/2, (HwDispGetStringsLength() - (sizeof(sampleText) - 1))/2,
+		text, HwDispGetStringsLength());
+	return 0;
 }
 
 uint8_t sampleapp::ButtonsLogic(uint8_t button){

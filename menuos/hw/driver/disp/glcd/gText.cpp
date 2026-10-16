@@ -21,6 +21,7 @@
 
 */
 
+#include <avr/io.h>
 #include <avr/pgmspace.h>
 #include "include/gText.h"
 #include "glcd_Config.h" 
@@ -1108,7 +1109,7 @@ int gText::PutChar(uint8_t c)
  */
 
 
-void gText::Puts(char *str)
+void gText::Puts(const char *str)
 {
     while(*str)
 	{

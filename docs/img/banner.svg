@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250" width="1000" height="250" role="img" aria-label="MenuOS v1: tree-type menu for small microcontrollers">
+
+  <style>
+    .bg { fill: #f6f8fa; stroke: #d0d7de; }
+    .title { font: 800 54px 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace; fill: #1f2328; letter-spacing: -1px; }
+    .ver { font: 700 54px 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace; fill: #7a9a1c; }
+    .tag { font: 18px -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill: #424a53; }
+    .chip { fill: #ffffff; stroke: #d0d7de; }
+    .chipt { font: 600 13px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #424a53; }
+    .tree { stroke: #7a9a1c; stroke-width: 2; fill: none; }
+    .node { fill: #7a9a1c; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #161b22; stroke: #30363d; }
+      .title { fill: #e6edf3; }
+      .ver { fill: #b3cc45; }
+      .tag { fill: #9198a1; }
+      .chip { fill: #0d1117; stroke: #30363d; }
+      .chipt { fill: #c9d1d9; }
+      .tree { stroke: #b3cc45; }
+      .node { fill: #b3cc45; }
+    }
+  </style>
+<rect class="bg" x="1" y="1" width="998" height="248" rx="16"/>
+<path class="tree" d="M44 62v62M44 84h18M44 124h18M74 124v26M74 150h18"/>
+<rect class="node" x="38" y="56" width="12" height="12" rx="3"/>
+<rect class="node" x="62" y="78" width="12" height="12" rx="3"/>
+<rect class="node" x="62" y="118" width="12" height="12" rx="3"/>
+<rect class="node" x="92" y="144" width="12" height="12" rx="3"/>
+<text x="112" y="100"><tspan class="title">MenuOS</tspan><tspan class="ver" dx="14">v1</tspan></text>
+<text class="tag" x="114" y="138">Tree-type menu engine for small microcontrollers:</text>
+<text class="tag" x="114" y="162">folders, apps and editable configs from one const table.</text>
+<rect class="chip" x="114" y="188" width="42" height="28" rx="14"/>
+<text class="chipt" x="135" y="207" text-anchor="middle">AVR</text>
+<rect class="chip" x="165.8" y="188" width="68" height="28" rx="14"/>
+<text class="chipt" x="200" y="207" text-anchor="middle">MSP430</text>
+<rect class="chip" x="243.4" y="188" width="85" height="28" rx="14"/>
+<text class="chipt" x="286" y="207" text-anchor="middle">host sim</text>
+<rect class="chip" x="338.2" y="188" width="42" height="28" rx="14"/>
+<text class="chipt" x="359" y="207" text-anchor="middle">C++</text>
+<rect class="chip" x="390.0" y="188" width="59" height="28" rx="14"/>
+<text class="chipt" x="420" y="207" text-anchor="middle">BSD-2</text>
+<g transform="translate(620.2,34.5) scale(0.62)">
+<defs><pattern id="dots5" x="18" y="18" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M3.3 0h0.7v4h-0.7zM0 3.3h4v0.7h-4z" fill="#b3cc45"/></pattern></defs>
+<rect x="0" y="0" width="548" height="292" rx="10" fill="#20242b" stroke="#3a404a" stroke-width="2"/>
+<rect x="18" y="18" width="512" height="256" fill="#a5bf3c"/>
+<path fill="#18210b" d="M46 62h20v4h-20zM98 62h8v4h-8zM134 62h4v4h-4zM222 62h4v4h-4zM46 66h4v4h-4zM102 66h4v4h-4zM134 66h4v4h-4zM218 66h8v4h-8zM46 70h4v4h-4zM74 70h12v4h-12zM102 70h4v4h-4zM122 70h8v4h-8zM134 70h4v4h-4zM146 70h12v4h-12zM166 70h4v4h-4zM174 70h8v4h-8zM222 70h4v4h-4zM46 74h12v4h-12zM70 74h4v4h-4zM86 74h4v4h-4zM102 74h4v4h-4zM118 74h4v4h-4zM130 74h8v4h-8zM142 74h4v4h-4zM158 74h4v4h-4zM166 74h8v4h-8zM182 74h4v4h-4zM222 74h4v4h-4zM46 78h4v4h-4zM70 78h4v4h-4zM86 78h4v4h-4zM102 78h4v4h-4zM118 78h4v4h-4zM134 78h4v4h-4zM142 78h20v4h-20zM166 78h4v4h-4zM222 78h4v4h-4zM46 82h4v4h-4zM70 82h4v4h-4zM86 82h4v4h-4zM102 82h4v4h-4zM118 82h4v4h-4zM134 82h4v4h-4zM142 82h4v4h-4zM166 82h4v4h-4zM222 82h4v4h-4zM46 86h4v4h-4zM74 86h12v4h-12zM98 86h12v4h-12zM122 86h16v4h-16zM146 86h12v4h-12zM166 86h4v4h-4zM218 86h12v4h-12zM42 90h488v4h-488zM42 94h4v4h-4zM66 94h32v4h-32zM106 94h28v4h-28zM138 94h80v4h-80zM230 94h300v4h-300zM42 98h4v4h-4zM50 98h52v4h-52zM106 98h28v4h-28zM138 98h76v4h-76zM218 98h12v4h-12zM234 98h296v4h-296zM42 102h4v4h-4zM50 102h24v4h-24zM86 102h16v4h-16zM106 102h16v4h-16zM130 102h4v4h-4zM138 102h8v4h-8zM158 102h8v4h-8zM170 102h4v4h-4zM182 102h48v4h-48zM234 102h296v4h-296zM42 106h4v4h-4zM58 106h12v4h-12zM74 106h12v4h-12zM90 106h12v4h-12zM106 106h12v4h-12zM122 106h8v4h-8zM138 106h4v4h-4zM146 106h12v4h-12zM162 106h4v4h-4zM174 106h8v4h-8zM186 106h40v4h-40zM230 106h300v4h-300zM42 110h4v4h-4zM50 110h20v4h-20zM74 110h12v4h-12zM90 110h12v4h-12zM106 110h12v4h-12zM122 110h12v4h-12zM138 110h4v4h-4zM162 110h4v4h-4zM170 110h52v4h-52zM226 110h304v4h-304zM42 114h4v4h-4zM50 114h20v4h-20zM74 114h12v4h-12zM90 114h12v4h-12zM106 114h12v4h-12zM122 114h12v4h-12zM138 114h4v4h-4zM146 114h20v4h-20zM170 114h48v4h-48zM222 114h308v4h-308zM42 118h4v4h-4zM50 118h24v4h-24zM86 118h12v4h-12zM110 118h12v4h-12zM138 118h8v4h-8zM158 118h8v4h-8zM170 118h44v4h-44zM234 118h296v4h-296zM42 122h488v4h-488z"/>
+<rect x="18" y="18" width="512" height="256" fill="url(#dots5)"/>
+</g>
+</svg>

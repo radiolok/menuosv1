@@ -44,7 +44,7 @@ class MConfig{
 		
 		uint8_t DigitsCount(int16_t val);
 		
-		void AlignStr(char *text, int16_t val, uint8_t mode, uint8_t length, char *str);
+		void AlignStr(char *text, int16_t val, int16_t mode, uint8_t length, char *str);
 		
 	public:
 	

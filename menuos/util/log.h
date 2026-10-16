@@ -26,37 +26,39 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef LOG_H_
 #define LOG_H_
 
-#include "uart.h"
+#include "console.h"
 
 //enable this definition to turn on logger notes to port
+#if !defined(MENUOS_NO_LOG)
 #define LOGTRACE
+#endif
 
 #if defined(LOGTRACE)
 
 //enable this definition to turn on debug notes to port
 //#define DEBUG
 
-#define log_trace_val(msg, val) uart_puts(msg);uart_print((int16_t)val,10);uart_putc('\n');
-#define log_trace_txt(msg, val) uart_puts(msg);uart_puts(val);uart_putc('\n');
-#define log_trace(msg) uart_puts(msg);uart_putc('\n');
+#define log_trace_val(msg, val) do { console_puts(msg);console_print((int16_t)val,10);console_putc('\n'); } while (0)
+#define log_trace_txt(msg, val) do { console_puts(msg);console_puts(val);console_putc('\n'); } while (0)
+#define log_trace(msg) do { console_puts(msg);console_putc('\n'); } while (0)
 #else
 
-#define log_trace_val(msg, val) 
-#define log_trace_txt(msg, val) 
-#define log_trace(msg)
+#define log_trace_val(msg, val) do { } while (0)
+#define log_trace_txt(msg, val) do { } while (0)
+#define log_trace(msg) do { } while (0)
 
 #endif
 
 #if defined(DEBUG)
 
-#define dbg_trace_val(msg, val) uart_puts(msg);uart_print((int16_t)val,10);uart_putc('\n');
-#define dbg_trace_txt(msg, val) uart_puts(msg);uart_puts(val);uart_putc('\n');
-#define dbg_trace(msg) uart_puts(msg);uart_putc('\n');
+#define dbg_trace_val(msg, val) do { console_puts(msg);console_print((int16_t)val,10);console_putc('\n'); } while (0)
+#define dbg_trace_txt(msg, val) do { console_puts(msg);console_puts(val);console_putc('\n'); } while (0)
+#define dbg_trace(msg) do { console_puts(msg);console_putc('\n'); } while (0)
 #else
 
-#define dbg_trace_val(msg, val)
-#define dbg_trace_txt(msg, val)
-#define dbg_trace(msg)
+#define dbg_trace_val(msg, val) do { } while (0)
+#define dbg_trace_txt(msg, val) do { } while (0)
+#define dbg_trace(msg) do { } while (0)
 
 
 #endif

@@ -1,1 +1,6 @@
 Debug/
+Release/
+build/
+.toolchain/
+*.atsuo
+.vs/

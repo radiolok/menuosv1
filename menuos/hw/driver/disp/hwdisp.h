@@ -21,6 +21,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	
 #endif
 
+#if defined (TERM_DISPLAY)
+	#include "term/termdisp.h"
+#endif
+
 #if defined (GRAPH_DISPLAY)
 
 #include "glcd/glcd.h"
@@ -81,7 +85,7 @@ uint8_t HwDispPutChar(uint8_t row, uint8_t col, char symbol);
  *  
  *  \details Details
  */
-uint8_t HwDispPutString(uint8_t row, uint8_t col, char* symbols, uint8_t length);
+uint8_t HwDispPutString(uint8_t row, uint8_t col, const char* symbols, uint8_t length);
 
 /**
  *  \brief Draw Cursor at defined position
@@ -131,6 +135,14 @@ uint8_t HwDispGetStringsNumb(void);
 uint8_t HwDispGetStringsLength(void);
 
 void HwDispClearScreen(void);
+
+/**
+ *  \brief Push pending changes to the display
+ *
+ *  \details Called by the scheduler from the main loop. A no-op for LCDs
+ *  that are written directly; the terminal display redraws here.
+ */
+void HwDispUpdate(void);
 
 
 #endif //__HWDISP_H__

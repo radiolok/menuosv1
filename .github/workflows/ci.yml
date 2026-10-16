@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  host:
+    name: Host tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Show compiler errors as annotations
+        run: echo "::add-matcher::.github/gcc-problem-matcher.json"
+      - name: Build and run menu tests
+        run: make ARCH=host test
+      - name: Build simulator
+        run: make ARCH=host build/host-native/menuos-sim
+
+  avr:
+    name: AVR ${{ matrix.mcu }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        mcu: [atmega1280, atmega2560]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Show compiler errors as annotations
+        run: echo "::add-matcher::.github/gcc-problem-matcher.json"
+      - name: Install avr-gcc
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-avr avr-libc binutils-avr
+          avr-gcc --version | head -1
+      - name: Build
+        run: make ARCH=avr MCU=${{ matrix.mcu }}
+      - name: Size report
+        run: |
+          echo "### AVR ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          avr-size build/avr-${{ matrix.mcu }}/menuos.elf >> "$GITHUB_STEP_SUMMARY"
+          avr-size build/avr-${{ matrix.mcu }}/menuos.elf | awk 'NR==2 {printf "::notice title=size ${{ matrix.mcu }}::text %s, data %s, bss %s bytes\n", $1, $2, $3}'
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: menuos-avr-${{ matrix.mcu }}
+          path: |
+            build/avr-${{ matrix.mcu }}/menuos.elf
+            build/avr-${{ matrix.mcu }}/menuos.hex
+
+  msp430:
+    name: MSP430 ${{ matrix.mcu }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        mcu: [msp430g2553, msp430f2618]
+    env:
+      MSP430_GCC_RELEASE: 9.3.1.2
+      MSP430_GCC_ROOT: ${{ github.workspace }}/.toolchain/msp430-gcc
+    steps:
+      - uses: actions/checkout@v7
+      - name: Show compiler errors as annotations
+        run: echo "::add-matcher::.github/gcc-problem-matcher.json"
+      - name: Cache TI MSP430-GCC
+        id: cache
+        uses: actions/cache@v6
+        with:
+          path: ${{ env.MSP430_GCC_ROOT }}
+          key: msp430-gcc-${{ env.MSP430_GCC_RELEASE }}-linux64-v3
+      - name: Install TI MSP430-GCC
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          tools/ci/install-msp430-gcc.sh "$MSP430_GCC_ROOT"
+      - name: Add toolchain to PATH
+        run: |
+          echo "$MSP430_GCC_ROOT/bin" >> "$GITHUB_PATH"
+      - name: Build
+        shell: bash
+        run: |
+          msp430-elf-gcc --version | head -1
+          make ARCH=msp430 MCU=${{ matrix.mcu }} MSP430_GCC_ROOT="$MSP430_GCC_ROOT" 2>&1 | tee build.log
+          exit "${PIPESTATUS[0]}"
+      - name: Report build log tail
+        if: failure()
+        run: |
+          [ -f build.log ] || exit 0
+          grep -v '^msp430-elf-\|^avr-' build.log | tail -n 25 | sed -e 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' > tail.txt
+          echo "::error title=build log (last lines)::$(cat tail.txt)"
+      - name: Size report
+        run: |
+          echo "### MSP430 ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          msp430-elf-size build/msp430-${{ matrix.mcu }}/menuos.elf >> "$GITHUB_STEP_SUMMARY"
+          msp430-elf-size build/msp430-${{ matrix.mcu }}/menuos.elf | awk 'NR==2 {printf "::notice title=size ${{ matrix.mcu }}::text %s, data %s, bss %s bytes\n", $1, $2, $3}'
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: menuos-msp430-${{ matrix.mcu }}
+          path: |
+            build/msp430-${{ matrix.mcu }}/menuos.elf
+            build/msp430-${{ matrix.mcu }}/menuos.hex

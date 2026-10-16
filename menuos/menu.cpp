@@ -14,6 +14,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "config.h"
 
 #include "util/log.h"
+#include "util/console.h"
 
 MConfig Config;
 
@@ -45,7 +46,7 @@ uint8_t MMenu::Setup(){
 	Return();
 	return 0;
 }
-//óñòàíàâëèâàåò êóðñîð â íåîáõîäèìóþ ïîçèöèþ.
+//ÑƒÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÑ‚ ÐºÑƒÑ€ÑÐ¾Ñ€ Ð² Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼ÑƒÑŽ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ.
 
 uint8_t MMenu::ButtonsLogic(uint8_t button){
 	switch (button){
@@ -79,7 +80,7 @@ uint8_t MMenu::SetButtons(void){
 	return 0;
 }
 
-//Ñìåíà óêàçàòåëÿ ââåðõ
+//Ð¡Ð¼ÐµÐ½Ð° ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»Ñ Ð²Ð²ÐµÑ€Ñ…
 void MMenu::ButtonUp(){
 	log_trace("Button Up");
 	if (cursor > 0){
@@ -152,7 +153,7 @@ void MMenu::Return(){
 
 void MMenu::Enter(uint8_t filenumb){
 	log_trace("Enter");
-	if (MAXDEPTH < level){
+	if (level >= MAXDEPTH){
 		return; //do nothing
 	}
 	//go to next level:
@@ -197,7 +198,10 @@ void MMenu::ShowFolder(){
 		
 	//select folder type:
 	uint8_t maxcursor = file.mode2 - brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * HwDispGetStringsNumb();
-	char fname[DISPSTRLENGTH] = "\0";
+	if (maxcursor > HwDispGetStringsNumb()){//only one page is visible
+		maxcursor = HwDispGetStringsNumb();
+	}
+	char fname[DISPSTRLENGTH + 1] = "\0";
 	uint8_t ftype = 0;
 	uint8_t fstart = 0;
 	switch(file.type){
@@ -224,10 +228,13 @@ void MMenu::ShowFolder(){
 			//read share name
 			HwFileGetName(file.mode1, fname);
 			fstart = brCrumbs[(level*BRCRUMBSLENGTH) + CRUMBPAGE] * HwDispGetStringsNumb();
-			char buff[20] = "\0";
+			char buff[DISPSTRLENGTH + 8] = "\0";
 			for (uint8_t i = 0; i < maxcursor; i++){
 				//give filename look like: item0, item 1, item 2,  etc
-				sprintf(buff, "%s %d", fname, fstart + i);
+				uint8_t len = (uint8_t)strlen(fname);
+				buff[len] = ' ';
+				memcpy(buff, fname, len);
+				menuos_itoa((int16_t)(fstart + i), &buff[len + 1]);
 				log_trace_txt("Item: ", buff);
 				log_trace_val("Pos: ", i);
 				HwDispPutString(i, 0, buff, HwDispGetStringsLength());
@@ -252,9 +259,11 @@ void MMenu::AppStart(void){
 		case 2:
 			SampleApp.Setup(level, brCrumbs);
 		break;
+#if defined(MENUOS_HAS_RTC_CLOCK)
 		case 3:
 			Clock.Setup(level, brCrumbs);
 		break;
+#endif
 		default:
 			Task.ActiveApp = 0;		
 		break;
