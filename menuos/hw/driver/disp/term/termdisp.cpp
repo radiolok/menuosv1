@@ -21,6 +21,17 @@ static void RowReset(uint8_t row){
 	}
 }
 
+/* Row frame: '>'..'<' selected row, '*'..'*' row with the edit cursor. */
+static char Border(uint8_t row, uint8_t right){
+	if (selected[row]){
+		return right ? '<' : '>';
+	}
+	if (row == cursorRow){
+		return '*';
+	}
+	return '|';
+}
+
 uint8_t HwDispSetup(void){
 	HwDispClearScreen();
 	return 0;
@@ -98,9 +109,9 @@ size_t TermDispRender(char *buf, size_t size){
 	for (uint8_t c = 0; c < DISPSTRLENGTH; c++) EMIT('-');
 	EMIT('+'); EMIT('\n');
 	for (uint8_t r = 0; r < DISPSTRNUMB; r++){
-		EMIT(selected[r] ? '>' : '|');
+		EMIT(Border(r, 0));
 		for (uint8_t c = 0; c < DISPSTRLENGTH; c++) EMIT(fb[r][c]);
-		EMIT(selected[r] ? '<' : '|');
+		EMIT(Border(r, 1));
 		EMIT('\n');
 	}
 	EMIT('+');
@@ -143,10 +154,10 @@ void HwDispUpdate(void){
 		}
 		else{
 			uint8_t row = r - 1;
-			line[k++] = selected[row] ? '>' : '|';
+			line[k++] = Border(row, 0);
 			memcpy(&line[k], fb[row], DISPSTRLENGTH);
 			k += DISPSTRLENGTH;
-			line[k++] = selected[row] ? '<' : '|';
+			line[k++] = Border(row, 1);
 		}
 		line[k++] = '\n';
 		for (uint8_t i = 0; i < k; i++){

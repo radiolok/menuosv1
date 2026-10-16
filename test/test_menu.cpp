@@ -18,6 +18,7 @@ All rights reserved. BSD 2-Clause, see LICENSE.*/
 #include "menuos/menu.h"
 #include "menuos/hw/driver/disp/term/termdisp.h"
 
+static const char *dumpDir = NULL;   /* --dump DIR: save every checked frame */
 static int failures = 0;
 static int checks = 0;
 
@@ -29,6 +30,15 @@ static void Expect(const char *name, const char *expected){
 	char frame[TERMDISP_FRAME_SIZE];
 	TermDispRender(frame, sizeof(frame));
 	checks++;
+	if (dumpDir){
+		char path[512];
+		snprintf(path, sizeof(path), "%s/%02d.txt", dumpDir, checks);
+		FILE *f = fopen(path, "w");
+		if (f){
+			fprintf(f, "# %s\n%s", name, frame);
+			fclose(f);
+		}
+	}
 	if (strcmp(frame, expected) != 0){
 		failures++;
 		printf("FAIL %s\n--- expected\n%s--- got\n%s\n", name, expected, frame);
@@ -141,7 +151,7 @@ static void TestConfigEditor(void){
 	Expect("config editor shows a digit cursor",
 		BORDER
 		"|config 0     Yes|\n"
-		"|config 1      -1|\n"
+		"*config 1      -1*\n"
 		"|config 2      -1|\n"
 		"|Date and Time   |\n"
 		"|                |\n"
@@ -155,7 +165,7 @@ static void TestConfigEditor(void){
 	Expect("UP adds 10^digit, LEFT selects the next digit",
 		BORDER
 		"|config 0     Yes|\n"
-		"|config 1      20|\n"
+		"*config 1      20*\n"
 		"|config 2      -1|\n"
 		"|Date and Time   |\n"
 		"|                |\n"
@@ -235,7 +245,10 @@ static void TestSampleApp(void){
 		BORDER);
 }
 
-int main(void){
+int main(int argc, char **argv){
+	if ((argc == 3) && (strcmp(argv[1], "--dump") == 0)){
+		dumpDir = argv[2];
+	}
 	PortInit();
 	Buttons.Setup(100);
 	Task.Setup();

@@ -153,7 +153,7 @@ void MMenu::Return(){
 
 void MMenu::Enter(uint8_t filenumb){
 	log_trace("Enter");
-	if (MAXDEPTH < level){
+	if (level >= MAXDEPTH){
 		return; //do nothing
 	}
 	//go to next level:

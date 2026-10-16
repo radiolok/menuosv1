@@ -11,11 +11,11 @@ All rights reserved. BSD 2-Clause, see LICENSE.*/
  *  +----------------+
  *  |Folder 1        |
  *  >Folder 2        <      selected row
- *  |config 1       5|
+ *  *config 1       5*      row with the edit cursor (config editor)
  *  |                |
  *  |                |
  *  +----------------+
- *                  ^       edit cursor (config editor)
+ *                  ^       edit cursor position
  *  \endcode
  */
 #ifndef TERMDISP_H_

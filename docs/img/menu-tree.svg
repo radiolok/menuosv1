@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 464" width="820" height="464" role="img" aria-label="Default MenuOS menu tree">
+
+  <style>
+    .bg { fill: #ffffff; stroke: #d0d7de; }
+    .name { font: 600 15px -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill: #1f2328; }
+    .det { font: 13px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #59636e; }
+    .id { font: 12px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #818b98; }
+    .note { font: italic 13px -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill: #8250df; }
+    .wire { stroke: #c4ccd5; stroke-width: 1.5; fill: none; }
+    .badget { font: 700 10px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #ffffff; letter-spacing: .5px; }
+    .folder { fill: #bf8700; } .dfolder { fill: #8250df; } .app { fill: #0969da; } .conf { fill: #1a7f37; }
+    .hdr { font: 600 13px -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill: #59636e; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; stroke: #30363d; }
+      .name { fill: #e6edf3; }
+      .det { fill: #9198a1; }
+      .id { fill: #6e7681; }
+      .note { fill: #ab7df8; }
+      .wire { stroke: #3d444d; }
+      .folder { fill: #9e6a03; } .dfolder { fill: #8957e5; } .app { fill: #1f6feb; } .conf { fill: #238636; }
+      .hdr { fill: #9198a1; }
+    }
+  </style>
+<rect class="bg" x="1" y="1" width="818" height="462" rx="12"/>
+<text class="hdr" x="24" y="32">id</text>
+<text class="hdr" x="70" y="32">menu tree (from hwfile.cpp)</text>
+<text class="hdr" x="796" y="32" text-anchor="end">meaning of mode1 / mode2</text>
+<path class="wire" d="M80 80.0V106.0H100"/>
+<path class="wire" d="M114 116.0V142.0H134"/>
+<path class="wire" d="M114 116.0V178.0H134"/>
+<path class="wire" d="M114 116.0V214.0H134"/>
+<path class="wire" d="M148 224.0V250.0H168"/>
+<path class="wire" d="M80 80.0V286.0H100"/>
+<path class="wire" d="M114 296.0V322.0H134"/>
+<path class="wire" d="M114 296.0V358.0H134"/>
+<path class="wire" d="M114 296.0V394.0H134"/>
+<path class="wire" d="M114 296.0V430.0H134"/>
+<text class="id" x="24" y="74.0"> 0</text>
+<rect class="folder" x="70" y="60.0" width="55" height="20" rx="5"/>
+<text class="badget" x="98" y="74.0" text-anchor="middle">FOLDER</text>
+<text class="name" x="135" y="75.0">Root</text>
+<text class="det" x="796" y="75.0" text-anchor="end">children 1..2</text>
+<text class="id" x="24" y="110.0"> 1</text>
+<rect class="folder" x="104" y="96.0" width="55" height="20" rx="5"/>
+<text class="badget" x="132" y="110.0" text-anchor="middle">FOLDER</text>
+<text class="name" x="169" y="111.0">Folder 1</text>
+<text class="det" x="796" y="111.0" text-anchor="end">children 3..5</text>
+<text class="id" x="24" y="146.0"> 3</text>
+<rect class="app" x="138" y="132.0" width="34" height="20" rx="5"/>
+<text class="badget" x="155" y="146.0" text-anchor="middle">APP</text>
+<text class="name" x="182" y="147.0">App 1</text>
+<text class="det" x="796" y="147.0" text-anchor="end">app #1 · no handler</text>
+<text class="id" x="24" y="182.0"> 4</text>
+<rect class="app" x="138" y="168.0" width="34" height="20" rx="5"/>
+<text class="badget" x="155" y="182.0" text-anchor="middle">APP</text>
+<text class="name" x="182" y="183.0">App 2</text>
+<text class="det" x="796" y="183.0" text-anchor="end">app #2 · sample app</text>
+<text class="id" x="24" y="218.0"> 5</text>
+<rect class="dfolder" x="138" y="204.0" width="62" height="20" rx="5"/>
+<text class="badget" x="169" y="218.0" text-anchor="middle">DFOLDER</text>
+<text class="name" x="210" y="219.0">Dyn Folder</text>
+<text class="det" x="796" y="219.0" text-anchor="end">repeats file 6 × 66</text>
+<text class="id" x="24" y="254.0"> 6</text>
+<rect class="app" x="172" y="240.0" width="34" height="20" rx="5"/>
+<text class="badget" x="189" y="254.0" text-anchor="middle">APP</text>
+<text class="name" x="216" y="255.0">App</text>
+<text class="note" x="249" y="255.0">× 66 copies</text>
+<text class="det" x="796" y="255.0" text-anchor="end">app #2 · sample app</text>
+<text class="id" x="24" y="290.0"> 2</text>
+<rect class="folder" x="104" y="276.0" width="55" height="20" rx="5"/>
+<text class="badget" x="132" y="290.0" text-anchor="middle">FOLDER</text>
+<text class="name" x="169" y="291.0">Folder 2</text>
+<text class="det" x="796" y="291.0" text-anchor="end">children 7..10</text>
+<text class="id" x="24" y="326.0"> 7</text>
+<rect class="conf" x="138" y="312.0" width="41" height="20" rx="5"/>
+<text class="badget" x="158" y="326.0" text-anchor="middle">CONF</text>
+<text class="name" x="189" y="327.0">config 0</text>
+<text class="det" x="796" y="327.0" text-anchor="end">config #0: Yes / No @ 0</text>
+<text class="id" x="24" y="362.0"> 8</text>
+<rect class="conf" x="138" y="348.0" width="41" height="20" rx="5"/>
+<text class="badget" x="158" y="362.0" text-anchor="middle">CONF</text>
+<text class="name" x="189" y="363.0">config 1</text>
+<text class="det" x="796" y="363.0" text-anchor="end">config #1: -8099 … 8096 @ 2</text>
+<text class="id" x="24" y="398.0"> 9</text>
+<rect class="conf" x="138" y="384.0" width="41" height="20" rx="5"/>
+<text class="badget" x="158" y="398.0" text-anchor="middle">CONF</text>
+<text class="name" x="189" y="399.0">config 2</text>
+<text class="det" x="796" y="399.0" text-anchor="end">config #2: 1 … 48 @ 4</text>
+<text class="id" x="24" y="434.0">10</text>
+<rect class="app" x="138" y="420.0" width="34" height="20" rx="5"/>
+<text class="badget" x="155" y="434.0" text-anchor="middle">APP</text>
+<text class="name" x="182" y="435.0">Date and Time</text>
+<text class="det" x="796" y="435.0" text-anchor="end">app #3 · clock, AVR + RTC only</text>
+</svg>

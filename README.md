@@ -1,58 +1,133 @@
-In almost all projects with LCD display you needto create a convinient menu for configuration of devicesand launching of required applications. And it would be nice to have a ready tool for creating it. This tool enables you to concentrate on designing of the final product, not spending resources on designing interface configurator. And this article is about this tool. The project Menu OS was established in August 2010, and since that time it has been used in designing of devices of controlling and automation. Firstly the project was conceived as an open-source, but at the same time, there was an older closed version. Honestly, almost all functionality of the closed version gradually moved into the opened branch and this version of Menu OS is the most actual and constantly supported. License of the project BSD allows to create on it's basis commercial firmware. Menu OS is free, but some closed moduls are purchased and developed for a fee. 
+<p align="center">
+  <img src="docs/img/banner.svg" alt="MenuOS v1 — tree-type menu engine for small microcontrollers" width="100%">
+</p>
 
-# Menu OS overview on youtube #
+<p align="center">
+  <a href="https://github.com/radiolok/menuosv1/actions/workflows/ci.yml"><img src="https://github.com/radiolok/menuosv1/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/AVR-ATmega1280%20%7C%202560-informational" alt="AVR">
+  <img src="https://img.shields.io/badge/MSP430-G2553%20%7C%20F2618-informational" alt="MSP430">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-BSD--2--Clause-blue" alt="License"></a>
+</p>
 
-[![MenuOS Overview](https://img.youtube.com/vi/S7zko5tAmUQ/0.jpg)](https://youtube.com/watch?v=S7zko5tAmUQ)
+Almost every device with a small display needs a menu: a few folders, a couple of
+applications to launch and a list of settings to edit and keep in EEPROM. Writing that
+again for every project is boring, so MenuOS does it once.
 
-# The structure of the system: #
+You describe the whole menu as a **constant table** — folders, applications and config
+values with their limits — and MenuOS takes care of navigation, paging, the value editor,
+non-volatile storage and returning from applications. Five buttons, a display and a 1 ms
+timer are all it needs from the hardware.
 
-File is the basic unit of the system. File is characterized by a type, name and a set of 
-parameters.  At the moment the system has 6 types of files: 
+MenuOS started in August 2010 and was used in control and automation devices. This
+repository is the open **v1** branch.
 
-Type Description
+<p align="center">
+  <img src="docs/img/screens.svg" alt="Folder, dynamic folder, config editor and an application on a 128x64 GLCD" width="92%">
+</p>
+<p align="center"><sub>Rendered from the real menu code by the host test suite, with the GLCD library's own 5×7 font.</sub></p>
 
-* T_FOLDER Folder with a list of files.
+## Features
 
-* T_DFOLDER  Dynamic folder.Stores several copies of the same file.
+- **Tree menu from one table** — up to 255 files, nesting depth set per board.
+- **File types** — folder, *dynamic folder* (one file shown as N numbered copies, each with
+  its own stored values), application, config.
+- **Config editor** — numeric values with min/max and per-digit editing, or Yes/No
+  switches; values live in EEPROM / flash and survive power cycles.
+- **Cooperative scheduler** — 8 task slots driven by a 1 ms tick; apps get their own slots
+  and button handlers.
+- **Small** — no `printf`, no heap. The MSP430 build needs about 320 bytes of static RAM.
+- **Portable** — all hardware access goes through a small port layer: AVR, MSP430 and a
+  host build for tests and a terminal simulator.
 
-* T_SFOLDER   Selection folder . Stores a list of selection items of config.
+## Quick start
 
-* T_APP Application.
+Try it on your PC first — the simulator runs the same menu code in a terminal:
 
-* T_CONF Config. Redaction of config is done the editor of configs and allows to set the required value.
+```sh
+make ARCH=host sim        # arrows / WASD to move, Enter to open, q to go back
+make ARCH=host test       # menu tests used by CI
+```
 
-* T_DCONF Dynamic config. It is used in conjunction with a dynamic folder and allows to edit the memory configs.
+Build firmware:
 
-* T_SCONF Selection config. It is used in conjunction with a selection folder . It allows one of the several text variants. Each file can have up to two parameters, that define the various properties of the file. More datailed description of the parameters is described in the partition The structure of the files. Total types of files may be up to 256.
+```sh
+# AVR (Ubuntu/Debian: apt install gcc-avr avr-libc binutils-avr)
+make ARCH=avr MCU=atmega1280
 
-The number of files in the menu structure is limited by the amount of the memory controller. At the moment all the variables are used by uint8_t tepe, that requires the number of the files up to 255. 
+# MSP430 (TI MSP430-GCC, msp430-elf-gcc in PATH)
+make ARCH=msp430 MCU=msp430g2553 MSP430_GCC_ROOT=/opt/ti/msp430-gcc
+```
 
-Given that all files can be dynamic, the total number of the files can be equal to 10^616.
+Results go to `build/<arch>-<mcu>/menuos.{elf,hex}`. The Atmel Studio project
+(`MenuOSv1.atsln`) is still there for the original AVR board.
 
-The main features of the system:
+More in **[docs/getting-started.md](docs/getting-started.md)**.
 
-1. Tree, intertwined menu with 255 leaves.
+## How it works
 
-2. Up to 256 different types of files.
+<p align="center">
+  <img src="docs/img/menu-tree.svg" alt="The default menu tree" width="85%">
+</p>
 
-3. Up to 255 levels of nesting.
+The tree above is the default table in
+[`menuos/hw/driver/files/hwfile.cpp`](menuos/hw/driver/files/hwfile.cpp) — the part you
+edit for your device. Each entry is four bytes: `type, parent, mode1, mode2`. Children of a
+folder have consecutive ids, so a folder only stores the first child and the count.
+See **[docs/menu-table.md](docs/menu-table.md)**.
 
-4. At the moment of using dynamic folders, description of a tree having 10^616 leaves is possible.
+<p align="center">
+  <img src="docs/img/architecture.svg" alt="MenuOS layers" width="92%">
+</p>
 
-5. The lack of hardware bindingto a particular type of MC. Any ATmega controllers with enough memory are supported.
+The core never touches registers. It talks to the `Hw*` interface (menu table, display,
+buttons), which sits on top of a board description and a port for the MCU family.
 
-6. Ability to connect up to 8 buttons and use them in any configuration.The initial customizationof the project
+### Buttons
 
-In order to implement this system in your project, it is necessary to carry out the following steps: 
+| Button   | In a folder                  | In the config editor  |
+|----------|------------------------------|-----------------------|
+| `UP`     | next item (wraps around)     | value + 10^digit      |
+| `DOWN`   | previous item                | value − 10^digit      |
+| `RIGHT`  | open folder / start app      | next lower digit      |
+| `LEFT`   | —                            | next higher digit     |
+| `RETURN` | parent folder                | save and leave        |
 
-1. To configure buttons.
+`UP` works as the "+" button, as on the original hardware: it moves the cursor down the
+list and increases values.
 
-2. To configure display.
+## Targets
 
-3. To configure an array of files.
+| Board header                     | MCU                         | Display                    | Config storage        | CI    |
+|----------------------------------|-----------------------------|----------------------------|-----------------------|-------|
+| `hw/boards/rln_electro_2012.h`   | ATmega1280 / ATmega2560     | KS0108 128×64 GLCD         | EEPROM                | build |
+| `hw/boards/msp430_launchpad.h`   | MSP430G2553, MSP430F261x    | terminal over UART         | info flash, segment D | build |
+| `hw/boards/host_sim.h`           | your PC                     | terminal / test frames     | RAM                   | tests |
 
-4. To configure an array of configs.
+The AVR board is the hardware MenuOS was written for. The MSP430 port is new: it builds in
+CI but has not been run on a real chip yet. Adding a board or an MCU family is described in
+**[docs/porting.md](docs/porting.md)**.
 
-5. To connect your applications.
+## Documentation
 
-The customization of the project is completed ! You can try to compile the project and pour the firmware in the controller.
+| | |
+|---|---|
+| [Getting started](docs/getting-started.md) | toolchains, building, flashing, the simulator |
+| [Menu table](docs/menu-table.md) | file types, folders, dynamic folders, configs |
+| [Applications](docs/apps.md) | writing an app: buttons, tasks, returning to the menu |
+| [Porting](docs/porting.md) | port API, board headers, display backends |
+
+## Video
+
+[![MenuOS overview on YouTube](https://img.youtube.com/vi/S7zko5tAmUQ/0.jpg)](https://youtube.com/watch?v=S7zko5tAmUQ)
+
+## Project status
+
+MenuOS v1 is an old project kept in working order: it builds, it is tested on the host,
+and the bugs found while cleaning it up are fixed. New features are not planned.
+
+## License
+
+MenuOS is released under the [BSD 2-Clause license](LICENSE).
+Bundled third-party code keeps its own license: the Arduino GLCD, Wire and Print libraries
+(LGPL 2.1+) and Peter Fleury's UART library (GPL 2+), which is used by the AVR build only.
+Check these before you ship closed firmware based on the AVR build.

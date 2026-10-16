@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-label="MenuOS layers: applications, core, hardware interface, drivers and boards, port">
+  <style>
+    .bg { fill: #ffffff; stroke: #d0d7de; }
+    .band { fill: #f6f8fa; }
+    .lbl { font: 700 12px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #59636e; letter-spacing: 1px; }
+    .box { fill: #ffffff; stroke: #d0d7de; stroke-width: 1.5; }
+    .t { font: 600 15px -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; fill: #1f2328; }
+    .s { font: 12.5px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #59636e; }
+    .acc-app { fill: #0969da; } .acc-core { fill: #bf8700; } .acc-hwi { fill: #8250df; }
+    .acc-drv { fill: #1a7f37; } .acc-port { fill: #cf222e; }
+    .arrow { stroke: #8c959f; stroke-width: 1.5; fill: none; marker-end: url(#a); }
+    .ah { fill: #8c959f; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; stroke: #30363d; }
+      .band { fill: #161b22; }
+      .lbl { fill: #9198a1; }
+      .box { fill: #0d1117; stroke: #3d444d; }
+      .t { fill: #e6edf3; }
+      .s { fill: #9198a1; }
+      .acc-app { fill: #1f6feb; } .acc-core { fill: #d29922; } .acc-hwi { fill: #8957e5; }
+      .acc-drv { fill: #2ea043; } .acc-port { fill: #f85149; }
+      .arrow { stroke: #6e7681; } .ah { fill: #6e7681; }
+    }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="ah" d="M0 0L10 5L0 10z"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="1" y="1" width="958" height="558" rx="14"/>
+
+  <!-- APPS -->
+  <rect class="band" x="16" y="16" width="928" height="88" rx="10"/>
+  <text class="lbl" x="32" y="40">APPLICATIONS</text>
+  <g>
+    <rect class="box" x="200" y="28" width="230" height="64" rx="8"/><rect class="acc-app" x="200" y="28" width="5" height="64" rx="2"/>
+    <text class="t" x="220" y="54">sampleapp</text><text class="s" x="220" y="76">apps/sampleapp.cpp</text>
+    <rect class="box" x="446" y="28" width="230" height="64" rx="8"/><rect class="acc-app" x="446" y="28" width="5" height="64" rx="2"/>
+    <text class="t" x="466" y="54">clock (DS1307)</text><text class="s" x="466" y="76">apps/clock.cpp · AVR</text>
+    <rect class="box" x="692" y="28" width="236" height="64" rx="8" stroke-dasharray="5 4"/><rect class="acc-app" x="692" y="28" width="5" height="64" rx="2"/>
+    <text class="t" x="712" y="54">your app</text><text class="s" x="712" y="76">Setup() + buttons + task</text>
+  </g>
+
+  <!-- CORE -->
+  <rect class="band" x="16" y="116" width="928" height="88" rx="10"/>
+  <text class="lbl" x="32" y="140">CORE</text>
+  <g>
+    <rect class="box" x="200" y="128" width="174" height="64" rx="8"/><rect class="acc-core" x="200" y="128" width="5" height="64" rx="2"/>
+    <text class="t" x="220" y="154">MMenu</text><text class="s" x="220" y="176">menu.cpp</text>
+    <rect class="box" x="384" y="128" width="174" height="64" rx="8"/><rect class="acc-core" x="384" y="128" width="5" height="64" rx="2"/>
+    <text class="t" x="404" y="154">MConfig</text><text class="s" x="404" y="176">config.cpp</text>
+    <rect class="box" x="568" y="128" width="174" height="64" rx="8"/><rect class="acc-core" x="568" y="128" width="5" height="64" rx="2"/>
+    <text class="t" x="588" y="154">buttons</text><text class="s" x="588" y="176">edge detect, slots</text>
+    <rect class="box" x="752" y="128" width="176" height="64" rx="8"/><rect class="acc-core" x="752" y="128" width="5" height="64" rx="2"/>
+    <text class="t" x="772" y="154">MTask</text><text class="s" x="772" y="176">8 slots, 1 ms tick</text>
+  </g>
+
+  <!-- HWI -->
+  <rect class="band" x="16" y="216" width="928" height="88" rx="10"/>
+  <text class="lbl" x="32" y="240">HW INTERFACE</text>
+  <text class="s" x="32" y="262">hw/hwi.h</text>
+  <g>
+    <rect class="box" x="200" y="228" width="236" height="64" rx="8"/><rect class="acc-hwi" x="200" y="228" width="5" height="64" rx="2"/>
+    <text class="t" x="220" y="254">HwFile* / HwConfig*</text><text class="s" x="220" y="276">menu table, config values</text>
+    <rect class="box" x="446" y="228" width="236" height="64" rx="8"/><rect class="acc-hwi" x="446" y="228" width="5" height="64" rx="2"/>
+    <text class="t" x="466" y="254">HwDisp*</text><text class="s" x="466" y="276">rows, select, cursor</text>
+    <rect class="box" x="692" y="228" width="236" height="64" rx="8"/><rect class="acc-hwi" x="692" y="228" width="5" height="64" rx="2"/>
+    <text class="t" x="712" y="254">HwButtons*</text><text class="s" x="712" y="276">raw button mask</text>
+  </g>
+
+  <!-- DRIVERS / BOARDS -->
+  <rect class="band" x="16" y="316" width="928" height="108" rx="10"/>
+  <text class="lbl" x="32" y="340">DRIVERS</text>
+  <text class="lbl" x="32" y="358">&amp; BOARDS</text>
+  <g>
+    <rect class="box" x="200" y="328" width="236" height="84" rx="8"/><rect class="acc-drv" x="200" y="328" width="5" height="84" rx="2"/>
+    <text class="t" x="220" y="354">hwfile.cpp</text><text class="s" x="220" y="376">the menu table you edit</text><text class="s" x="220" y="396">names, limits, addresses</text>
+    <rect class="box" x="446" y="328" width="236" height="84" rx="8"/><rect class="acc-drv" x="446" y="328" width="5" height="84" rx="2"/>
+    <text class="t" x="466" y="354">GLCD · text LCD · term</text><text class="s" x="466" y="376">KS0108 128×64, HD44780,</text><text class="s" x="466" y="396">text frames over UART</text>
+    <rect class="box" x="692" y="328" width="236" height="84" rx="8"/><rect class="acc-drv" x="692" y="328" width="5" height="84" rx="2"/>
+    <text class="t" x="712" y="354">hw/boards/*</text><text class="s" x="712" y="376">pins, sizes, display type</text><text class="s" x="712" y="396">rln · launchpad · host_sim</text>
+  </g>
+
+  <!-- PORT -->
+  <rect class="band" x="16" y="436" width="928" height="108" rx="10"/>
+  <text class="lbl" x="32" y="460">PORT</text>
+  <text class="s" x="32" y="482">port/port.h</text>
+  <g>
+    <rect class="box" x="200" y="448" width="236" height="84" rx="8"/><rect class="acc-port" x="200" y="448" width="5" height="84" rx="2"/>
+    <text class="t" x="220" y="474">avr</text><text class="s" x="220" y="496">Timer5/Timer1, PROGMEM,</text><text class="s" x="220" y="516">EEPROM, USART0</text>
+    <rect class="box" x="446" y="448" width="236" height="84" rx="8"/><rect class="acc-port" x="446" y="448" width="5" height="84" rx="2"/>
+    <text class="t" x="466" y="474">msp430</text><text class="s" x="466" y="496">Timer_A, info flash D,</text><text class="s" x="466" y="516">USCI_A0 UART, DCO 16 MHz</text>
+    <rect class="box" x="692" y="448" width="236" height="84" rx="8"/><rect class="acc-port" x="692" y="448" width="5" height="84" rx="2"/>
+    <text class="t" x="712" y="474">host</text><text class="s" x="712" y="496">simulated time and buttons,</text><text class="s" x="712" y="516">tests and the simulator</text>
+  </g>
+</svg>
