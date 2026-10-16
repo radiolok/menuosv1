@@ -41,6 +41,7 @@ jobs:
           echo "### AVR ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           avr-size build/avr-${{ matrix.mcu }}/menuos.elf >> "$GITHUB_STEP_SUMMARY"
+          avr-size build/avr-${{ matrix.mcu }}/menuos.elf | awk 'NR==2 {printf "::notice title=size ${{ matrix.mcu }}::text %s, data %s, bss %s bytes\n", $1, $2, $3}'
           echo '```' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v7
         with:
@@ -93,6 +94,7 @@ jobs:
           echo "### MSP430 ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           msp430-elf-size build/msp430-${{ matrix.mcu }}/menuos.elf >> "$GITHUB_STEP_SUMMARY"
+          msp430-elf-size build/msp430-${{ matrix.mcu }}/menuos.elf | awk 'NR==2 {printf "::notice title=size ${{ matrix.mcu }}::text %s, data %s, bss %s bytes\n", $1, $2, $3}'
           echo '```' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v7
         with:
