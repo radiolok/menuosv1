@@ -35,7 +35,7 @@ repository is the open **v1** branch.
   switches; values live in EEPROM / flash and survive power cycles.
 - **Cooperative scheduler** — 8 task slots driven by a 1 ms tick; apps get their own slots
   and button handlers.
-- **Small** — no `printf`, no heap. The whole demo firmware is about 5.6 KB of flash and
+- **Small** — no `printf`, no heap. The whole demo firmware is about 5.8 KB of flash and
   450 bytes of static RAM on MSP430G2553 (see the table below).
 - **Portable** — all hardware access goes through a small port layer: AVR, MSP430 and a
   host build for tests and a terminal simulator.
@@ -108,10 +108,10 @@ Size of the demo firmware from CI (`-Os`, GCC; static RAM = `data` + `bss`):
 
 | Target       | Flash (text + data) | Static RAM |
 |--------------|--------------------:|-----------:|
-| ATmega1280   | 15.4 KB             | 697 B      |
-| ATmega2560   | 15.7 KB             | 697 B      |
-| MSP430G2553  | 5.8 KB              | 444 B      |
-| MSP430F2618  | 5.5 KB              | 444 B      |
+| ATmega1280   | 15 424 B            | 697 B      |
+| ATmega2560   | 15 686 B            | 697 B      |
+| MSP430G2553  | 5 806 B             | 444 B      |
+| MSP430F2618  | 5 518 B             | 444 B      |
 
 The AVR build includes the GLCD library with its fonts, the DS1307 clock app and the UART
 log. On the G2553 (512 B of RAM) about 70 bytes are left for the stack: enough for the menu
