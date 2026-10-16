@@ -77,9 +77,17 @@ jobs:
         run: |
           echo "$MSP430_GCC_ROOT/bin" >> "$GITHUB_PATH"
       - name: Build
+        shell: bash
         run: |
           msp430-elf-gcc --version | head -1
-          make ARCH=msp430 MCU=${{ matrix.mcu }} MSP430_GCC_ROOT="$MSP430_GCC_ROOT"
+          make ARCH=msp430 MCU=${{ matrix.mcu }} MSP430_GCC_ROOT="$MSP430_GCC_ROOT" 2>&1 | tee build.log
+          exit "${PIPESTATUS[0]}"
+      - name: Report build log tail
+        if: failure()
+        run: |
+          [ -f build.log ] || exit 0
+          tail -n 25 build.log | sed -e 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' > tail.txt
+          echo "::error title=build log (last lines)::$(cat tail.txt)"
       - name: Size report
         run: |
           echo "### MSP430 ${{ matrix.mcu }}" >> "$GITHUB_STEP_SUMMARY"
