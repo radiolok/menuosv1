@@ -91,16 +91,16 @@ INCLUDES := -I. -Imenuos
 COMMON_FLAGS := -Os -g -Wall -ffunction-sections -fdata-sections $(INCLUDES) $(EXTRA_FLAGS)
 CXX_ONLY     := -std=gnu++11 -fno-exceptions -fno-rtti -fno-threadsafe-statics
 C_ONLY       := -std=gnu99
+# The link step gets CXXFLAGS too, so -mmcu is already there: passing it twice
+# makes msp430-elf-ld load the device linker script twice and fail.
 LDFLAGS      := -Wl,--gc-sections
 
 ifeq ($(ARCH),avr)
   COMMON_FLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU)
-  LDFLAGS      += -mmcu=$(MCU)
 endif
 
 ifeq ($(ARCH),msp430)
   COMMON_FLAGS += -mmcu=$(MCU)
-  LDFLAGS      += -mmcu=$(MCU)
   ifneq ($(MSP430_GCC_ROOT),)
     COMMON_FLAGS += -I$(MSP430_GCC_ROOT)/include
     LDFLAGS      += -L$(MSP430_GCC_ROOT)/include
