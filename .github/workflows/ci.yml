@@ -86,7 +86,7 @@ jobs:
         if: failure()
         run: |
           [ -f build.log ] || exit 0
-          tail -n 25 build.log | sed -e 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' > tail.txt
+          grep -v '^msp430-elf-\|^avr-' build.log | tail -n 25 | sed -e 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' > tail.txt
           echo "::error title=build log (last lines)::$(cat tail.txt)"
       - name: Size report
         run: |
