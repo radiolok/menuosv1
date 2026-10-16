@@ -62,13 +62,11 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ${{ env.MSP430_GCC_ROOT }}
-          key: msp430-gcc-${{ env.MSP430_GCC_VERSION }}-linux64-v2
+          key: msp430-gcc-${{ env.MSP430_GCC_VERSION }}-linux64-v3
       - name: Install TI MSP430-GCC
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends p7zip-full
-          tools/ci/install-msp430-gcc.sh "$MSP430_GCC_ROOT" "$MSP430_GCC_VERSION"
+          tools/ci/install-msp430-gcc.sh "$MSP430_GCC_ROOT"
       - name: Add toolchain to PATH
         run: |
           echo "$MSP430_GCC_ROOT/bin" >> "$GITHUB_PATH"

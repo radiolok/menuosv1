@@ -74,10 +74,11 @@ lists the new source files too.
 ## MSP430
 
 Toolchain: TI **MSP430-GCC** (`msp430-elf-gcc`) with its support files (device headers and
-linker scripts). Download it from TI, or use the script CI uses (needs `curl` and `7z`):
+linker scripts). Download it from TI, or use the script CI uses (needs `curl` and `unzip`; installs 9.3.1.11
+with support files 1.212):
 
 ```sh
-tools/ci/install-msp430-gcc.sh $HOME/ti/msp430-gcc 9.3.1.2
+tools/ci/install-msp430-gcc.sh $HOME/ti/msp430-gcc
 ```
 
 ```sh
