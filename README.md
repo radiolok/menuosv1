@@ -35,7 +35,8 @@ repository is the open **v1** branch.
   switches; values live in EEPROM / flash and survive power cycles.
 - **Cooperative scheduler** — 8 task slots driven by a 1 ms tick; apps get their own slots
   and button handlers.
-- **Small** — no `printf`, no heap. The MSP430 build needs about 320 bytes of static RAM.
+- **Small** — no `printf`, no heap. The whole demo firmware is about 5.6 KB of flash and
+  450 bytes of static RAM on MSP430G2553 (see the table below).
 - **Portable** — all hardware access goes through a small port layer: AVR, MSP430 and a
   host build for tests and a terminal simulator.
 
@@ -102,6 +103,19 @@ list and increases values.
 | `hw/boards/rln_electro_2012.h`   | ATmega1280 / ATmega2560     | KS0108 128×64 GLCD         | EEPROM                | build |
 | `hw/boards/msp430_launchpad.h`   | MSP430G2553, MSP430F261x    | terminal over UART         | info flash, segment D | build |
 | `hw/boards/host_sim.h`           | your PC                     | terminal / test frames     | RAM                   | tests |
+
+Size of the demo firmware from CI (`-Os`, GCC; static RAM = `data` + `bss`):
+
+| Target       | Flash (text + data) | Static RAM |
+|--------------|--------------------:|-----------:|
+| ATmega1280   | 15.4 KB             | 697 B      |
+| ATmega2560   | 15.7 KB             | 697 B      |
+| MSP430G2553  | 5.8 KB              | 444 B      |
+| MSP430F2618  | 5.5 KB              | 444 B      |
+
+The AVR build includes the GLCD library with its fonts, the DS1307 clock app and the UART
+log. On the G2553 (512 B of RAM) about 70 bytes are left for the stack: enough for the menu
+and the sample app, but tight for anything bigger.
 
 The AVR board is the hardware MenuOS was written for. The MSP430 port is new: it builds in
 CI but has not been run on a real chip yet. Adding a board or an MCU family is described in

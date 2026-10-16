@@ -96,6 +96,10 @@ Board `msp430_launchpad`:
   back-channel UART (set the RXD/TXD jumpers to hardware UART);
 - config values are kept in information flash segment D (64 bytes).
 
+The G2553 has only 512 bytes of RAM and the demo uses 444 of them for static data, so the
+stack gets about 70 bytes. Keep application state small, or use an F261x part
+(4–8 KB RAM) for anything bigger.
+
 Open the LaunchPad's serial port in a terminal that understands ANSI escape codes
 (`picocom -b 9600 /dev/ttyACM0`, PuTTY, …). Flash with `mspdebug`:
 
